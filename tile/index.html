@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>타일 수량 계산기 – 필요한 타일 장수·박스 수 자동 계산</title>
+<meta name="description" content="바닥·벽 면적과 타일 규격만 넣으면 필요한 타일 장수, 박스 수, 예상 비용을 바로 계산합니다. 줄눈 간격, 로스율, 문·창문 제외 면적까지 반영.">
+<meta property="og:title" content="타일 수량 계산기 – 장수·박스 수 자동 계산">
+<meta property="og:description" content="면적과 타일 규격만 넣으면 필요한 타일 장수와 박스 수를 바로 계산합니다.">
+<meta property="og:type" content="website">
+<!-- 배포 후 실제 주소로 바꾸세요 -->
+<link rel="canonical" href="https://example.com/tile/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "타일 로스율은 몇 %로 잡아야 하나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "일자(정배열) 시공은 보통 5~10%, 지그재그·헤링본·대각선 시공은 자르는 양이 많아 10~15% 이상으로 잡습니다. 대형 타일이거나 방 모양이 복잡하면 더 넉넉히 잡는 것이 안전합니다."}},
+    {"@type": "Question", "name": "박스당 타일 장수는 어디서 확인하나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "같은 규격이라도 제조사·제품마다 다르므로 박스 겉면이나 판매 페이지의 '박스당 수량' 또는 '박스당 면적(㎡)'을 확인해 입력하세요."}},
+    {"@type": "Question", "name": "여분 타일은 왜 남겨두나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "같은 제품이라도 생산 로트마다 색감이 조금씩 달라, 나중에 깨진 타일을 교체할 때 같은 로트를 구하기 어렵습니다. 그래서 몇 장 정도는 보관해 두는 경우가 많습니다."}}
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem">← 전체 계산기</a></p>
+    <h1>타일 수량 계산기</h1>
+    <p>면적과 타일 규격만 넣으면 필요한 장수·박스 수·예상 비용이 바로 나옵니다.</p>
+  </header>
+
+  <!-- 1. 시공 면적 -->
+  <section class="card">
+    <h2><span class="num">1</span>시공할 면 (가로 × 세로, m)</h2>
+    <div id="areas"></div>
+    <button class="add" type="button" onclick="addRow('areas')">+ 면 추가 (벽, 바닥 등)</button>
+
+    <div class="divider"></div>
+    <h2><span class="num">2</span>빼야 할 부분 (문·창문·욕조 등)</h2>
+    <div id="holes"></div>
+    <button class="add" type="button" onclick="addRow('holes')">+ 제외 부분 추가</button>
+    <p class="hint">줄자로 잰 cm 값은 100으로 나눠 m로 입력하세요. 예) 240cm → 2.4</p>
+  </section>
+
+  <!-- 2. 타일 정보 -->
+  <section class="card">
+    <h2><span class="num">3</span>타일 정보</h2>
+    <div class="grid g2">
+      <div>
+        <label for="size">타일 규격 (mm)</label>
+        <select id="size">
+          <option value="300x300">300 × 300</option>
+          <option value="300x600" selected>300 × 600</option>
+          <option value="600x600">600 × 600</option>
+          <option value="600x1200">600 × 1200</option>
+          <option value="200x200">200 × 200</option>
+          <option value="100x100">100 × 100</option>
+          <option value="custom">직접 입력</option>
+        </select>
+      </div>
+      <div>
+        <label for="pattern">시공 방식 (로스율)</label>
+        <select id="pattern">
+          <option value="5">일자 정배열 – 5%</option>
+          <option value="10" selected>일자 / 반장 엇갈림 – 10%</option>
+          <option value="15">지그재그·헤링본 – 15%</option>
+          <option value="20">대각선(45°) – 20%</option>
+          <option value="custom">직접 입력</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid g2" id="customSize" style="margin-top:12px;display:none">
+      <div><label for="tw">가로 (mm)</label><input id="tw" type="number" inputmode="decimal" value="300" min="1"></div>
+      <div><label for="th">세로 (mm)</label><input id="th" type="number" inputmode="decimal" value="600" min="1"></div>
+    </div>
+    <div id="customLoss" style="margin-top:12px;display:none">
+      <label for="loss">로스율 (%)</label><input id="loss" type="number" inputmode="decimal" value="10" min="0">
+    </div>
+    <div class="grid g3" style="margin-top:12px">
+      <div><label for="gap">줄눈 간격 (mm)</label><input id="gap" type="number" inputmode="decimal" value="2" min="0" step="0.5"></div>
+      <div><label for="perBox">박스당 장수</label><input id="perBox" type="number" inputmode="numeric" value="8" min="1"></div>
+      <div><label for="price">박스당 가격 (원)</label><input id="price" type="number" inputmode="numeric" placeholder="선택" min="0"></div>
+    </div>
+    <p class="hint">박스당 장수는 제품마다 다릅니다. 박스 겉면이나 판매 페이지를 꼭 확인하세요.</p>
+  </section>
+
+  <!-- 결과 -->
+  <section class="card result" aria-live="polite">
+    <h2>계산 결과</h2>
+    <div class="big">
+      <div class="stat"><div class="k">필요한 타일</div><div class="v" id="rCount">0<small>장</small></div></div>
+      <div class="stat"><div class="k">구매할 박스</div><div class="v" id="rBox">0<small>박스</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>타일 수량 계산하는 법</h2>
+    <p>필요한 타일 장수는 <b>시공 면적 ÷ 타일 1장이 덮는 면적</b>에 자르면서 버려지는 양(로스율)을 더해 구합니다. 이 계산기는 타일 크기에 줄눈 간격까지 더해 1장이 실제로 차지하는 면적을 계산하고, 마지막에 올림 처리해 부족하지 않게 잡아줍니다.</p>
+
+    <h3>1. 면적은 면마다 따로 재기</h3>
+    <p>욕실처럼 벽 4면과 바닥을 함께 시공한다면 면마다 가로·세로를 따로 입력하세요. 문, 창문, 욕조처럼 타일이 들어가지 않는 부분은 ‘빼야 할 부분’에 넣으면 자동으로 제외됩니다.</p>
+
+    <h3>2. 로스율은 시공 방식에 따라 다르게</h3>
+    <table>
+      <thead><tr><th>시공 방식</th><th>일반적인 로스율</th></tr></thead>
+      <tbody>
+        <tr><td>일자 정배열</td><td>5 ~ 10%</td></tr>
+        <tr><td>반장 엇갈림 (벽돌 쌓기)</td><td>10%</td></tr>
+        <tr><td>지그재그 · 헤링본</td><td>15% 이상</td></tr>
+        <tr><td>대각선 45°</td><td>15 ~ 20%</td></tr>
+      </tbody>
+    </table>
+    <p>방 모양이 복잡하거나 대형 타일(600×1200 이상)일수록 잘라서 못 쓰는 조각이 늘어나니 조금 더 넉넉히 잡는 게 안전합니다.</p>
+
+    <h3>3. 박스 단위로 올림</h3>
+    <p>타일은 낱장보다 박스로 파는 경우가 대부분이라, 필요한 장수를 박스당 장수로 나눈 뒤 올림합니다. 남는 몇 장은 버리지 말고 보관해 두세요.</p>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>여분 타일은 왜 남겨두나요?</h3>
+    <p>같은 제품이라도 생산 로트마다 색감이 조금씩 달라, 나중에 깨진 타일을 교체할 때 같은 로트를 구하기 어렵습니다. 그래서 몇 장 정도는 보관해 두는 경우가 많습니다.</p>
+    <h3>줄눈 간격은 얼마로 넣어야 하나요?</h3>
+    <p>정확한 값은 시공자나 제품 권장 사항을 따르세요. 계산 결과에 미치는 영향은 크지 않아서, 모르면 기본값 그대로 두어도 수량 차이는 작습니다.</p>
+    <h3>계산 결과를 그대로 주문해도 되나요?</h3>
+    <p>이 계산기는 대략적인 수량을 빠르게 잡기 위한 도구입니다. 실제 주문 전에는 시공자와 수량을 한 번 더 확인하는 것을 권장합니다.</p>
+  </article>
+
+  <footer>
+    결과는 참고용 추정치이며, 실제 필요량은 현장 상황에 따라 달라질 수 있습니다.
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+function addRow(target, name = '', w = '', h = ''){
+  const box = $(target);
+  const row = document.createElement('div');
+  row.className = 'row';
+  const ph = target === 'areas' ? '예) 욕실 바닥' : '예) 문';
+  row.innerHTML = `
+    <div class="name"><label>이름</label><input type="text" placeholder="${ph}" value="${name}"></div>
+    <div><label>가로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${w}"></div>
+    <div><label>세로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${h}"></div>
+    <button class="del" type="button" aria-label="삭제">×</button>`;
+  row.querySelector('.del').onclick = () => { row.remove(); calc(); };
+  row.querySelectorAll('input').forEach(i => i.addEventListener('input', calc));
+  box.appendChild(row);
+  calc();
+}
+
+function sumRows(target){
+  let total = 0;
+  $(target).querySelectorAll('.row').forEach(r => {
+    const n = r.querySelectorAll('input[type=number]');
+    const w = parseFloat(n[0].value) || 0, h = parseFloat(n[1].value) || 0;
+    total += w * h;
+  });
+  return total;
+}
+
+const fmt = (n, d = 0) => n.toLocaleString('ko-KR', {maximumFractionDigits: d, minimumFractionDigits: d});
+
+function calc(){
+  const sizeSel = $('size').value;
+  $('customSize').style.display = sizeSel === 'custom' ? 'grid' : 'none';
+  let tw, th;
+  if (sizeSel === 'custom'){ tw = parseFloat($('tw').value) || 0; th = parseFloat($('th').value) || 0; }
+  else { [tw, th] = sizeSel.split('x').map(Number); }
+
+  const patSel = $('pattern').value;
+  $('customLoss').style.display = patSel === 'custom' ? 'block' : 'none';
+  const loss = (patSel === 'custom' ? parseFloat($('loss').value) || 0 : Number(patSel)) / 100;
+
+  const gap = parseFloat($('gap').value) || 0;
+  const perBox = parseInt($('perBox').value) || 0;
+  const price = parseFloat($('price').value) || 0;
+
+  const area = Math.max(0, sumRows('areas') - sumRows('holes'));
+  const tileArea = ((tw + gap) / 1000) * ((th + gap) / 1000); // ㎡, 줄눈 포함
+
+  let count = 0, boxes = 0;
+  if (area > 0 && tileArea > 0){
+    count = Math.ceil(area / tileArea * (1 + loss));
+    boxes = perBox > 0 ? Math.ceil(count / perBox) : 0;
+  }
+  const spare = perBox > 0 ? boxes * perBox - count : 0;
+
+  $('rCount').innerHTML = `${fmt(count)}<small>장</small>`;
+  $('rBox').innerHTML = `${fmt(boxes)}<small>박스</small>`;
+
+  let html = `실제 시공 면적 <b>${fmt(area, 2)}㎡</b> · 로스율 <b>${fmt(loss * 100)}%</b> 포함`;
+  if (perBox > 0 && boxes > 0) html += `<br>박스로 사면 <b>${fmt(boxes * perBox)}장</b> (여분 ${fmt(spare)}장)`;
+  if (price > 0 && boxes > 0) html += `<br>예상 타일 비용 <b>${fmt(boxes * price)}원</b>`;
+  $('rDetail').innerHTML = html;
+}
+
+['size','pattern','tw','th','loss','gap','perBox','price'].forEach(id => {
+  $(id).addEventListener('input', calc);
+  $(id).addEventListener('change', calc);
+});
+
+// 처음 열었을 때 예시 한 줄
+addRow('areas', '욕실 바닥', '2.0', '1.5');
+addRow('holes');
+</script>
+</body>
+</html>
