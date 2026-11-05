@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>장판·마루 계산기 – 필요한 장판 길이·마루 박스 수 자동 계산</title>
+<meta name="description" content="방 크기만 넣으면 필요한 장판 길이(m)와 마루 박스 수를 바로 계산합니다. 여러 방 합산, 평수 환산, 로스율과 예상 비용까지 반영.">
+<meta property="og:title" content="장판·마루 계산기 – 길이·박스 수 자동 계산">
+<meta property="og:description" content="방 크기만 넣으면 필요한 장판 길이와 마루 박스 수를 바로 계산합니다.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://home-calc.gudwnslaaa.workers.dev/floor/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "장판은 면적이 아니라 길이로 사나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "장판은 정해진 폭의 롤을 필요한 길이만큼 잘라 파는 경우가 많습니다. 방의 짧은 변이 장판 폭보다 넓으면 여러 장을 이어 붙여야 해서, 면적보다 길이로 계산해야 정확합니다."}},
+    {"@type": "Question", "name": "마루 로스율은 몇 %로 잡나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "일자로 까는 일반 시공은 5% 안팎, 사선이나 헤링본처럼 자르는 양이 많은 시공은 10~15% 이상으로 잡는 경우가 많습니다."}},
+    {"@type": "Question", "name": "마루 박스당 면적은 어디서 보나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "제품마다 크게 다르므로 박스 겉면이나 판매 페이지에 적힌 '박스당 시공 면적(㎡ 또는 평)'을 확인해 입력하세요."}}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--field);border:1px solid var(--line);border-radius:14px;padding:5px;margin-top:24px}
+.tabs button{border:none;background:transparent;color:var(--muted);font-family:inherit;font-size:1rem;padding:10px;border-radius:10px;cursor:pointer;transition:all .2s}
+.tabs button.on{background:#232528;color:var(--ink);font-weight:600}
+.mode{display:none}.mode.on{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem">← 전체 계산기</a></p>
+    <h1>장판 · 마루 계산기</h1>
+    <p>방 크기만 넣으면 필요한 장판 길이와 마루 박스 수가 나옵니다.</p>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button type="button" class="on" data-mode="vinyl">장판</button>
+    <button type="button" data-mode="wood">마루</button>
+  </div>
+
+  <section class="card">
+    <h2><span class="num">1</span>방 크기 (m)</h2>
+    <div id="rooms"></div>
+    <button class="add" type="button" onclick="addRow('rooms')">+ 방 추가</button>
+    <p class="hint">거실·안방처럼 방이 여러 개면 따로 넣으세요. 장판은 방마다 따로 재단해서 계산합니다.</p>
+  </section>
+
+  <section class="card mode on" id="m-vinyl">
+    <h2><span class="num">2</span>장판 정보</h2>
+    <div class="grid g3">
+      <div><label for="vw">장판 폭 (m)</label><input id="vw" type="number" inputmode="decimal" step="0.01" min="0.1" value="1.83"></div>
+      <div><label for="vm">여유 길이 (cm)</label><input id="vm" type="number" inputmode="decimal" min="0" value="10"></div>
+      <div><label for="vp">1m당 가격 (원)</label><input id="vp" type="number" inputmode="numeric" placeholder="선택" min="0"></div>
+    </div>
+    <p class="hint">장판 폭은 제품마다 다릅니다. 판매 페이지의 폭을 확인해 넣으세요. 여유 길이는 벽 쪽으로 올려 잘라내는 몫입니다.</p>
+  </section>
+
+  <section class="card mode" id="m-wood">
+    <h2><span class="num">2</span>마루 정보</h2>
+    <div class="grid g3">
+      <div><label for="wb">박스당 면적 (㎡)</label><input id="wb" type="number" inputmode="decimal" step="0.01" min="0.01" value="1.6"></div>
+      <div><label for="wl">시공 방식 (로스율)</label>
+        <select id="wl">
+          <option value="5" selected>일자 시공 – 5%</option>
+          <option value="10">엇갈림·복잡한 방 – 10%</option>
+          <option value="15">사선·헤링본 – 15%</option>
+        </select></div>
+      <div><label for="wp">박스당 가격 (원)</label><input id="wp" type="number" inputmode="numeric" placeholder="선택" min="0"></div>
+    </div>
+    <p class="hint">박스당 면적은 제품마다 크게 다릅니다. 박스 겉면이나 판매 페이지의 값을 꼭 확인하세요.</p>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>계산 결과</h2>
+    <div class="big">
+      <div class="stat"><div class="k" id="k1">필요한 장판</div><div class="v" id="r1">0<small>m</small></div></div>
+      <div class="stat"><div class="k">바닥 면적</div><div class="v" id="r2">0<small>평</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>장판은 길이, 마루는 박스로</h2>
+    <p>같은 바닥재라도 파는 방식이 달라서 계산법도 다릅니다. 장판은 정해진 폭의 롤을 필요한 길이만큼 끊어 사고, 마루는 정해진 면적이 담긴 박스 단위로 삽니다. 이 계산기는 위 탭에서 바닥재를 고르면 그에 맞는 방식으로 계산해 줍니다.</p>
+
+    <h3>장판 계산 방법</h3>
+    <p>장판은 방의 긴 변 방향으로 깔아 이음매를 줄이는 게 일반적입니다. 그래서 짧은 변을 장판 폭으로 나눠 몇 장을 이어 붙일지 정하고, 한 장 길이는 긴 변에 여유 길이를 더해 계산합니다. 짧은 변이 장판 폭보다 좁으면 한 장으로 끝나고, 넓으면 그만큼 장수가 늘어 필요한 길이가 커집니다.</p>
+
+    <h3>마루 계산 방법</h3>
+    <p>마루는 바닥 면적에 로스율을 더한 뒤 박스당 면적으로 나눠 올림합니다. 사선이나 헤링본처럼 모서리를 많이 자르는 시공일수록 로스율을 높게 잡아야 합니다.</p>
+    <table>
+      <thead><tr><th>시공 방식</th><th>일반적인 로스율</th></tr></thead>
+      <tbody>
+        <tr><td>일자 시공</td><td>5% 안팎</td></tr>
+        <tr><td>엇갈림 · 방 모양이 복잡함</td><td>10%</td></tr>
+        <tr><td>사선 · 헤링본</td><td>15% 이상</td></tr>
+      </tbody>
+    </table>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>평수는 어떻게 환산하나요?</h3>
+    <p>1평은 약 3.3058㎡입니다. 이 계산기는 입력한 방 크기의 바닥 면적을 평으로 바꿔 함께 보여줍니다. 분양 평수(공급 면적)와 실제 바닥 면적은 다르니, 꼭 줄자로 잰 값을 넣으세요.</p>
+    <h3>남는 자재는 버려도 되나요?</h3>
+    <p>찍히거나 들뜬 부분을 나중에 고칠 때 같은 제품이 필요하니, 남는 조각이나 박스는 보관해 두는 게 좋습니다.</p>
+    <h3>계산 결과대로 사면 되나요?</h3>
+    <p>대략적인 수량을 빠르게 잡는 도구입니다. 무늬 방향이나 문턱 처리에 따라 달라질 수 있으니 주문 전 시공자와 한 번 더 확인하세요.</p>
+  </article>
+
+  <footer>결과는 참고용 추정치이며, 실제 필요량은 현장 상황에 따라 달라질 수 있습니다.</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt = (n, d = 0) => n.toLocaleString('ko-KR', {maximumFractionDigits: d, minimumFractionDigits: d});
+let mode = 'vinyl';
+
+function addRow(target, name = '', w = '', h = ''){
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = `
+    <div class="name"><label>이름</label><input type="text" placeholder="예) 안방" value="${name}"></div>
+    <div><label>가로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${w}"></div>
+    <div><label>세로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${h}"></div>
+    <button class="del" type="button" aria-label="삭제">×</button>`;
+  row.querySelector('.del').onclick = () => { row.remove(); calc(); };
+  row.querySelectorAll('input').forEach(i => i.addEventListener('input', calc));
+  $(target).appendChild(row);
+  calc();
+}
+
+function rooms(){
+  const list = [];
+  $('rooms').querySelectorAll('.row').forEach(r => {
+    const n = r.querySelectorAll('input[type=number]');
+    const a = parseFloat(n[0].value) || 0, b = parseFloat(n[1].value) || 0;
+    if (a > 0 && b > 0) list.push([a, b]);
+  });
+  return list;
+}
+
+function calc(){
+  const list = rooms();
+  const area = list.reduce((s, [a, b]) => s + a * b, 0);
+  $('r2').innerHTML = `${fmt(area / 3.3058, 1)}<small>평</small>`;
+  let html = `바닥 면적 <b>${fmt(area, 2)}㎡</b>`;
+
+  if (mode === 'vinyl'){
+    const w = parseFloat($('vw').value) || 0;
+    const m = (parseFloat($('vm').value) || 0) / 100;
+    const price = parseFloat($('vp').value) || 0;
+    let len = 0, pieces = 0;
+    if (w > 0) list.forEach(([a, b]) => {
+      const longSide = Math.max(a, b), shortSide = Math.min(a, b);
+      const n = Math.ceil(shortSide / w - 1e-9);
+      pieces += n; len += n * (longSide + m);
+    });
+    len = Math.ceil(len * 10) / 10;
+    $('k1').textContent = '필요한 장판';
+    $('r1').innerHTML = `${fmt(len, 1)}<small>m</small>`;
+    if (pieces > 0) html += ` · 재단 <b>${fmt(pieces)}장</b> (폭 ${fmt(w, 2)}m 기준)`;
+    if (price > 0 && len > 0) html += `<br>예상 장판 비용 <b>${fmt(Math.ceil(len) * price)}원</b> (${fmt(Math.ceil(len))}m 기준)`;
+  } else {
+    const box = parseFloat($('wb').value) || 0;
+    const loss = Number($('wl').value) / 100;
+    const price = parseFloat($('wp').value) || 0;
+    const boxes = box > 0 && area > 0 ? Math.ceil(area * (1 + loss) / box - 1e-9) : 0;
+    $('k1').textContent = '구매할 마루';
+    $('r1').innerHTML = `${fmt(boxes)}<small>박스</small>`;
+    html += ` · 로스율 <b>${fmt(loss * 100)}%</b> 포함`;
+    if (boxes > 0) html += `<br>박스로 사면 <b>${fmt(boxes * box, 2)}㎡</b>까지 깔 수 있어요`;
+    if (price > 0 && boxes > 0) html += `<br>예상 마루 비용 <b>${fmt(boxes * price)}원</b>`;
+  }
+  $('rDetail').innerHTML = html;
+}
+
+document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('click', () => {
+  mode = btn.dataset.mode;
+  document.querySelectorAll('.tabs button').forEach(b => b.classList.toggle('on', b === btn));
+  $('m-vinyl').classList.toggle('on', mode === 'vinyl');
+  $('m-wood').classList.toggle('on', mode === 'wood');
+  calc();
+}));
+['vw','vm','vp','wb','wl','wp'].forEach(id => {
+  $(id).addEventListener('input', calc);
+  $(id).addEventListener('change', calc);
+});
+addRow('rooms', '안방', '3.6', '3.3');
+</script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>페인트 계산기 – 필요한 페인트 양(L)·통 수 자동 계산</title>
+<meta name="description" content="방 크기와 칠할 횟수만 넣으면 필요한 페인트 양(리터)과 1L·4L·18L 통 조합을 바로 계산합니다. 천장 포함, 문·창문 제외까지 반영.">
+<meta property="og:title" content="페인트 계산기 – 필요한 페인트 양 자동 계산">
+<meta property="og:description" content="방 크기만 넣으면 필요한 페인트 리터 수와 통 조합을 바로 계산합니다.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://home-calc.gudwnslaaa.workers.dev/paint/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "페인트 1리터로 몇 ㎡를 칠할 수 있나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "제품과 벽 상태에 따라 다르며, 통 겉면이나 제품 설명의 '도포 면적(이론 도포량)'에 적혀 있습니다. 거친 면이나 흡수가 많은 면은 표기보다 덜 칠해지므로 여유를 두는 것이 좋습니다."}},
+    {"@type": "Question", "name": "몇 번 칠해야 하나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "보통 2회 칠을 기본으로 생각합니다. 어두운 색 위에 밝은 색을 칠하거나 색 차이가 크면 3회가 필요할 수 있습니다."}},
+    {"@type": "Question", "name": "젯소(프라이머)도 따로 사야 하나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "기존 벽지 위나 새 석고보드, 얼룩이 있는 면은 젯소를 먼저 바르는 경우가 많습니다. 젯소 양도 같은 면적 기준으로 이 계산기에서 칠 횟수를 1회로 두고 따로 계산할 수 있습니다."}}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.check{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:.95rem;color:var(--ink);cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--accent);margin:0}
+.combo{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{background:#232528;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.92rem;color:var(--ink)}
+.pill b{color:var(--accent);font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem">← 전체 계산기</a></p>
+    <h1>페인트 계산기</h1>
+    <p>방 크기와 칠할 횟수만 넣으면 필요한 페인트 양과 통 조합이 나옵니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>칠할 방 크기 (m)</h2>
+    <div class="grid g3">
+      <div><label for="rw">가로</label><input id="rw" type="number" inputmode="decimal" step="0.01" min="0" value="3.6"></div>
+      <div><label for="rl">세로</label><input id="rl" type="number" inputmode="decimal" step="0.01" min="0" value="3.0"></div>
+      <div><label for="rh">천장 높이</label><input id="rh" type="number" inputmode="decimal" step="0.01" min="0" value="2.3"></div>
+    </div>
+    <label class="check"><input id="walls" type="checkbox" checked> 벽 네 면 칠하기</label>
+    <label class="check"><input id="ceil" type="checkbox"> 천장도 칠하기</label>
+
+    <div class="divider"></div>
+    <h2><span class="num">2</span>칠하지 않는 부분 (문·창문 등)</h2>
+    <div id="holes"></div>
+    <button class="add" type="button" onclick="addRow('holes')">+ 문·창문 추가</button>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">3</span>페인트 정보</h2>
+    <div class="grid g3">
+      <div><label for="coats">칠 횟수</label>
+        <select id="coats"><option value="1">1회</option><option value="2" selected>2회</option><option value="3">3회</option></select></div>
+      <div><label for="cov">1L당 칠하는 면적 (㎡)</label><input id="cov" type="number" inputmode="decimal" min="0.1" step="0.5" value="10"></div>
+      <div><label for="loss">여유분 (%)</label><input id="loss" type="number" inputmode="decimal" min="0" value="10"></div>
+    </div>
+    <p class="hint">‘1L당 칠하는 면적’은 제품마다 다릅니다. 통 겉면의 도포 면적 값을 넣으면 더 정확해요. 여유분은 롤러·통에 남는 양과 흡수를 감안한 값입니다.</p>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>계산 결과</h2>
+    <div class="big">
+      <div class="stat"><div class="k">필요한 페인트</div><div class="v" id="rL">0<small>L</small></div></div>
+      <div class="stat"><div class="k">칠할 면적</div><div class="v" id="rA">0<small>㎡</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+    <div class="combo" id="rCombo"></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>페인트 양은 이렇게 계산해요</h2>
+    <p>필요한 양은 <b>칠할 면적 × 칠 횟수 ÷ 1L당 칠하는 면적</b>입니다. 여기에 롤러와 붓, 트레이에 묻어 남는 양과 벽이 빨아들이는 양을 생각해 조금 여유를 더합니다. 이 계산기는 벽 네 면의 면적에서 문과 창문을 빼고, 천장을 선택하면 바닥과 같은 넓이를 더해 계산합니다.</p>
+
+    <h3>통 조합은 남는 양이 가장 적게</h3>
+    <p>페인트는 1L, 4L, 18L처럼 정해진 크기로 팝니다. 계산 결과 아래에는 필요한 양을 채우면서 남는 양이 가장 적은 조합을 보여줍니다. 큰 통이 리터당 가격은 싼 편이니, 가격을 비교해 한 단계 큰 통을 고르는 것도 방법입니다.</p>
+
+    <h3>칠 횟수는 색 차이에 따라</h3>
+    <table>
+      <thead><tr><th>상황</th><th>일반적인 칠 횟수</th></tr></thead>
+      <tbody>
+        <tr><td>비슷한 색으로 다시 칠하기</td><td>1 ~ 2회</td></tr>
+        <tr><td>일반적인 경우</td><td>2회</td></tr>
+        <tr><td>어두운 색 위에 밝은 색</td><td>3회 이상</td></tr>
+      </tbody>
+    </table>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>젯소(프라이머)도 따로 사야 하나요?</h3>
+    <p>기존 벽지 위나 새 석고보드, 얼룩이 있는 면은 젯소를 먼저 바르는 경우가 많습니다. 칠 횟수를 1회로 바꾸고 젯소 제품의 도포 면적을 넣으면 젯소 양도 따로 계산할 수 있어요.</p>
+    <h3>남은 페인트는 어떻게 하나요?</h3>
+    <p>뚜껑을 꽉 닫아 서늘한 곳에 두면 나중에 긁힌 곳을 보수할 때 쓸 수 있습니다. 같은 색을 다시 맞추기는 생각보다 어려워서 조금 남겨두는 게 좋아요.</p>
+    <h3>계산 결과대로 사면 되나요?</h3>
+    <p>대략적인 양을 빠르게 잡는 도구입니다. 벽 상태나 칠하는 방법(롤러, 스프레이)에 따라 실제 사용량은 달라질 수 있습니다.</p>
+  </article>
+
+  <footer>결과는 참고용 추정치이며, 실제 필요량은 현장 상황에 따라 달라질 수 있습니다.</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt = (n, d = 0) => n.toLocaleString('ko-KR', {maximumFractionDigits: d, minimumFractionDigits: d});
+
+function addRow(target, name = '', w = '', h = ''){
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = `
+    <div class="name"><label>이름</label><input type="text" placeholder="예) 창문" value="${name}"></div>
+    <div><label>가로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${w}"></div>
+    <div><label>세로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${h}"></div>
+    <button class="del" type="button" aria-label="삭제">×</button>`;
+  row.querySelector('.del').onclick = () => { row.remove(); calc(); };
+  row.querySelectorAll('input').forEach(i => i.addEventListener('input', calc));
+  $(target).appendChild(row);
+  calc();
+}
+
+function holeArea(){
+  let t = 0;
+  $('holes').querySelectorAll('.row').forEach(r => {
+    const n = r.querySelectorAll('input[type=number]');
+    t += (parseFloat(n[0].value) || 0) * (parseFloat(n[1].value) || 0);
+  });
+  return t;
+}
+
+// 1L·4L·18L 조합 중 필요한 양 이상이면서, 남는 양과 통 개수가 함께 적은 것 (통 1개 = 0.5L 손해로 계산)
+function bestCombo(need){
+  if (need <= 0) return null;
+  let best = null;
+  const max18 = Math.ceil(need / 18) + 1;
+  for (let a = 0; a <= max18; a++){
+    const rest18 = need - a * 18;
+    const max4 = Math.max(0, Math.ceil(rest18 / 4)) + 1;
+    for (let b = 0; b <= max4; b++){
+      const c = Math.max(0, Math.ceil(need - a * 18 - b * 4 - 1e-9));
+      const total = a * 18 + b * 4 + c;
+      const cans = a + b + c;
+      if (c > 4) continue; // 1L를 5통 넘게 사는 조합은 제외
+      const score = total + cans * 0.5;
+      if (!best || score < best.score || (score === best.score && cans < best.cans)) best = {a, b, c, total, cans, score};
+    }
+  }
+  return best;
+}
+
+function calc(){
+  const a = parseFloat($('rw').value) || 0, b = parseFloat($('rl').value) || 0, h = parseFloat($('rh').value) || 0;
+  const coats = Number($('coats').value);
+  const cov = parseFloat($('cov').value) || 0;
+  const loss = (parseFloat($('loss').value) || 0) / 100;
+
+  let area = 0;
+  if ($('walls').checked) area += Math.max(0, 2 * (a + b) * h - holeArea());
+  const ceilArea = $('ceil').checked ? a * b : 0;
+  area += ceilArea;
+
+  const liters = cov > 0 ? area * coats / cov * (1 + loss) : 0;
+  $('rL').innerHTML = `${fmt(liters, 1)}<small>L</small>`;
+  $('rA').innerHTML = `${fmt(area, 1)}<small>㎡</small>`;
+
+  let html = `${coats}회 칠 · 여유분 <b>${fmt(loss * 100)}%</b> 포함`;
+  if (ceilArea > 0) html += ` · 천장 <b>${fmt(ceilArea, 1)}㎡</b> 포함`;
+  $('rDetail').innerHTML = html;
+
+  const c = bestCombo(Math.round(liters * 10) / 10);
+  let pills = '';
+  if (c){
+    if (c.a) pills += `<span class="pill">18L <b>${c.a}통</b></span>`;
+    if (c.b) pills += `<span class="pill">4L <b>${c.b}통</b></span>`;
+    if (c.c) pills += `<span class="pill">1L <b>${c.c}통</b></span>`;
+    pills += `<span class="pill">총 <b>${c.total}L</b></span>`;
+  }
+  $('rCombo').innerHTML = pills;
+}
+
+['rw','rl','rh','walls','ceil','coats','cov','loss'].forEach(id => {
+  $(id).addEventListener('input', calc);
+  $(id).addEventListener('change', calc);
+});
+addRow('holes', '방문', '0.9', '2.1');
+addRow('holes', '창문', '1.5', '1.2');
+</script>
+</body>
+</html>
