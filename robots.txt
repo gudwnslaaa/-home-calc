@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://home-calc.gudwnslaaa.workers.dev/sitemap.xml
