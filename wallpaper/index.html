@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>도배지 계산기 – 필요한 벽지 롤 수 자동 계산 (실크·합지)</title>
+<meta name="description" content="방 크기와 천장 높이만 넣으면 필요한 도배지 롤 수를 바로 계산합니다. 광폭 실크·소폭 합지, 천장 포함, 문·창문 제외, 무늬 맞춤까지 반영.">
+<meta property="og:title" content="도배지 계산기 – 벽지 롤 수 자동 계산">
+<meta property="og:description" content="방 크기만 넣으면 필요한 도배지 롤 수를 바로 계산합니다.">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://home-calc.gudwnslaaa.workers.dev/wallpaper/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "도배지 1롤이면 몇 평을 바를 수 있나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "흔히 쓰는 광폭 실크벽지(폭 106cm × 길이 15.6m)는 1롤이 약 16.5㎡로 보통 5평용이라고 부르고, 소폭 합지(폭 53cm × 길이 12.5m)는 약 6.6㎡로 2평용이라고 부릅니다. 다만 실제로는 자투리가 생기므로 면적만으로 나누면 부족할 수 있습니다."}},
+    {"@type": "Question", "name": "무늬 맞춤(리피트)은 무엇인가요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "옆 폭과 무늬를 이어 붙이기 위해 위아래로 밀어 맞추는 길이입니다. 무늬가 있는 벽지는 폭마다 이 길이만큼 더 잘라내야 하므로 필요한 롤 수가 늘어납니다. 민무늬는 0으로 두면 됩니다."}},
+    {"@type": "Question", "name": "여분 롤을 사두는 게 좋나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "같은 제품도 생산 시기에 따라 색감이 조금씩 달라 나중에 같은 로트를 구하기 어렵습니다. 보수용으로 1롤 정도 여유를 두는 경우가 많습니다."}}
+  ]
+}
+</script>
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.check{display:flex;align-items:center;gap:10px;margin-top:14px;font-size:.95rem;color:var(--ink);cursor:pointer}
+.check input{width:20px;height:20px;accent-color:var(--accent);margin:0}
+.warn{color:#f0b37e;font-size:.88rem;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem">← 전체 계산기</a></p>
+    <h1>도배지 계산기</h1>
+    <p>방 크기와 천장 높이만 넣으면 필요한 벽지 롤 수가 나옵니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>방 크기 (m)</h2>
+    <div class="grid g3">
+      <div><label for="rw">가로</label><input id="rw" type="number" inputmode="decimal" step="0.01" min="0" value="3.6"></div>
+      <div><label for="rl">세로</label><input id="rl" type="number" inputmode="decimal" step="0.01" min="0" value="3.0"></div>
+      <div><label for="rh">천장 높이</label><input id="rh" type="number" inputmode="decimal" step="0.01" min="0" value="2.3"></div>
+    </div>
+    <label class="check"><input id="ceil" type="checkbox"> 천장도 같은 벽지로 바르기</label>
+    <p class="hint">아파트 천장 높이는 보통 2.3m 안팎입니다. cm로 쟀다면 100으로 나눠 입력하세요.</p>
+
+    <div class="divider"></div>
+    <h2><span class="num">2</span>빼야 할 부분 (문·창문 등)</h2>
+    <div id="holes"></div>
+    <button class="add" type="button" onclick="addRow('holes')">+ 문·창문 추가</button>
+    <p class="hint">붙박이장처럼 벽지를 안 바르는 큰 면도 여기에 넣으세요.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">3</span>벽지 정보</h2>
+    <div class="grid g2">
+      <div>
+        <label for="type">벽지 종류</label>
+        <select id="type">
+          <option value="1.06x15.6" selected>광폭 실크 (106cm × 15.6m)</option>
+          <option value="0.53x12.5">소폭 합지 (53cm × 12.5m)</option>
+          <option value="custom">직접 입력</option>
+        </select>
+      </div>
+      <div><label for="rep">무늬 맞춤 (cm)</label><input id="rep" type="number" inputmode="decimal" min="0" value="0"></div>
+    </div>
+    <div class="grid g2" id="customRoll" style="margin-top:14px;display:none">
+      <div><label for="cw">롤 폭 (cm)</label><input id="cw" type="number" inputmode="decimal" min="1" value="106"></div>
+      <div><label for="cl">롤 길이 (m)</label><input id="cl" type="number" inputmode="decimal" min="1" value="15.6"></div>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div><label for="margin">폭마다 여유 길이 (cm)</label><input id="margin" type="number" inputmode="decimal" min="0" value="10"></div>
+      <div><label for="price">롤당 가격 (원)</label><input id="price" type="number" inputmode="numeric" placeholder="선택" min="0"></div>
+    </div>
+    <p class="hint">민무늬 벽지는 무늬 맞춤을 0으로 두세요. 무늬가 있으면 제품 정보의 ‘리피트’ 값을 넣습니다.</p>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>계산 결과</h2>
+    <div class="big">
+      <div class="stat"><div class="k">필요한 벽지</div><div class="v" id="rRoll">0<small>롤</small></div></div>
+      <div class="stat"><div class="k">잘라 붙일 폭 수</div><div class="v" id="rStrip">0<small>폭</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>도배지는 면적이 아니라 ‘폭’으로 계산합니다</h2>
+    <p>벽지는 천장 높이만큼 길게 잘라 한 폭씩 옆으로 붙여 나갑니다. 그래서 롤 하나에서 몇 폭이 나오는지가 중요하고, 남는 자투리는 다른 폭에 쓰기 어렵습니다. 면적 ÷ 롤 면적으로만 계산하면 실제보다 적게 나와 시공 중에 모자라기 쉬운 이유입니다.</p>
+
+    <h3>이 계산기가 계산하는 순서</h3>
+    <p>먼저 방 둘레를 롤 폭으로 나눠 붙여야 할 폭 수를 구합니다. 한 폭 길이는 천장 높이에 위아래 여유와 무늬 맞춤 길이를 더한 값이고, 롤 길이를 이 값으로 나누면 롤 하나에서 나오는 폭 수가 됩니다. 마지막으로 전체 폭 수를 롤당 폭 수로 나눠 올림합니다. 천장을 포함하면 천장은 긴 방향으로 따로 계산해 더합니다.</p>
+
+    <h3>광폭 실크와 소폭 합지</h3>
+    <table>
+      <thead><tr><th>구분</th><th>일반적인 규격</th><th>흔히 부르는 기준</th></tr></thead>
+      <tbody>
+        <tr><td>광폭 실크</td><td>106cm × 15.6m</td><td>1롤 = 약 5평</td></tr>
+        <tr><td>소폭 합지</td><td>53cm × 12.5m</td><td>1롤 = 약 2평</td></tr>
+      </tbody>
+    </table>
+    <p>제품마다 규격이 다를 수 있으니, 다르면 ‘직접 입력’을 골라 롤 폭과 길이를 넣으세요. ‘몇 평용’은 벽지 면적 기준이라 실제 바를 수 있는 바닥 평수와는 다릅니다.</p>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>무늬 맞춤(리피트)은 무엇인가요?</h3>
+    <p>옆 폭과 무늬를 이어 붙이려고 위아래로 밀어 맞추는 길이입니다. 무늬가 큰 벽지일수록 폭마다 버리는 길이가 늘어나 롤 수도 늘어납니다.</p>
+    <h3>여분 롤을 사두는 게 좋나요?</h3>
+    <p>같은 제품도 생산 시기에 따라 색감이 조금씩 달라, 나중에 같은 로트를 구하기 어렵습니다. 보수용으로 1롤 정도 여유를 두는 경우가 많습니다.</p>
+    <h3>계산 결과대로 사면 되나요?</h3>
+    <p>대략적인 수량을 빠르게 잡는 도구입니다. 방 모양이 복잡하거나 경사 천장이 있다면 시공자와 한 번 더 확인하세요.</p>
+  </article>
+
+  <footer>결과는 참고용 추정치이며, 실제 필요량은 현장 상황에 따라 달라질 수 있습니다.</footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt = (n, d = 0) => n.toLocaleString('ko-KR', {maximumFractionDigits: d, minimumFractionDigits: d});
+
+function addRow(target, name = '', w = '', h = ''){
+  const row = document.createElement('div');
+  row.className = 'row';
+  row.innerHTML = `
+    <div class="name"><label>이름</label><input type="text" placeholder="예) 방문" value="${name}"></div>
+    <div><label>가로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${w}"></div>
+    <div><label>세로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${h}"></div>
+    <button class="del" type="button" aria-label="삭제">×</button>`;
+  row.querySelector('.del').onclick = () => { row.remove(); calc(); };
+  row.querySelectorAll('input').forEach(i => i.addEventListener('input', calc));
+  $(target).appendChild(row);
+  calc();
+}
+
+function holeArea(){
+  let t = 0;
+  $('holes').querySelectorAll('.row').forEach(r => {
+    const n = r.querySelectorAll('input[type=number]');
+    t += (parseFloat(n[0].value) || 0) * (parseFloat(n[1].value) || 0);
+  });
+  return t;
+}
+
+function calc(){
+  const typeSel = $('type').value;
+  $('customRoll').style.display = typeSel === 'custom' ? 'grid' : 'none';
+  let rollW, rollL;
+  if (typeSel === 'custom'){ rollW = (parseFloat($('cw').value) || 0) / 100; rollL = parseFloat($('cl').value) || 0; }
+  else { [rollW, rollL] = typeSel.split('x').map(Number); }
+
+  const a = parseFloat($('rw').value) || 0, b = parseFloat($('rl').value) || 0, h = parseFloat($('rh').value) || 0;
+  const extra = ((parseFloat($('margin').value) || 0) + (parseFloat($('rep').value) || 0)) / 100;
+  const price = parseFloat($('price').value) || 0;
+  const withCeil = $('ceil').checked;
+
+  let rolls = 0, strips = 0, warn = '';
+  const wallArea = Math.max(0, 2 * (a + b) * h - holeArea());
+  const ceilArea = withCeil ? a * b : 0;
+
+  if (a > 0 && b > 0 && h > 0 && rollW > 0 && rollL > 0){
+    // 벽
+    const stripLen = h + extra;
+    const perRoll = Math.floor(rollL / stripLen);
+    const holeStrips = Math.floor(holeArea() / (rollW * h));
+    const wallStrips = Math.max(0, Math.ceil(2 * (a + b) / rollW) - holeStrips);
+    if (perRoll < 1) warn = '한 폭 길이가 롤 길이보다 깁니다. 천장 높이나 롤 규격을 확인하세요.';
+    else { rolls += Math.ceil(wallStrips / perRoll); strips += wallStrips; }
+
+    // 천장
+    if (withCeil && !warn){
+      const longSide = Math.max(a, b), shortSide = Math.min(a, b);
+      const cLen = longSide + extra;
+      const cPerRoll = Math.floor(rollL / cLen);
+      const cStrips = Math.ceil(shortSide / rollW);
+      if (cPerRoll < 1) warn = '천장의 긴 변이 롤 길이보다 깁니다. 이음 시공이 필요하니 시공자와 상의하세요.';
+      else { rolls += Math.ceil(cStrips / cPerRoll); strips += cStrips; }
+    }
+  }
+
+  $('rRoll').innerHTML = `${fmt(rolls)}<small>롤</small>`;
+  $('rStrip').innerHTML = `${fmt(strips)}<small>폭</small>`;
+  const total = wallArea + ceilArea;
+  let html = `바를 면적 <b>${fmt(total, 1)}㎡</b> (약 ${fmt(total / 3.3058, 1)}평)`;
+  if (withCeil) html += ` · 천장 <b>${fmt(ceilArea, 1)}㎡</b> 포함`;
+  if (rolls > 0) html += `<br>보수용 여분까지 사면 <b>${fmt(rolls + 1)}롤</b>`;
+  if (price > 0 && rolls > 0) html += `<br>예상 벽지 비용 <b>${fmt(rolls * price)}원</b> (여분 포함 ${fmt((rolls + 1) * price)}원)`;
+  if (warn) html += `<div class="warn">${warn}</div>`;
+  $('rDetail').innerHTML = html;
+}
+
+['rw','rl','rh','ceil','type','rep','cw','cl','margin','price'].forEach(id => {
+  $(id).addEventListener('input', calc);
+  $(id).addEventListener('change', calc);
+});
+addRow('holes', '방문', '0.9', '2.1');
+</script>
+</body>
+</html>
