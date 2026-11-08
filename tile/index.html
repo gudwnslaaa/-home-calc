@@ -220,7 +220,62 @@ footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
     <h2>다른 계산기도 필요하신가요?</h2>
     <div class="list"><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a></div>
   </section>
+<!-- ===== 타일 계산기 설명글: tile/index.html 의 계산기 아래, 하단 링크(소개·개인정보처리방침·문의) 위에 붙여넣기 ===== -->
+<section class="guide">
+  <h2>타일 수량은 이렇게 계산됩니다</h2>
+  <p>타일은 시공 면적만큼 딱 맞춰 사면 거의 반드시 모자랍니다. 벽 끝과 모서리에서 잘라 쓰는 조각, 시공 중 깨지는 타일이 생기기 때문입니다. 그래서 이 계산기는 시공 면적에 로스율을 더한 뒤 타일 한 장 면적으로 나누고, 남는 소수점은 올림 처리합니다.</p>
+  <div class="formula">필요 장수 = 시공 면적(㎡) × (1 + 로스율) ÷ 타일 1장 면적(㎡) → 올림<br>필요 박스 = 필요 장수 ÷ 박스당 입수 → 올림</div>
 
+  <h3>자주 쓰는 타일 규격별 면적</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>규격(mm)</th><th>1장 면적</th><th>1㎡당 장수</th><th>주 사용처</th></tr></thead>
+      <tbody>
+        <tr><td>300×300</td><td>0.09㎡</td><td>약 11.1장</td><td>욕실 바닥, 베란다</td></tr>
+        <tr><td>300×600</td><td>0.18㎡</td><td>약 5.6장</td><td>욕실 벽, 주방 벽</td></tr>
+        <tr><td>600×600</td><td>0.36㎡</td><td>약 2.8장</td><td>현관, 거실 바닥</td></tr>
+        <tr><td>600×1200</td><td>0.72㎡</td><td>약 1.4장</td><td>거실 바닥, 아트월</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>시공 패턴별 로스율 기준</h3>
+  <ul>
+    <li><strong>일자(정배열):</strong> 5~10%. 벽 끝에서만 잘라 쓰므로 손실이 가장 적습니다.</li>
+    <li><strong>지그재그(1/2·1/3 엇갈림):</strong> 10~15%. 줄마다 시작 위치가 달라 양 끝 손실이 늘어납니다.</li>
+    <li><strong>대각선(45도):</strong> 15% 안팎. 네 변 모두 삼각형 조각이 생깁니다.</li>
+    <li><strong>헤링본:</strong> 15~20%. 가장자리 전체가 사선 컷입니다.</li>
+  </ul>
+  <p>타일이 클수록, 공간이 좁을수록, 처음 해보는 셀프 시공일수록 위 기준보다 5% 정도 높게 잡는 것이 안전합니다.</p>
+
+  <h3>면적 재는 요령</h3>
+  <ol>
+    <li>벽은 방 둘레 × 타일 붙일 높이로 구합니다. 욕실은 보통 천장까지입니다.</li>
+    <li>문, 창문처럼 큰 개구부는 면적에서 뺍니다.</li>
+    <li>콘센트, 수전 구멍처럼 작은 부분은 빼지 않습니다. 구멍 뚫는 과정의 손실과 상쇄됩니다.</li>
+    <li>ㄱ자처럼 꺾인 공간은 직사각형 여러 개로 나눠 계산한 뒤 더합니다.</li>
+  </ol>
+
+  <h2>자주 묻는 질문</h2>
+  <details>
+    <summary>줄눈 간격도 계산에 넣어야 하나요?</summary>
+    <p>2~3mm 줄눈은 면적에 미치는 영향이 작아 따로 넣지 않아도 됩니다. 줄눈만큼 타일이 조금 덜 들지만, 로스율 안에서 충분히 흡수되는 수준입니다.</p>
+  </details>
+  <details>
+    <summary>박스당 입수는 어디서 확인하나요?</summary>
+    <p>같은 규격이라도 제조사마다 한 박스에 들어 있는 장수가 다릅니다. 상품 상세 페이지나 박스 옆면의 입수(장/박스) 또는 박스당 면적(㎡/박스)을 확인해 입력하세요.</p>
+  </details>
+  <details>
+    <summary>여분은 얼마나 남겨 두는 게 좋나요?</summary>
+    <p>타일은 생산 시기(로트)마다 색이 미세하게 달라서, 나중에 깨진 타일을 같은 색으로 구하기 어렵습니다. 계산된 수량과 별도로 보수용 1박스 정도를 보관하는 것을 권합니다.</p>
+  </details>
+  <details>
+    <summary>덧방 시공도 같은 방식으로 계산하나요?</summary>
+    <p>타일 수량은 같은 방식으로 계산합니다. 다만 덧방은 기존 타일 상태 확인, 바닥 높이 상승, 수전 연장 같은 조건을 먼저 점검해야 하며 접착제 종류도 달라집니다.</p>
+  </details>
+
+  <p class="note">계산 결과는 일반적인 시공 기준에 따른 참고용 추정치입니다. 실제 수량은 현장 상황과 시공 방식에 따라 달라질 수 있으니, 구매 전 시공자와 한 번 더 확인하세요.</p>
+</section>
   <footer>
     <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
     결과는 참고용 추정치이며, 실제 필요량은 현장 상황에 따라 달라질 수 있습니다.
