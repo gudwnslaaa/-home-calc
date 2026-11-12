@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "home-calc",
+  "compatibility_date": "2026-11-10",
+  "observability": {
+    "enabled": true
+  },
+  // www.jibcalc.com → https://jibcalc.com 301 리다이렉트용 스크립트
+  "main": "src/worker.js",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    // 호스트(www)로는 조건을 걸 수 없어서 모든 요청에서 스크립트가 먼저 실행됨.
+    // www가 아니면 스크립트가 정적 파일을 그대로 넘겨줌.
+    "run_worker_first": true
+  },
+  "routes": [
+    { "pattern": "jibcalc.com", "custom_domain": true },
+    { "pattern": "www.jibcalc.com", "custom_domain": true }
+  ]
+}

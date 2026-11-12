@@ -1,0 +1,10 @@
+# 사이트에 올라가면 안 되는 설정·작업 파일
+.assetsignore
+wrangler.jsonc
+src
+CLAUDE.md
+node_modules
+.wrangler
+.dev.vars
+package.json
+package-lock.json
