@@ -107,7 +107,35 @@
     if (any) any.dispatchEvent(new Event('change'));
   }
 
-  restore();
+  /* ---------- 2-1) 주소값으로 방 크기 미리 채우기 (평수 계산기에서 넘어온 경우) ----------
+     예) /wallpaper/?w=3.6&l=3  → 가로 3.6m, 세로 3m */
+  function prefillFromUrl() {
+    const qs = new URLSearchParams(location.search);
+    const w = parseFloat(qs.get('w')), l = parseFloat(qs.get('l'));
+    if (!(w > 0 && l > 0 && w < 1000 && l < 1000)) return false;
+    const r = (n) => String(Math.round(n * 100) / 100);
+    let target = null;
+    if (document.getElementById('rw') && document.getElementById('rl')) {
+      document.getElementById('rw').value = r(w);
+      document.getElementById('rl').value = r(l);
+      target = document.getElementById('rw');
+    } else {
+      const box = document.getElementById('areas') || document.getElementById('rooms');
+      const row = box && box.querySelector('.row');
+      if (!row) return false;
+      const name = row.querySelector('input[type=text]');
+      const nums = row.querySelectorAll('input[type=number]');
+      if (name) name.value = box.id === 'areas' ? '방 바닥' : '방';
+      nums[0].value = r(w);
+      nums[1].value = r(l);
+      target = nums[0];
+    }
+    target.dispatchEvent(new Event('input', { bubbles: true }));
+    setTimeout(() => toast(`평수 계산기의 방 크기(${r(w)}m × ${r(l)}m)를 넣었어요`), 300);
+    return true;
+  }
+
+  if (!prefillFromUrl()) restore();
   ['input', 'change'].forEach((ev) => document.addEventListener(ev, save));
   document.addEventListener('click', (e) => { if (e.target.closest('.add, .del, .tabs button')) save(); });
 

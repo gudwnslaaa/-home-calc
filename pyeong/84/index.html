@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>84제곱미터 몇 평? 전용 25.4평과 34평형 차이 | 집 공사 계산기</title>
+<meta name="description" content="전용면적 84㎡는 약 25.41평입니다. 흔히 33~34평형이라고 부르는 이유와 전용·공급면적 차이, 계산 과정을 정리했습니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="84제곱미터 몇 평? 전용 25.4평과 34평형 차이 | 집 공사 계산기">
+<meta property="og:description" content="전용면적 84㎡는 약 25.41평입니다. 흔히 33~34평형이라고 부르는 이유와 전용·공급면적 차이, 계산 과정을 정리했습니다.">
+<meta property="og:url" content="https://jibcalc.com/pyeong/84/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/pyeong/84/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.swap{display:flex;align-items:end;gap:10px}
+.swap > div{flex:1}
+.swap .eq{color:var(--muted);font-size:1.2rem;padding-bottom:12px}
+.cta{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.cta p{margin:0 0 10px;font-size:.92rem;color:var(--ink);font-weight:500}
+.cta .links{display:flex;flex-wrap:wrap;gap:8px}
+.cta a.btn{text-decoration:none;display:inline-block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chips a{display:inline-block;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);
+  color:var(--ink);text-decoration:none;font-size:.92rem;transition:border-color .2s,color .2s}
+.chips a:hover{border-color:var(--accent);color:var(--accent)}
+.chips a.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.area-map{margin:16px 0 8px;font-size:.9rem}
+.lay{border-radius:14px;padding:12px 14px}
+.lay .tag{display:block;font-size:.8rem;color:var(--muted);margin-bottom:8px}
+.lay.contract{border:1px dashed #4a4e52;background:#141516}
+.lay.supply{border:1px solid #3a3d41;background:#1b1d1f}
+.lay.excl{border:1px solid var(--accent);background:var(--accent-soft);color:var(--ink)}
+.lay.excl b{display:block;color:var(--accent);font-weight:600}
+.lay.excl small,.side small,.lay.service small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.side{margin-top:8px;padding:8px 12px;border-radius:10px;background:#232528;color:var(--ink)}
+.lay.service{margin-top:10px;border:1px dashed #6b5f3a;color:#e9d9a8;background:rgba(233,217,168,.06)}
+.bar{display:flex;border-radius:12px;overflow:hidden;margin:12px 0 4px;font-size:.85rem;min-height:46px}
+.bar span{display:flex;align-items:center;justify-content:center;text-align:center;padding:6px 8px;line-height:1.35}
+.bar .b1{background:var(--accent);color:#0f1011;font-weight:600}
+.bar .b2{background:#3a3d41;color:var(--ink)}
+.bar-cap{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+.tagline{display:inline-block;font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+.notebox{margin-top:14px;font-size:.85rem;color:var(--muted);background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.notebox b{color:var(--ink);font-weight:500}
+@media (max-width:560px){ .swap{flex-direction:column;align-items:stretch} .swap .eq{text-align:center;padding:0} }
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1011">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/pyeong/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">평수 계산기로 돌아가기</a></p>
+    <h1>84㎡는 몇 평?</h1>
+    <p>전용면적 84㎡를 평으로 바꾸고, 흔히 말하는 평형과의 차이를 정리했습니다.</p>
+  </header>
+
+  <section class="card">
+    <h2>한눈에 보기</h2>
+    <div class="big">
+      <div class="stat"><div class="k">전용 84㎡</div><div class="v">25.41<small>평</small></div></div>
+      <div class="stat"><div class="k">흔히 부르는 평형 <span class="tagline">대략값</span></div><div class="v">33~34<small>평형</small></div></div>
+    </div>
+    <div class="notebox"><b>대략값입니다.</b> 공급면적과 평형은 단지·타입마다 다릅니다. 정확한 값은 분양 공고문이나 건축물대장(집합건축물대장 전유부)에서 확인하세요.</div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>84㎡ → 평 계산 과정</h2>
+    <p>1평은 400/121㎡(약 3.3058㎡)이므로, 84 × 121 ÷ 400 = <b>25.41평</b>입니다. 반대로 25.41평을 ㎡로 바꾸면 다시 84㎡가 됩니다.</p>
+
+    <h2>왜 평형은 다르게 부를까</h2>
+    <p>84㎡를 평으로 바꾸면 약 25.41평인데, 흔히 <b>33~34평형</b>이라고 부릅니다. 평형은 보통 전용면적이 아니라 전용면적에 계단·복도·엘리베이터 몫(주거공용면적)을 더한 <b>공급면적</b> 기준으로 말하기 때문입니다. 다만 이 값은 많이 쓰이는 대략적인 호칭이고, 실제 공급면적은 단지마다 다릅니다.</p>
+    <div class="area-map" role="img" aria-label="계약면적 안에 공급면적, 그 안에 전용면적이 들어 있고 서비스면적은 따로인 구조">
+      <div class="lay contract"><span class="tag">계약면적 = 공급면적 + 기타공용면적</span>
+        <div class="lay supply"><span class="tag">공급면적 = 전용면적 + 주거공용면적 · 흔히 말하는 "○○평형"</span>
+          <div class="lay excl"><b>전용면적</b><small>현관문 안쪽, 우리 집만 쓰는 방·거실·주방·욕실</small></div>
+          <div class="side">+ 주거공용면적<small>계단, 복도, 엘리베이터처럼 같은 동 사람들이 함께 쓰는 곳</small></div>
+        </div>
+        <div class="side">+ 기타공용면적<small>지하주차장, 관리사무소, 커뮤니티 시설 등 단지 전체가 쓰는 곳</small></div>
+      </div>
+      <div class="lay service">서비스면적 (발코니)<small>위 어느 면적에도 들어가지 않지만, 확장하면 실제로 쓰는 공간이 넓어짐</small></div>
+    </div>
+
+    <h2>전용률에 따라 공급면적은 이렇게 달라집니다</h2>
+    <p>전용 84㎡가 같아도 주거공용면적이 얼마나 붙느냐에 따라 공급면적이 달라집니다. 아래는 전용률을 가정해 계산한 값입니다.</p>
+    <table>
+      <thead><tr><th>전용률 가정</th><th>공급면적</th><th>평으로</th></tr></thead>
+      <tbody><tr><td>70%</td><td>약 120㎡</td><td>약 36.3평</td></tr><tr><td>75%</td><td>약 112㎡</td><td>약 33.9평</td></tr><tr><td>80%</td><td>약 105㎡</td><td>약 31.8평</td></tr></tbody>
+    </table>
+    <p>계산식: 공급면적 = 전용면적 ÷ 전용률. 실제 전용률은 단지마다 다르니 표는 감을 잡는 용도로만 보세요.</p>
+
+    <h2>다른 면적도 보기</h2>
+    <div class="chips"><a href="/pyeong/39/">39㎡ · 11.8평</a><a href="/pyeong/49/">49㎡ · 14.8평</a><a href="/pyeong/59/">59㎡ · 17.8평</a><a href="/pyeong/74/">74㎡ · 22.4평</a><a href="/pyeong/84/" class="on" aria-current="page">84㎡ · 25.4평</a><a href="/pyeong/101/">101㎡ · 30.6평</a><a href="/pyeong/114/">114㎡ · 34.5평</a></div>
+    <p style="margin-top:18px"><a class="btn primary" href="/pyeong/" style="text-decoration:none;display:inline-block">평수 계산기로 직접 계산하기</a></p>
+  </article>
+
+  <section class="related">
+    <h2>방 크기를 알았다면 자재도 계산해 보세요</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    결과는 참고용 추정치입니다. 아파트 공급면적은 단지마다 다르니 분양 공고나 건축물대장으로 확인하세요.
+  </footer>
+</div>
+<script src="/common.js"></script>
+</body>
+</html>
