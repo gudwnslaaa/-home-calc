@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>공사·이사 일정표 – 이사 날짜로 인테리어 공사 순서와 할 일 계산</title>
+<meta name="description" content="이사 날짜만 넣으면 철거부터 도배, 바닥, 입주청소까지 인테리어 공사 순서를 거꾸로 계산해 날짜별 일정표를 만들어 드립니다. 관리사무소 신고, 폐기물 정리, 전입신고 기한까지 함께 챙기세요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="공사·이사 일정표 – 이사 날짜로 인테리어 공사 순서와 할 일 계산">
+<meta property="og:description" content="이사 날짜만 넣으면 철거부터 도배, 바닥, 입주청소까지 인테리어 공사 순서를 거꾸로 계산해 날짜별 일정표를 만들어 드립니다. 관리사무소 신고, 폐기물 정리, 전입신고 기한까지 함께 챙기세요.">
+<meta property="og:url" content="https://jibcalc.com/schedule/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/schedule/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "인테리어 공사 순서는 어떻게 되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "보통 철거 → 설비·전기 → 목공 → 욕실·타일 → 도장 → 도배 → 바닥 → 가구·조명 설치 → 입주청소 순서로 진행합니다. 먼지와 물을 많이 쓰는 공정을 먼저, 마감재를 나중에 하는 것이 기본 원칙이고, 실제 순서는 공사 범위와 업체 일정에 따라 달라질 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "입주청소는 언제 하는 게 좋나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "모든 공사가 끝난 뒤, 가구와 짐이 들어오기 전에 하는 것이 좋습니다. 공사 중 생긴 먼지가 가라앉을 시간을 조금 두고 청소하면 다시 쌓이는 먼지를 줄일 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "전입신고는 언제까지 해야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "주민등록법에 따라 이사한 날부터 14일 이내에 새 주소지 주민센터를 방문하거나 정부24에서 신고해야 합니다. 기한을 넘기면 과태료가 부과될 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "아파트 공사 전에 관리사무소에 꼭 알려야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "공사 가능 시간, 이웃 동의, 엘리베이터 사용과 보양 같은 기준은 단지 관리규약과 관리사무소 안내를 따릅니다. 벽을 허물거나 발코니를 확장하는 등 구조를 바꾸는 공사는 별도의 허가·신고가 필요할 수 있으니 공사 계획이 잡히면 먼저 문의하세요."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.steps{display:grid;gap:8px}
+.srow{display:grid;grid-template-columns:auto 1fr 92px;align-items:center;gap:10px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--field)}
+.srow.off{opacity:.55}
+.srow input[type=checkbox]{width:20px;height:20px;accent-color:var(--accent)}
+.srow .nm{font-size:.92rem;line-height:1.3}
+.srow .nm small{display:block;color:var(--muted);font-size:.78rem}
+.srow .days{display:flex;align-items:center;gap:6px}
+.srow .days input{width:56px;text-align:center;padding:8px 6px}
+.srow .days span{color:var(--muted);font-size:.85rem}
+.opts{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:.9rem}
+.opts label{display:flex;align-items:center;gap:6px;color:var(--ink);margin:0}
+.opts input{width:18px;height:18px;accent-color:var(--accent)}
+.tl{list-style:none;margin:16px 0 0;padding:0;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 14px 16px}
+.tl li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--card);border:2px solid var(--muted)}
+.tl li.w::before{border-color:var(--accent);background:var(--accent)}
+.tl li.m::before{border-color:#e9d9a8;background:#e9d9a8}
+.tl .d{font-size:.8rem;color:var(--muted)}
+.tl .t{font-size:.95rem;color:var(--ink);font-weight:500}
+.tl .s{font-size:.84rem;color:var(--muted);margin-top:2px}
+.tl .s a{color:var(--accent)}
+.ph{font-size:.8rem;color:var(--muted);margin:14px 0 6px;letter-spacing:.02em}
+.ics{margin-top:12px}
+@media (max-width:560px){ .srow{grid-template-columns:auto 1fr 84px} }
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1011">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <h1>공사·이사 일정표</h1>
+    <p>이사 날짜로 공사 순서와 할 일을 거꾸로 계산합니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>이사 날짜</h2>
+    <div class="grid g2">
+      <div><label for="move">이사(입주)하는 날</label><input id="move" type="date"></div>
+      <div><label for="lead">견적·계약은 공사 며칠 전부터</label><input id="lead" type="number" inputmode="numeric" min="0" max="120" value="28"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">2</span>할 공사 고르기</h2>
+    <div class="steps">
+      <div class="srow" data-k="demo"><input type="checkbox" id="c_demo" checked aria-label="철거 포함"><label class="nm" for="c_demo">철거<small>기존 마감재·설비 뜯어내기</small></label><div class="days"><input id="d_demo" type="number" inputmode="numeric" min="0" max="60" value="1" aria-label="철거 기간(일)"><span>일</span></div></div>
+      <div class="srow off" data-k="mep"><input type="checkbox" id="c_mep" aria-label="설비·전기 포함"><label class="nm" for="c_mep">설비·전기<small>배관, 전기 배선, 콘센트 위치 변경</small></label><div class="days"><input id="d_mep" type="number" inputmode="numeric" min="0" max="60" value="2" aria-label="설비·전기 기간(일)"><span>일</span></div></div>
+      <div class="srow off" data-k="wood"><input type="checkbox" id="c_wood" aria-label="목공 포함"><label class="nm" for="c_wood">목공<small>천장·벽 보강, 몰딩, 문틀</small></label><div class="days"><input id="d_wood" type="number" inputmode="numeric" min="0" max="60" value="3" aria-label="목공 기간(일)"><span>일</span></div></div>
+      <div class="srow" data-k="bath"><input type="checkbox" id="c_bath" checked aria-label="욕실·타일 포함"><label class="nm" for="c_bath">욕실·타일<small>방수, 타일, 도기 설치</small></label><div class="days"><input id="d_bath" type="number" inputmode="numeric" min="0" max="60" value="4" aria-label="욕실·타일 기간(일)"><span>일</span></div></div>
+      <div class="srow off" data-k="paint"><input type="checkbox" id="c_paint" aria-label="도장(페인트) 포함"><label class="nm" for="c_paint">도장(페인트)<small>문·몰딩·벽 페인트</small></label><div class="days"><input id="d_paint" type="number" inputmode="numeric" min="0" max="60" value="2" aria-label="도장(페인트) 기간(일)"><span>일</span></div></div>
+      <div class="srow" data-k="wall"><input type="checkbox" id="c_wall" checked aria-label="도배 포함"><label class="nm" for="c_wall">도배<small>초배·벽지</small></label><div class="days"><input id="d_wall" type="number" inputmode="numeric" min="0" max="60" value="1" aria-label="도배 기간(일)"><span>일</span></div></div>
+      <div class="srow" data-k="floor"><input type="checkbox" id="c_floor" checked aria-label="바닥(장판·마루) 포함"><label class="nm" for="c_floor">바닥(장판·마루)<small>바닥재 시공</small></label><div class="days"><input id="d_floor" type="number" inputmode="numeric" min="0" max="60" value="2" aria-label="바닥(장판·마루) 기간(일)"><span>일</span></div></div>
+      <div class="srow" data-k="fit"><input type="checkbox" id="c_fit" checked aria-label="가구·조명 설치 포함"><label class="nm" for="c_fit">가구·조명 설치<small>붙박이장, 싱크대, 조명</small></label><div class="days"><input id="d_fit" type="number" inputmode="numeric" min="0" max="60" value="1" aria-label="가구·조명 설치 기간(일)"><span>일</span></div></div>
+      <div class="srow" data-k="air"><input type="checkbox" id="c_air" checked aria-label="환기·여유 포함"><label class="nm" for="c_air">환기·여유<small>냄새 빼기와 일정 밀림 대비</small></label><div class="days"><input id="d_air" type="number" inputmode="numeric" min="0" max="60" value="3" aria-label="환기·여유 기간(일)"><span>일</span></div></div>
+      <div class="srow" data-k="clean"><input type="checkbox" id="c_clean" checked aria-label="입주청소 포함"><label class="nm" for="c_clean">입주청소<small>공사 먼지 마무리 청소</small></label><div class="days"><input id="d_clean" type="number" inputmode="numeric" min="0" max="60" value="1" aria-label="입주청소 기간(일)"><span>일</span></div></div>
+    </div>
+    <div class="opts">
+      <label><input type="checkbox" id="skipSun" checked>일요일은 공사 쉬기</label>
+    </div>
+    <p class="hint">기간은 흔한 예시값이에요. 공사 범위와 업체 일정에 맞게 숫자를 바꾸세요. 관리규약상 공사를 못 하는 요일이 있다면 그만큼 여유를 더 잡으세요.</p>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>일정표</h2>
+    <div class="big">
+      <div class="stat"><div class="k">공사 시작</div><div class="v" id="sStart">-</div></div>
+      <div class="stat"><div class="k">공사 기간</div><div class="v" id="sDays">0<small>일</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+    <ol class="tl" id="tl"></ol>
+    <div class="ics"><button class="btn" type="button" id="icsBtn">캘린더 파일(.ics)로 저장</button></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>공사 순서, 왜 이렇게 정할까</h2>
+    <p>인테리어 공사는 먼지와 물이 많이 나오는 작업을 먼저 하고, 깨끗하게 남아야 하는 마감 작업을 나중에 하는 것이 기본입니다. 철거와 설비, 목공처럼 구조를 건드리는 일이 앞에 오고, 도배와 바닥처럼 눈에 보이는 마감은 뒤에 옵니다. 바닥을 먼저 깔면 도배나 페인트 작업 중에 바닥이 상하기 쉽기 때문에, 보통 벽을 마무리한 다음 바닥을 시공합니다.</p>
+    <p>이 일정표는 이사 날짜에서 거꾸로 계산합니다. 마지막 공정이 끝나는 날과 이사 날 사이에 환기·여유 기간을 두었는데, 자재 냄새를 빼는 시간이자 일정이 하루 이틀 밀렸을 때 버틸 수 있는 여유이기도 합니다.</p>
+
+    <h2>공사 전에 챙길 것</h2>
+    <ul>
+      <li><b>자재 수량 계산:</b> 계약 전에 <a href="/pyeong/">평수</a>, <a href="/wallpaper/">도배지</a>, <a href="/tile/">타일</a>, <a href="/floor/">장판·마루</a>, <a href="/paint/">페인트</a> 수량을 미리 뽑아 두면 견적을 비교하기 쉽습니다.</li>
+      <li><b>관리사무소 문의:</b> 공사 가능 시간, 이웃 동의서, 엘리베이터 사용·보양 기준은 단지마다 다르니 공사 일정이 잡히면 먼저 확인하세요.</li>
+      <li><b>버릴 물건 정리:</b> 철거 전에 가전·가구를 비워야 공사가 막히지 않습니다. <a href="/waste/">폐기물 정리 도우미</a>로 무상수거와 대형폐기물 신고를 나눠 두세요.</li>
+    </ul>
+
+    <h2>이사 후에 챙길 것</h2>
+    <p>전입신고는 이사한 날부터 14일 이내에 해야 합니다. 세입자라면 확정일자도 함께 받아 두는 것이 보증금 보호에 도움이 됩니다. 공과금과 각종 주소 변경도 이 시기에 몰아서 처리하면 빠뜨리기 쉬운 것을 줄일 수 있습니다.</p>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>인테리어 공사 순서는 어떻게 되나요?</h3>
+    <p>보통 철거 → 설비·전기 → 목공 → 욕실·타일 → 도장 → 도배 → 바닥 → 가구·조명 설치 → 입주청소 순서로 진행합니다. 먼지와 물을 많이 쓰는 공정을 먼저, 마감재를 나중에 하는 것이 기본 원칙이고, 실제 순서는 공사 범위와 업체 일정에 따라 달라질 수 있습니다.</p>
+    <h3>입주청소는 언제 하는 게 좋나요?</h3>
+    <p>모든 공사가 끝난 뒤, 가구와 짐이 들어오기 전에 하는 것이 좋습니다. 공사 중 생긴 먼지가 가라앉을 시간을 조금 두고 청소하면 다시 쌓이는 먼지를 줄일 수 있습니다.</p>
+    <h3>전입신고는 언제까지 해야 하나요?</h3>
+    <p>주민등록법에 따라 이사한 날부터 14일 이내에 새 주소지 주민센터를 방문하거나 정부24에서 신고해야 합니다. 기한을 넘기면 과태료가 부과될 수 있습니다.</p>
+    <h3>아파트 공사 전에 관리사무소에 꼭 알려야 하나요?</h3>
+    <p>공사 가능 시간, 이웃 동의, 엘리베이터 사용과 보양 같은 기준은 단지 관리규약과 관리사무소 안내를 따릅니다. 벽을 허물거나 발코니를 확장하는 등 구조를 바꾸는 공사는 별도의 허가·신고가 필요할 수 있으니 공사 계획이 잡히면 먼저 문의하세요.</p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    일정은 참고용 예시입니다. 실제 공사 기간은 업체와, 공사 가능 시간은 관리사무소와 확인하세요.
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const STEPS = [{"k":"demo","n":"철거","s":"기존 마감재·설비 뜯어내기"},{"k":"mep","n":"설비·전기","s":"배관, 전기 배선, 콘센트 위치 변경"},{"k":"wood","n":"목공","s":"천장·벽 보강, 몰딩, 문틀"},{"k":"bath","n":"욕실·타일","s":"방수, 타일, 도기 설치"},{"k":"paint","n":"도장(페인트)","s":"문·몰딩·벽 페인트"},{"k":"wall","n":"도배","s":"초배·벽지"},{"k":"floor","n":"바닥(장판·마루)","s":"바닥재 시공"},{"k":"fit","n":"가구·조명 설치","s":"붙박이장, 싱크대, 조명"},{"k":"air","n":"환기·여유","s":"냄새 빼기와 일정 밀림 대비"},{"k":"clean","n":"입주청소","s":"공사 먼지 마무리 청소"}];
+const WD = ['일','월','화','수','목','금','토'];
+const fmt = d => (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + WD[d.getDay()] + ')';
+const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+const ymd = d => d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0');
+let events = [];
+
+// 기본 이사일: 오늘부터 6주 뒤
+(function(){ const d = addDays(new Date(), 42); $('move').value = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); })();
+
+// 끝나는 날(end)에서 거꾸로 n 근무일을 세어 시작일을 구함
+function backWork(end, n, skipSun){
+  let d = new Date(end), left = n;
+  while (true) {
+    if (!(skipSun && d.getDay() === 0)) { left--; if (left <= 0) return d; }
+    d = addDays(d, -1);
+  }
+}
+function prevDay(d, skipSun){ let x = addDays(d, -1); while (skipSun && x.getDay() === 0) x = addDays(x, -1); return x; }
+
+function render(){
+  document.querySelectorAll('.srow').forEach(r => r.classList.toggle('off', !$('c_' + r.dataset.k).checked));
+  const mv = $('move').value;
+  const tl = $('tl');
+  if (!mv) { tl.innerHTML = ''; $('rDetail').textContent = '이사 날짜를 넣어 주세요.'; return; }
+  const move = new Date(mv + 'T00:00:00');
+  const skipSun = $('skipSun').checked;
+  const picked = STEPS.filter(s => $('c_' + s.k).checked).map(s => ({ ...s, days: Math.max(0, Math.round(+$('d_' + s.k).value || 0)) })).filter(s => s.days > 0);
+
+  // 이사 전날부터 거꾸로 배치 (환기·여유는 달력일로, 나머지는 근무일로)
+  let cursorEnd = addDays(move, -1);
+  const placed = [];
+  for (let i = picked.length - 1; i >= 0; i--) {
+    const s = picked[i];
+    const calendar = s.k === 'air';
+    let end = cursorEnd;
+    if (!calendar) while (skipSun && end.getDay() === 0) end = addDays(end, -1);
+    const start = calendar ? addDays(end, -(s.days - 1)) : backWork(end, s.days, skipSun);
+    placed.unshift({ ...s, start, end });
+    cursorEnd = calendar ? addDays(start, -1) : prevDay(start, skipSun);
+  }
+  const work = placed.filter(p => p.k !== 'air' && p.k !== 'clean');
+  const first = placed[0];
+  const workStart = first ? first.start : move;
+  const totalDays = first ? Math.round((move - workStart) / 864e5) : 0;
+  $('sStart').textContent = first ? (workStart.getMonth() + 1) + '/' + workStart.getDate() : '-';
+  $('sDays').innerHTML = totalDays + '<small>일</small>';
+
+  const lead = Math.max(0, Math.round(+$('lead').value || 0));
+  const items = [];
+  const add = (date, title, sub, cls) => items.push({ date, title, sub, cls });
+  if (first) {
+    add(addDays(workStart, -lead), '견적 받기·업체 계약', '자재 수량을 미리 계산해 견적과 비교하세요. <a href="/pyeong/">평수</a> · <a href="/wallpaper/">도배</a> · <a href="/tile/">타일</a> · <a href="/floor/">바닥</a>', '');
+    add(addDays(workStart, -Math.min(lead, 14)), '관리사무소 공사 문의·이웃 안내', '공사 가능 시간, 동의서, 엘리베이터 보양 기준 확인', '');
+    add(addDays(workStart, -Math.min(lead, 10)), '버릴 물건 정리·수거 예약', '<a href="/waste/">폐기물 정리 도우미</a>로 무상수거·대형폐기물 신고 나누기', '');
+  }
+  placed.forEach(p => {
+    const range = p.start.getTime() === p.end.getTime() ? '' : ' ~ ' + fmt(p.end);
+    add(p.start, p.n + ' (' + p.days + '일)', (range ? fmt(p.start) + range + ' · ' : '') + p.s, 'w');
+  });
+  add(move, '이사·입주', '', 'm');
+  add(addDays(move, 13), '전입신고 (늦어도 이날까지)', '법정 기한은 이사한 날부터 14일 이내라 하루 일찍 잡았어요 · 정부24 또는 주민센터. 세입자라면 확정일자도 함께', '');
+  items.sort((a, b) => a.date - b.date);
+
+  events = items;
+  tl.innerHTML = '<div class="ph">날짜순 할 일</div>' + items.map(x => '<li class="' + x.cls + '"><div class="d">' + fmt(x.date) + '</div><div class="t">' + x.title + '</div>' + (x.sub ? '<div class="s">' + x.sub + '</div>' : '') + '</li>').join('');
+  $('rDetail').innerHTML = first
+    ? '이사 <b>' + fmt(move) + '</b> 기준, 공사는 <b>' + fmt(workStart) + '</b>에 시작해야 해요. 공정 ' + work.length + '개' + (skipSun ? ' · 일요일 제외' : '') + '.'
+    : '할 공사를 하나 이상 골라 주세요.';
+}
+
+document.addEventListener('input', render);
+document.addEventListener('change', render);
+
+// .ics 저장 (기기 안에서 파일만 만듦)
+$('icsBtn').addEventListener('click', () => {
+  const strip = s => s.replace(/<[^>]+>/g, '').replace(/[,;\\]/g, ' ');
+  const lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//jibcalc//schedule//KO','CALSCALE:GREGORIAN'];
+  events.forEach((e, i) => {
+    lines.push('BEGIN:VEVENT','UID:jibcalc-' + ymd(e.date) + '-' + i + '@jibcalc.com','DTSTAMP:' + ymd(new Date()) + 'T000000Z','DTSTART;VALUE=DATE:' + ymd(e.date),'DTEND;VALUE=DATE:' + ymd(addDays(e.date, 1)),'SUMMARY:' + strip(e.title),'DESCRIPTION:' + strip(e.sub || ''),'END:VEVENT');
+  });
+  lines.push('END:VCALENDAR');
+  const blob = new Blob([lines.join('\r\n')], { type: 'text/calendar' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob); a.download = '공사-이사-일정표.ics';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
+render();
+</script>
+<script src="/common.js"></script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>폐기물 정리 도우미 – 대형폐기물·폐가전 무상수거·공사 잔재 버리는 법</title>
+<meta name="description" content="공사나 이사 전에 버릴 물건을 고르면 폐가전 무상방문수거, 대형폐기물 신고, 타일·벽돌 같은 공사 잔재까지 어떻게 버리는지 한 번에 정리해 드립니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="폐기물 정리 도우미 – 대형폐기물·폐가전 무상수거·공사 잔재 버리는 법">
+<meta property="og:description" content="공사나 이사 전에 버릴 물건을 고르면 폐가전 무상방문수거, 대형폐기물 신고, 타일·벽돌 같은 공사 잔재까지 어떻게 버리는지 한 번에 정리해 드립니다.">
+<meta property="og:url" content="https://jibcalc.com/waste/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/waste/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "냉장고나 세탁기도 대형폐기물 스티커를 붙여야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "냉장고, 세탁기, 에어컨처럼 무상방문수거 대상인 가전은 폐가전 방문수거 배출예약시스템(1599-0903, 15990903.or.kr)에 예약하면 1대부터 수수료 없이 수거됩니다. 다만 철거·분리가 끝난 상태여야 하고, 사다리차가 필요한 곳은 수거가 어려울 수 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "소형 가전이 1~2개뿐이면 어떻게 버리나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "중소형 가전은 보통 5개 이상 모아야 방문수거가 됩니다. 5개가 안 되면 주민센터 소형가전 수거함이나 지자체 별도 신청 등 지역마다 방법이 다르니, 사는 곳의 구청·시청 안내를 확인하세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "대형폐기물 수수료는 얼마인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "수수료는 지자체 조례에 따라 품목·크기별로 정해져 지역마다 다릅니다. 구청·시청 누리집이나 지자체가 연결한 신청 앱에서 품목을 고르면 금액이 안내됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "인테리어하고 남은 타일 조각은 어디에 버리나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "깨진 타일, 벽돌 같은 불연성 폐기물은 소량이면 지자체가 정한 불연성 폐기물 전용 봉투(마대)에 담아 배출합니다. 양이 많으면 지자체에 신고한 뒤 처리업체에 맡겨야 하고, 한 공사에서 5톤 이상 나오면 건설폐기물로 따로 처리해야 합니다."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.group{margin-top:6px}
+.group + .group{margin-top:22px}
+.group h3{font-size:.95rem;font-weight:500;margin:0 0 8px;color:var(--ink)}
+.group h3 small{color:var(--muted);font-weight:400;margin-left:6px;font-size:.8rem}
+.items{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.it{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--field)}
+.it.on{border-color:var(--accent);background:var(--accent-soft)}
+.it span{font-size:.9rem;line-height:1.3}
+.step{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.step button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1rem;cursor:pointer;line-height:1}
+.step b{min-width:18px;text-align:center;font-weight:600;font-size:.95rem}
+.plan{margin-top:16px;display:grid;gap:12px}
+.pl{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--field)}
+.pl h4{margin:0 0 6px;font-size:.98rem;font-weight:600;color:var(--ink)}
+.pl h4 .cnt{color:var(--accent);margin-left:6px}
+.pl p,.pl li{font-size:.88rem;color:var(--muted);line-height:1.6;margin:0}
+.pl ul{margin:6px 0 0;padding-left:18px}
+.pl .links{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.pl a.btn{text-decoration:none;display:inline-block}
+.region{display:flex;gap:8px;margin-top:10px}
+.region input{flex:1}
+.empty{color:var(--muted);font-size:.9rem;margin-top:14px}
+@media (max-width:560px){ .items{grid-template-columns:1fr} }
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1011">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <h1>폐기물 정리 도우미</h1>
+    <p>버릴 물건을 고르면, 어디로 어떻게 버리는지 정리해 드립니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>버릴 물건 고르기</h2>
+    <div class="group"><h3>가전제품<small>무상방문수거 대상</small></h3><div class="items">
+      <div class="it" data-type="big" data-name="냉장고"><span>냉장고</span><div class="step"><button type="button" class="minus" aria-label="냉장고 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="냉장고 추가">+</button></div></div>
+      <div class="it" data-type="big" data-name="김치냉장고"><span>김치냉장고</span><div class="step"><button type="button" class="minus" aria-label="김치냉장고 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="김치냉장고 추가">+</button></div></div>
+      <div class="it" data-type="big" data-name="세탁기"><span>세탁기</span><div class="step"><button type="button" class="minus" aria-label="세탁기 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="세탁기 추가">+</button></div></div>
+      <div class="it" data-type="big" data-name="에어컨 (실내기·실외기)"><span>에어컨 (실내기·실외기)</span><div class="step"><button type="button" class="minus" aria-label="에어컨 (실내기·실외기) 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="에어컨 (실내기·실외기) 추가">+</button></div></div>
+      <div class="it" data-type="big" data-name="TV·모니터 31인치 이상"><span>TV·모니터 31인치 이상</span><div class="step"><button type="button" class="minus" aria-label="TV·모니터 31인치 이상 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="TV·모니터 31인치 이상 추가">+</button></div></div>
+      <div class="it" data-type="small" data-name="전자레인지"><span>전자레인지</span><div class="step"><button type="button" class="minus" aria-label="전자레인지 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="전자레인지 추가">+</button></div></div>
+      <div class="it" data-type="small" data-name="전기오븐"><span>전기오븐</span><div class="step"><button type="button" class="minus" aria-label="전기오븐 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="전기오븐 추가">+</button></div></div>
+      <div class="it" data-type="small" data-name="공기청정기"><span>공기청정기</span><div class="step"><button type="button" class="minus" aria-label="공기청정기 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="공기청정기 추가">+</button></div></div>
+      <div class="it" data-type="small" data-name="정수기"><span>정수기</span><div class="step"><button type="button" class="minus" aria-label="정수기 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="정수기 추가">+</button></div></div>
+      <div class="it" data-type="small" data-name="선풍기"><span>선풍기</span><div class="step"><button type="button" class="minus" aria-label="선풍기 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="선풍기 추가">+</button></div></div>
+      <div class="it" data-type="small" data-name="가습기"><span>가습기</span><div class="step"><button type="button" class="minus" aria-label="가습기 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="가습기 추가">+</button></div></div>
+      <div class="it" data-type="small" data-name="TV·모니터 30인치 이하"><span>TV·모니터 30인치 이하</span><div class="step"><button type="button" class="minus" aria-label="TV·모니터 30인치 이하 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="TV·모니터 30인치 이하 추가">+</button></div></div>
+    </div></div>
+    <div class="group"><h3>가구·생활용품<small>대형폐기물 신고 대상</small></h3><div class="items">
+      <div class="it" data-type="large" data-name="소파"><span>소파</span><div class="step"><button type="button" class="minus" aria-label="소파 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="소파 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="침대 프레임"><span>침대 프레임</span><div class="step"><button type="button" class="minus" aria-label="침대 프레임 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="침대 프레임 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="매트리스"><span>매트리스</span><div class="step"><button type="button" class="minus" aria-label="매트리스 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="매트리스 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="장롱·옷장"><span>장롱·옷장</span><div class="step"><button type="button" class="minus" aria-label="장롱·옷장 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="장롱·옷장 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="서랍장"><span>서랍장</span><div class="step"><button type="button" class="minus" aria-label="서랍장 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="서랍장 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="책상"><span>책상</span><div class="step"><button type="button" class="minus" aria-label="책상 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="책상 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="책장"><span>책장</span><div class="step"><button type="button" class="minus" aria-label="책장 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="책장 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="식탁"><span>식탁</span><div class="step"><button type="button" class="minus" aria-label="식탁 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="식탁 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="의자"><span>의자</span><div class="step"><button type="button" class="minus" aria-label="의자 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="의자 추가">+</button></div></div>
+    </div></div>
+    <div class="group"><h3>공사하며 뜯어내는 것<small>설비·바닥재와 공사 잔재</small></h3><div class="items">
+      <div class="it" data-type="large" data-name="싱크대"><span>싱크대</span><div class="step"><button type="button" class="minus" aria-label="싱크대 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="싱크대 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="세면대"><span>세면대</span><div class="step"><button type="button" class="minus" aria-label="세면대 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="세면대 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="변기"><span>변기</span><div class="step"><button type="button" class="minus" aria-label="변기 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="변기 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="장판"><span>장판</span><div class="step"><button type="button" class="minus" aria-label="장판 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="장판 추가">+</button></div></div>
+      <div class="it" data-type="large" data-name="문짝·몰딩 등 폐목재"><span>문짝·몰딩 등 폐목재</span><div class="step"><button type="button" class="minus" aria-label="문짝·몰딩 등 폐목재 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="문짝·몰딩 등 폐목재 추가">+</button></div></div>
+      <div class="it" data-type="debris" data-name="깨진 타일·벽돌·시멘트 조각"><span>깨진 타일·벽돌·시멘트 조각</span><div class="step"><button type="button" class="minus" aria-label="깨진 타일·벽돌·시멘트 조각 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="깨진 타일·벽돌·시멘트 조각 추가">+</button></div></div>
+      <div class="it" data-type="debris" data-name="깨진 유리·거울"><span>깨진 유리·거울</span><div class="step"><button type="button" class="minus" aria-label="깨진 유리·거울 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="깨진 유리·거울 추가">+</button></div></div>
+      <div class="it" data-type="burn" data-name="뜯어낸 벽지·비닐 (소량)"><span>뜯어낸 벽지·비닐 (소량)</span><div class="step"><button type="button" class="minus" aria-label="뜯어낸 벽지·비닐 (소량) 빼기">−</button><b class="cnt">0</b><button type="button" class="plus" aria-label="뜯어낸 벽지·비닐 (소량) 추가">+</button></div></div>
+    </div></div>
+    <p class="hint">목록에 없는 물건은 비슷한 품목으로 골라 보세요. 지자체 신청 화면에서도 비슷한 품목으로 신청하도록 안내하는 경우가 많습니다.</p>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>버리는 방법 정리</h2>
+    <div class="big">
+      <div class="stat"><div class="k">무상수거 가전</div><div class="v" id="sFree">0<small>개</small></div></div>
+      <div class="stat"><div class="k">대형폐기물 신고</div><div class="v" id="sLarge">0<small>개</small></div></div>
+    </div>
+    <div class="detail" id="rDetail">버릴 물건을 골라 주세요.</div>
+    <div id="plan" class="plan"></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>공사 전에 버릴 것부터 정리해야 하는 이유</h2>
+    <p>인테리어 공사는 철거부터 시작하는데, 버릴 가구와 가전이 집 안에 남아 있으면 작업 공간이 없어 일정이 밀리기 쉽습니다. 폐가전 방문수거는 접수 순서에 따라 방문일이 정해지고, 대형폐기물도 배출일 전에 신고를 마쳐야 하니 공사 날짜보다 여유 있게 준비하는 게 좋습니다.</p>
+
+    <h2>세 갈래로 나누면 쉬워요</h2>
+    <h3>1. 가전은 무상방문수거부터</h3>
+    <p>냉장고, 세탁기, 에어컨, 31인치 이상 TV·모니터 같은 가전은 1대만 있어도 폐가전 방문수거 배출예약시스템(전화 1599-0903, 누리집 15990903.or.kr)으로 예약하면 수수료 없이 수거됩니다. 전자레인지, 공기청정기처럼 작은 가전은 보통 5개 이상 모아야 방문수거가 되고, 지역에 따라 소형 가전까지 수거 범위를 넓힌 곳도 있습니다. 에어컨처럼 벽에 달린 제품은 철거와 분리가 끝난 상태여야 합니다.</p>
+    <h3>2. 가구·설비는 대형폐기물 신고</h3>
+    <p>소파, 침대, 장롱 같은 가구와 공사 때 뜯어낸 싱크대, 세면대, 변기, 장판 등은 대형폐기물로 신고하고 수수료를 낸 뒤 배출합니다. 신청은 구청·시청 누리집, 지자체가 연결한 신청 앱, 또는 종량제봉투 판매소의 스티커 구입 등 지역마다 방법이 다릅니다. 신고한 품목과 실제 내놓은 물건이 다르거나 수수료가 모자라면 수거되지 않을 수 있으니, 침대처럼 프레임과 매트리스가 나뉘는 물건은 각각 신고하세요.</p>
+    <h3>3. 공사 잔재는 따로</h3>
+    <p>깨진 타일, 벽돌, 시멘트 조각 같은 불에 타지 않는 폐기물은 종량제 봉투가 아니라 지자체가 정한 불연성 폐기물 전용 봉투(마대)에 담아 배출합니다. 양이 많으면 지자체에 신고한 뒤 처리업체에 맡기고, 한 공사에서 나오는 폐기물이 5톤 이상이면 건설폐기물로 따로 처리해야 합니다. 인테리어 업체에 공사를 맡겼다면 계약할 때 철거 폐기물 처리가 포함되는지 먼저 확인하세요.</p>
+
+    <h2>버리기 전에 한 번 더</h2>
+    <p>아직 쓸 수 있는 가구나 가전은 중고 거래나 기부로 먼저 처분하면 수수료도 아끼고 짐도 빨리 줄일 수 있습니다. 지자체에 따라 재사용 가능한 물품을 따로 수거하는 곳도 있으니 신고 전에 확인해 보세요.</p>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>냉장고나 세탁기도 대형폐기물 스티커를 붙여야 하나요?</h3>
+    <p>냉장고, 세탁기, 에어컨처럼 무상방문수거 대상인 가전은 폐가전 방문수거 배출예약시스템(1599-0903, 15990903.or.kr)에 예약하면 1대부터 수수료 없이 수거됩니다. 다만 철거·분리가 끝난 상태여야 하고, 사다리차가 필요한 곳은 수거가 어려울 수 있습니다.</p>
+    <h3>소형 가전이 1~2개뿐이면 어떻게 버리나요?</h3>
+    <p>중소형 가전은 보통 5개 이상 모아야 방문수거가 됩니다. 5개가 안 되면 주민센터 소형가전 수거함이나 지자체 별도 신청 등 지역마다 방법이 다르니, 사는 곳의 구청·시청 안내를 확인하세요.</p>
+    <h3>대형폐기물 수수료는 얼마인가요?</h3>
+    <p>수수료는 지자체 조례에 따라 품목·크기별로 정해져 지역마다 다릅니다. 구청·시청 누리집이나 지자체가 연결한 신청 앱에서 품목을 고르면 금액이 안내됩니다.</p>
+    <h3>인테리어하고 남은 타일 조각은 어디에 버리나요?</h3>
+    <p>깨진 타일, 벽돌 같은 불연성 폐기물은 소량이면 지자체가 정한 불연성 폐기물 전용 봉투(마대)에 담아 배출합니다. 양이 많으면 지자체에 신고한 뒤 처리업체에 맡겨야 하고, 한 공사에서 5톤 이상 나오면 건설폐기물로 따로 처리해야 합니다.</p>
+    <p class="hint">제도와 수거 기준은 지자체마다 다르고 바뀔 수 있습니다. 배출 전에 사는 곳의 구청·시청 안내를 꼭 확인하세요.</p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    안내는 참고용입니다. 수수료와 배출 방법은 사는 곳의 구청·시청 안내를 따르세요.
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const items = [...document.querySelectorAll('.it')];
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+items.forEach(el => {
+  const cnt = el.querySelector('.cnt');
+  const set = v => { v = Math.max(0, Math.min(99, v)); cnt.textContent = v; el.classList.toggle('on', v > 0); render(); };
+  el.querySelector('.plus').addEventListener('click', () => set(+cnt.textContent + 1));
+  el.querySelector('.minus').addEventListener('click', () => set(+cnt.textContent - 1));
+});
+
+function pick(type){
+  return items.filter(el => el.dataset.type === type && +el.querySelector('.cnt').textContent > 0)
+    .map(el => ({ name: el.dataset.name, n: +el.querySelector('.cnt').textContent }));
+}
+const sum = arr => arr.reduce((a, b) => a + b.n, 0);
+const list = arr => arr.map(x => esc(x.name) + (x.n > 1 ? ' ' + x.n + '개' : '')).join(', ');
+
+let regionVal = '';
+function regionBox(){
+  return '<div class="region"><input id="region" type="text" value="' + esc(regionVal) + '" placeholder="사는 곳 (예: 송파구, 수원시)" aria-label="사는 지역"><a class="btn" id="regionGo" href="#" target="_blank" rel="noopener">신청 방법 찾기</a></div>';
+}
+
+function render(){
+  const big = pick('big'), small = pick('small'), large = pick('large'), debris = pick('debris'), burn = pick('burn');
+  const nBig = sum(big), nSmall = sum(small), nLarge = sum(large);
+  $('sFree').innerHTML = (nBig + (nSmall >= 5 || nBig > 0 ? nSmall : 0)) + '<small>개</small>';
+  $('sLarge').innerHTML = nLarge + '<small>개</small>';
+
+  const blocks = [];
+  if (nBig || nSmall) {
+    let body = '';
+    if (nBig) body += '<p>대형 가전: ' + list(big) + '</p>';
+    if (nSmall) body += '<p>중소형 가전: ' + list(small) + '</p>';
+    const tips = ['예약: 전화 1599-0903 또는 누리집 15990903.or.kr', '벽에 단 에어컨·TV는 철거와 분리를 마친 상태여야 수거됩니다.', '방문일은 접수 순서대로 정해지니 공사 날짜보다 여유 있게 예약하세요.'];
+    if (nSmall && nSmall < 5) tips.splice(1, 0, nBig
+      ? '중소형 가전이 5개가 안 되지만, 대형 가전과 함께 낼 때 같이 받아 주는지 예약할 때 문의해 보세요.'
+      : '중소형 가전은 보통 5개 이상이어야 방문수거가 됩니다. 5개 미만이면 주민센터 수거함 등 지역 안내를 따르세요.');
+    blocks.push('<div class="pl"><h4>폐가전 무상방문수거<span class="cnt">' + (nBig + nSmall) + '개</span></h4>' + body + '<ul>' + tips.map(t => '<li>' + t + '</li>').join('') + '</ul><div class="links"><a class="btn primary" href="https://www.15990903.or.kr" target="_blank" rel="noopener">방문수거 예약하기</a></div></div>');
+  }
+  if (nLarge) {
+    const tips = ['구청·시청 누리집, 지자체가 연결한 신청 앱, 또는 종량제봉투 판매소 스티커로 신고하고 수수료를 냅니다.', '받은 신고필증이나 신고번호를 물건에 붙이거나 적어서 정해진 날·장소에 내놓습니다.', '신고한 품목과 실제 물건이 다르면 수거되지 않을 수 있어요.'];
+    if (large.some(x => x.name === '매트리스') && large.some(x => x.name === '침대 프레임')) tips.push('침대 프레임과 매트리스는 따로 신고하세요.');
+    blocks.push('<div class="pl"><h4>대형폐기물 신고<span class="cnt">' + nLarge + '개</span></h4><p>' + list(large) + '</p><ul>' + tips.map(t => '<li>' + t + '</li>').join('') + '</ul><p style="margin-top:10px">수수료는 지역마다 달라요. 사는 곳을 넣으면 신청 방법을 찾아 드립니다.</p>' + regionBox() + '</div>');
+  }
+  if (debris.length) {
+    blocks.push('<div class="pl"><h4>불연성 공사 잔재</h4><p>' + list(debris) + '</p><ul><li>소량이면 지자체가 정한 불연성 폐기물 전용 봉투(마대)에 담아 배출합니다. 종량제 봉투에 넣으면 안 돼요.</li><li>양이 많으면 지자체에 신고한 뒤 처리업체에 맡깁니다. 한 공사에서 5톤 이상이면 건설폐기물로 처리해야 해요.</li><li>업체에 공사를 맡겼다면 철거 폐기물 처리가 견적에 들어 있는지 먼저 확인하세요.</li></ul></div>');
+  }
+  if (burn.length) {
+    blocks.push('<div class="pl"><h4>가연성 소량 폐기물</h4><p>' + list(burn) + '</p><ul><li>소량이면 종량제 봉투에 담아 배출합니다. 공사 폐기물이 많다면 지역의 공사장 생활폐기물 신고 기준을 확인하세요.</li></ul></div>');
+  }
+  $('plan').innerHTML = blocks.join('');
+  const total = nBig + nSmall + nLarge + sum(debris) + sum(burn);
+  $('rDetail').innerHTML = total
+    ? '고른 물건 <b>' + total + '개</b>를 버리는 방법별로 나눴어요. 쓸 만한 물건은 중고 거래나 기부를 먼저 고려해 보세요.'
+    : '버릴 물건을 골라 주세요.';
+  const go = $('regionGo');
+  if (go) {
+    const upd = () => { regionVal = $('region').value; const r = regionVal.trim(); go.href = 'https://search.naver.com/search.naver?query=' + encodeURIComponent((r ? r + ' ' : '') + '대형폐기물 배출 신고'); };
+    $('region').addEventListener('input', upd); upd();
+  }
+}
+render();
+</script>
+<script src="/common.js"></script>
+</body>
+</html>
