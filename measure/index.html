@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>교체 전 치수 기록 – 방문·변기 교체할 때 재야 할 곳과 재는 법</title>
+<meta name="description" content="방문 교체 전 문틀 안쪽 폭·높이를 세 곳씩 재서 기준 치수를 잡고, 변기 교체 전 배수 방식과 벽에서 배수구 중심까지 거리를 기록해 두세요. 그림으로 재는 위치를 안내합니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="교체 전 치수 기록 – 방문·변기 교체할 때 재야 할 곳과 재는 법">
+<meta property="og:description" content="방문 교체 전 문틀 안쪽 폭·높이를 세 곳씩 재서 기준 치수를 잡고, 변기 교체 전 배수 방식과 벽에서 배수구 중심까지 거리를 기록해 두세요. 그림으로 재는 위치를 안내합니다.">
+<meta property="og:url" content="https://jibcalc.com/measure/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/measure/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "방문을 바꾸려면 어디를 재야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "문짝이 아니라 문틀 안쪽을 잽니다. 폭은 위·가운데·아래, 높이는 왼쪽·가운데·오른쪽 세 곳씩 재고, 그중 가장 작은 값을 기준으로 잡습니다. 문틀 두께와 문이 열리는 방향, 손잡이 위치도 함께 적어 두면 맞는 문을 고르기 쉽습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "변기 교체 전에 꼭 재야 하는 것은?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "배수가 바닥으로 되는지 벽으로 되는지 먼저 확인하고, 뒤쪽 벽 마감면에서 배수구 중심까지의 거리를 잽니다. 새 변기의 상세 정보에 적힌 설치 가능 배수 거리 범위에 이 값이 들어가는지 확인해야 합니다. 기존 변기 옆면이나 뒷면의 모델명을 적어 두면 판매처에 문의할 때 도움이 됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "잰 값이 위·아래가 다르면 문제가 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "세 곳의 차이가 크다면 문틀이 틀어졌을 수 있습니다. 이 경우 문짝만 바꿔도 틈이 남을 수 있어, 문틀까지 손볼지 시공자와 상의하는 것이 좋습니다."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.tabs2{display:flex;gap:8px;margin-bottom:14px}
+.tabs2 button{flex:1;padding:11px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--muted);font:inherit;font-weight:500;cursor:pointer}
+.tabs2 button[aria-selected="true"]{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.fig{display:block;width:100%;max-width:360px;margin:4px auto 14px}
+.fig text{font-family:inherit;font-size:11px;fill:var(--muted)}
+.g3m{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.sub-h{font-size:.88rem;color:var(--ink);font-weight:500;margin:16px 0 8px}
+.rec{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:12px;font-size:.9rem;line-height:1.8;color:var(--ink);white-space:pre-line}
+.warn2{margin-top:10px;font-size:.86rem;color:#e9b36a}
+@media (max-width:560px){ .g3m{grid-template-columns:1fr 1fr 1fr;gap:6px} .g3m input{padding:10px 6px} }
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1011">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <h1>교체 전 치수 기록</h1>
+    <p>방문·변기를 바꾸기 전에 어디를 재야 하는지 그림으로 안내하고, 잰 값을 정리해 드립니다.</p>
+  </header>
+
+  <div class="tabs2" role="tablist">
+    <button type="button" role="tab" id="tDoor" aria-selected="true">방문</button>
+    <button type="button" role="tab" id="tToilet" aria-selected="false">변기</button>
+  </div>
+
+  <section class="card" id="pDoor">
+    <h2><span class="num">1</span>문틀 안쪽 재기 (mm)</h2>
+    <svg class="fig" viewBox="0 0 360 230" role="img" aria-label="문틀 안쪽의 폭을 위·가운데·아래, 높이를 왼쪽·가운데·오른쪽에서 재는 위치">
+  <rect x="110" y="20" width="140" height="190" rx="3" fill="none" stroke="currentColor" stroke-width="10" style="color:#3a3d41"/>
+  <rect x="115" y="25" width="130" height="185" fill="rgba(255,255,255,.02)"/>
+  <g stroke="#5fd3b0" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)">
+    <line x1="118" y1="45" x2="242" y2="45"/><line x1="118" y1="115" x2="242" y2="115"/><line x1="118" y1="190" x2="242" y2="190"/>
+  </g>
+  <g stroke="#e9d9a8" stroke-width="1.6" marker-start="url(#ah2)" marker-end="url(#ah2)">
+    <line x1="132" y1="28" x2="132" y2="207"/><line x1="180" y1="28" x2="180" y2="207"/><line x1="228" y1="28" x2="228" y2="207"/>
+  </g>
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5fd3b0"/></marker>
+    <marker id="ah2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#e9d9a8"/></marker>
+  </defs>
+  <text x="258" y="49">폭 ① 위</text><text x="258" y="119">폭 ② 가운데</text><text x="258" y="194">폭 ③ 아래</text>
+  <text x="12" y="119">높이 ④⑤⑥</text><text x="12" y="134">왼쪽·가운데·오른쪽</text>
+</svg>
+    <div class="sub-h">폭 (문틀 안쪽 왼쪽 ↔ 오른쪽)</div>
+    <div class="g3m">
+      <div><label for="dw1">① 위</label><input id="dw1" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+      <div><label for="dw2">② 가운데</label><input id="dw2" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+      <div><label for="dw3">③ 아래</label><input id="dw3" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+    </div>
+    <div class="sub-h">높이 (바닥 ↔ 문틀 위쪽 안쪽)</div>
+    <div class="g3m">
+      <div><label for="dh1">④ 왼쪽</label><input id="dh1" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+      <div><label for="dh2">⑤ 가운데</label><input id="dh2" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+      <div><label for="dh3">⑥ 오른쪽</label><input id="dh3" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div><label for="dt">문틀 두께 (벽 방향, mm)</label><input id="dt" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+      <div><label for="dopen">열리는 방향 (문을 밀어서 열 때)</label>
+        <select id="dopen"><option value="">선택</option><option value="경첩 왼쪽">경첩이 왼쪽</option><option value="경첩 오른쪽">경첩이 오른쪽</option></select></div>
+    </div>
+    <p class="hint">줄자는 문틀에 바짝 대고 수평·수직으로 재세요. 바닥재를 새로 깔 계획이라면 바닥이 높아지는 만큼 높이가 줄어든다는 점도 함께 적어 두세요.</p>
+  </section>
+
+  <section class="card" id="pToilet" hidden>
+    <h2><span class="num">1</span>변기 배수 위치 재기 (mm)</h2>
+    <svg class="fig" viewBox="0 0 360 200" role="img" aria-label="뒤쪽 벽 마감면에서 바닥 배수구 중심까지 거리를 재는 위치">
+  <rect x="40" y="20" width="12" height="160" fill="#3a3d41"/>
+  <line x1="40" y1="180" x2="330" y2="180" stroke="#3a3d41" stroke-width="6"/>
+  <rect x="60" y="40" width="70" height="70" rx="8" fill="none" stroke="currentColor" stroke-width="2" style="color:#6b6f76"/>
+  <path d="M70 110 h150 q20 0 20 20 q0 30 -40 40 h-110 z" fill="none" stroke="currentColor" stroke-width="2" style="color:#6b6f76"/>
+  <line x1="150" y1="176" x2="150" y2="188" stroke="#5fd3b0" stroke-width="2"/>
+  <circle cx="150" cy="182" r="4" fill="#5fd3b0"/>
+  <g stroke="#5fd3b0" stroke-width="1.6" marker-start="url(#bh)" marker-end="url(#bh)"><line x1="54" y1="194" x2="148" y2="194"/></g>
+  <defs><marker id="bh" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5fd3b0"/></marker></defs>
+  <text x="62" y="16">뒤쪽 벽 (타일 마감면)</text>
+  <text x="244" y="176">● 배수구 중심</text>
+  <text x="200" y="198">← 이 거리를 기록</text>
+</svg>
+    <div class="grid g2">
+      <div><label for="tType">배수 방식</label>
+        <select id="tType"><option value="바닥 배수" selected>바닥 배수</option><option value="벽 배수">벽 배수</option></select></div>
+      <div><label for="tDist">뒤쪽 벽 마감면 ~ 배수구 중심</label><input id="tDist" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+    </div>
+    <div class="grid g2" style="margin-top:14px">
+      <div><label for="tFront">변기 앞 여유 (변기 앞 끝 ~ 맞은편 벽·문)</label><input id="tFront" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+      <div><label for="tSide">좌우 폭 (옆 벽 ~ 옆 벽·세면대)</label><input id="tSide" type="number" inputmode="numeric" min="0" placeholder="mm"></div>
+    </div>
+    <div style="margin-top:14px"><label for="tModel">지금 변기 모델명 (옆면·뒷면 스티커)</label><input id="tModel" type="text" placeholder="예) 제조사 모델명"></div>
+    <p class="hint">배관이 바닥으로 들어가면 바닥 배수, 뒤쪽 벽으로 들어가면 벽 배수예요. 거리는 벽지·타일을 붙인 마감면에서 잽니다. 변기를 떼지 않고 잴 때는 새 제품 설명서나 판매처가 안내하는 기준점을 먼저 확인하세요.</p>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>측정 기록</h2>
+    <div class="big">
+      <div class="stat"><div class="k" id="k1">기준 폭</div><div class="v" id="v1">-</div></div>
+      <div class="stat"><div class="k" id="k2">기준 높이</div><div class="v" id="v2">-</div></div>
+    </div>
+    <div class="detail" id="rDetail">잰 값을 넣어 주세요.</div>
+    <div class="rec" id="rec"></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>교체 전에 치수부터 기록하는 이유</h2>
+    <p>방문과 변기는 크기가 조금만 달라도 설치가 안 되거나, 틈이 생기거나, 추가 공사가 필요해집니다. 매장이나 온라인에서 고르기 전에 우리 집 치수를 정확히 적어 두면 맞지 않는 제품을 살 일이 크게 줄어듭니다.</p>
+
+    <h2>방문: 문짝 말고 문틀 안쪽</h2>
+    <p>새 문은 문틀 안에 들어가야 하므로 문짝이 아니라 문틀 안쪽을 잽니다. 오래된 문틀은 조금씩 틀어져 있어서 한 곳만 재면 실제 설치 때 걸릴 수 있어요. 폭은 위·가운데·아래, 높이는 왼쪽·가운데·오른쪽 세 곳을 재고 가장 작은 값을 기준으로 잡습니다. 문이 처져 바닥을 긁는다면 교체 전에 경첩 나사가 풀렸는지 먼저 확인해 보세요. 경첩 조정만으로 해결되는 경우도 있습니다.</p>
+    <p>현관문은 방화 성능 등 조건이 따로 있을 수 있으니, 공동주택이라면 관리사무소에 먼저 문의하세요.</p>
+
+    <h2>변기: 배수 방식과 배수 거리</h2>
+    <p>변기는 배관이 바닥으로 빠지는 바닥 배수와 뒤쪽 벽으로 빠지는 벽 배수가 있고, 둘은 서로 다른 제품을 씁니다. 바닥 배수라면 뒤쪽 벽 마감면에서 배수구 중심까지의 거리가 새 변기의 설치 가능 범위에 들어가야 합니다. 변기 앞 여유 공간과 좌우 폭도 함께 적어 두면 큰 변기를 골랐다가 문이 안 닫히는 일을 막을 수 있어요.</p>
+    <p>욕실 바닥에 물이 새는 흔적이 있다면 변기만 바꿔서는 해결되지 않을 수 있습니다. 누수 원인을 먼저 점검하세요.</p>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>방문을 바꾸려면 어디를 재야 하나요?</h3>
+    <p>문짝이 아니라 문틀 안쪽을 잽니다. 폭은 위·가운데·아래, 높이는 왼쪽·가운데·오른쪽 세 곳씩 재고, 그중 가장 작은 값을 기준으로 잡습니다. 문틀 두께와 문이 열리는 방향, 손잡이 위치도 함께 적어 두면 맞는 문을 고르기 쉽습니다.</p>
+    <h3>변기 교체 전에 꼭 재야 하는 것은?</h3>
+    <p>배수가 바닥으로 되는지 벽으로 되는지 먼저 확인하고, 뒤쪽 벽 마감면에서 배수구 중심까지의 거리를 잽니다. 새 변기의 상세 정보에 적힌 설치 가능 배수 거리 범위에 이 값이 들어가는지 확인해야 합니다. 기존 변기 옆면이나 뒷면의 모델명을 적어 두면 판매처에 문의할 때 도움이 됩니다.</p>
+    <h3>잰 값이 위·아래가 다르면 문제가 있나요?</h3>
+    <p>세 곳의 차이가 크다면 문틀이 틀어졌을 수 있습니다. 이 경우 문짝만 바꿔도 틈이 남을 수 있어, 문틀까지 손볼지 시공자와 상의하는 것이 좋습니다.</p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    측정 안내는 참고용입니다. 설치 가능 여부는 제품 설명서와 판매처·시공자에게 꼭 확인하세요.
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const num = id => { const v = parseFloat($(id).value); return isFinite(v) && v > 0 ? v : null; };
+const mm = v => Math.round(v).toLocaleString('ko-KR') + 'mm';
+let tab = 'door';
+
+function setTab(t){
+  tab = t;
+  $('tDoor').setAttribute('aria-selected', t === 'door');
+  $('tToilet').setAttribute('aria-selected', t === 'toilet');
+  $('pDoor').hidden = t !== 'door';
+  $('pToilet').hidden = t !== 'toilet';
+  render();
+}
+$('tDoor').addEventListener('click', () => setTab('door'));
+$('tToilet').addEventListener('click', () => setTab('toilet'));
+
+function render(){
+  if (tab === 'door') {
+    const W = ['dw1','dw2','dw3'].map(num).filter(v => v), H = ['dh1','dh2','dh3'].map(num).filter(v => v);
+    const w = W.length ? Math.min(...W) : null, h = H.length ? Math.min(...H) : null;
+    $('k1').textContent = '기준 폭'; $('k2').textContent = '기준 높이';
+    $('v1').innerHTML = w ? Math.round(w).toLocaleString('ko-KR') + '<small>mm</small>' : '-';
+    $('v2').innerHTML = h ? Math.round(h).toLocaleString('ko-KR') + '<small>mm</small>' : '-';
+    let d = '';
+    if (!W.length && !H.length) d = '잰 값을 넣어 주세요.';
+    else {
+      d = '세 곳 중 <b>가장 작은 값</b>을 기준으로 잡았어요.';
+      const dw = W.length > 1 ? Math.max(...W) - Math.min(...W) : 0, dh = H.length > 1 ? Math.max(...H) - Math.min(...H) : 0;
+      if (dw || dh) d += '<div class="warn2">위치별 차이: 폭 ' + mm(dw) + ' · 높이 ' + mm(dh) + '. 차이가 크다면 문틀이 틀어졌을 수 있으니 문틀 교체 여부를 시공자와 상의하세요.</div>';
+    }
+    $('rDetail').innerHTML = d;
+    const t = num('dt'), o = $('dopen').value;
+    const lines = ['[방문 치수 기록]'];
+    if (w) lines.push('문틀 안쪽 폭: ' + mm(w) + (W.length > 1 ? ' (잰 값 ' + W.map(mm).join(' / ') + ')' : ''));
+    if (h) lines.push('문틀 안쪽 높이: ' + mm(h) + (H.length > 1 ? ' (잰 값 ' + H.map(mm).join(' / ') + ')' : ''));
+    if (t) lines.push('문틀 두께: ' + mm(t));
+    if (o) lines.push('열리는 방향: ' + o);
+    $('rec').textContent = lines.length > 1 ? lines.join('\n') : '';
+    $('rec').style.display = lines.length > 1 ? 'block' : 'none';
+  } else {
+    const type = $('tType').value, dist = num('tDist'), front = num('tFront'), side = num('tSide'), model = $('tModel').value.trim();
+    $('k1').textContent = '배수 방식'; $('k2').textContent = '배수 거리';
+    $('v1').innerHTML = '<span style="font-size:1.1rem">' + type + '</span>';
+    $('v2').innerHTML = dist ? Math.round(dist).toLocaleString('ko-KR') + '<small>mm</small>' : '-';
+    $('rDetail').innerHTML = dist
+      ? '새 변기 상세 정보의 <b>' + type + ' · 설치 가능 배수 거리 범위</b>에 ' + mm(dist) + '가 들어가는지 확인하세요. 범위를 맞출 수 있는 제품(배수 거리 조절형)도 있으니 판매처에 이 기록을 보여 주면 빠릅니다.'
+      : '배수 방식을 고르고 거리를 넣어 주세요.';
+    const lines = ['[변기 치수 기록]', '배수 방식: ' + type];
+    if (dist) lines.push('뒤쪽 벽 마감면 ~ 배수구 중심: ' + mm(dist));
+    if (front) lines.push('변기 앞 여유 공간: ' + mm(front));
+    if (side) lines.push('좌우 폭: ' + mm(side));
+    if (model) lines.push('지금 변기 모델명: ' + model);
+    $('rec').textContent = lines.join('\n');
+    $('rec').style.display = 'block';
+  }
+}
+document.addEventListener('input', render);
+document.addEventListener('change', render);
+render();
+</script>
+<script src="/common.js"></script>
+</body>
+</html>
