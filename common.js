@@ -159,6 +159,7 @@
   actions.innerHTML =
     '<button type="button" class="btn primary" data-a="copy">결과 복사</button>' +
     '<button type="button" class="btn" data-a="share">공유하기</button>' +
+    '<button type="button" class="btn" data-a="image">이미지로 저장</button>' +
     '<button type="button" class="btn ghost" data-a="reset">입력 초기화</button>';
   result.appendChild(actions);
 
@@ -171,11 +172,78 @@
       const data = { title: pageName, text: resultText(), url: location.origin + location.pathname };
       if (navigator.share) { try { await navigator.share(data); } catch (err) { /* 사용자가 취소 */ } }
       else copyText(data.url).then(() => toast('계산기 주소를 복사했어요'));
+    } else if (a === 'image') {
+      try { await saveImage(); } catch (err) { toast('이미지를 만들지 못했어요. 결과 복사를 이용해 주세요'); }
     } else if (a === 'reset') {
       if (store) { try { store.removeItem(KEY); } catch (err) {} }
       location.reload();
     }
   });
+
+  /* ---------- 3-1) 결과를 이미지로 저장 (기기 안에서만 그림) ---------- */
+  function wrapLines(ctx, text, maxW) {
+    const out = [];
+    text.split('\n').forEach((para) => {
+      let line = '';
+      for (const ch of para) {
+        if (ctx.measureText(line + ch).width > maxW && line) { out.push(line); line = ch.trimStart(); }
+        else line += ch;
+      }
+      out.push(line);
+    });
+    return out.filter((l, i, arr) => l.trim() || (i > 0 && arr[i - 1].trim()));
+  }
+  async function saveImage() {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const css = getComputedStyle(document.documentElement);
+    const v = (n, d) => (css.getPropertyValue(n).trim() || d);
+    const C = { bg: v('--bg', '#0f1011'), card: v('--card', '#1a1c1e'), ink: v('--ink', '#e8eaed'), muted: v('--muted', '#9aa0a6'), accent: v('--accent', '#5fd3b0') };
+    const font = getComputedStyle(document.body).fontFamily || 'sans-serif';
+    const W = 1080, P = 72;
+    const cv = document.createElement('canvas');
+    const ctx = cv.getContext('2d');
+    const statsData = [...result.querySelectorAll('.stat')].map((s) => [s.querySelector('.k').textContent.trim(), s.querySelector('.v').textContent.trim()]);
+    const detail = result.querySelector('.detail');
+    const extra = [...result.querySelectorAll('.rec, .combo')].map((x) => x.classList.contains('combo')
+      ? (x.innerText.trim() ? '추천 통 조합: ' + x.innerText.trim().replace(/\s*\n\s*/g, ' · ') : '')
+      : x.innerText.trim()).filter(Boolean).join('\n');
+    const body = [detail ? detail.innerText.trim() : '', extra].filter(Boolean).join('\n');
+    ctx.font = `400 34px ${font}`;
+    const lines = wrapLines(ctx, body, W - P * 2).slice(0, 18);
+    const statH = 200, H = P + 70 + 40 + statH + 40 + lines.length * 52 + 70 + P;
+    cv.width = W; cv.height = H;
+    ctx.fillStyle = C.bg; ctx.fillRect(0, 0, W, H);
+    ctx.textBaseline = 'top';
+    ctx.fillStyle = C.accent; ctx.font = `600 30px ${font}`; ctx.fillText('집 공사 계산기', P, P);
+    ctx.fillStyle = C.ink; ctx.font = `600 52px ${font}`; ctx.fillText(pageName, P, P + 44);
+    let y = P + 70 + 50;
+    const gap = 24, n = Math.max(1, statsData.length), bw = (W - P * 2 - gap * (n - 1)) / n;
+    statsData.forEach(([k, val], i) => {
+      const x = P + i * (bw + gap);
+      ctx.fillStyle = C.card;
+      if (ctx.roundRect) { ctx.beginPath(); ctx.roundRect(x, y, bw, statH, 28); ctx.fill(); } else ctx.fillRect(x, y, bw, statH);
+      ctx.fillStyle = C.muted; ctx.font = `400 30px ${font}`; ctx.fillText(k, x + 32, y + 32);
+      ctx.fillStyle = C.accent; let size = 76; ctx.font = `600 ${size}px ${font}`;
+      while (ctx.measureText(val).width > bw - 64 && size > 36) { size -= 4; ctx.font = `600 ${size}px ${font}`; }
+      ctx.fillText(val, x + 32, y + 86);
+    });
+    y += statH + 44;
+    ctx.fillStyle = C.ink; ctx.font = `400 34px ${font}`;
+    lines.forEach((l) => { ctx.fillText(l, P, y); y += 52; });
+    ctx.fillStyle = C.muted; ctx.font = `400 28px ${font}`;
+    ctx.fillText(location.host + location.pathname + '  ·  참고용 추정치', P, H - P - 28);
+    const blob = await new Promise((r) => cv.toBlob(r, 'image/png'));
+    const name = pageName.replace(/\s+/g, '-') + '-결과.png';
+    const file = new File([blob], name, { type: 'image/png' });
+    if (navigator.canShare && navigator.canShare({ files: [file] }) && /Mobi|Android|iPhone/i.test(navigator.userAgent)) {
+      try { await navigator.share({ files: [file], title: pageName }); return; } catch (err) { if (err && err.name === 'AbortError') return; }
+    }
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast('결과 이미지를 저장했어요');
+  }
 
   /* ---------- 4) 휴대폰 결과 고정 바 ---------- */
   const stats = [...result.querySelectorAll('.stat')];
