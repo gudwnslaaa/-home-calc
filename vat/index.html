@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>부가세 계산기 – 공급가액·부가세 10%·합계 금액 바로 계산 (VAT 포함/별도)</title>
+<meta name="description" content="공급가액을 넣으면 부가세 10%와 합계를, 부가세 포함 금액을 넣으면 공급가액과 세액을 나눠 줍니다. 견적서 VAT 별도·포함 금액 확인과 한글 금액 표기까지 한 번에.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="부가세 계산기 – 공급가액·부가세 10%·합계 금액 바로 계산 (VAT 포함/별도)">
+<meta property="og:description" content="공급가액을 넣으면 부가세 10%와 합계를, 부가세 포함 금액을 넣으면 공급가액과 세액을 나눠 줍니다. 견적서 VAT 별도·포함 금액 확인과 한글 금액 표기까지 한 번에.">
+<meta property="og:url" content="https://jibcalc.com/vat/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/vat/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "부가세는 어떻게 계산하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "일반과세자는 공급가액의 10%가 부가가치세입니다. 공급가액 100만 원이면 부가세 10만 원, 합계 110만 원입니다. 반대로 부가세가 포함된 합계에서 공급가액을 구하려면 1.1로 나눕니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "견적서의 ‘VAT 별도’는 무슨 뜻인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "적힌 금액이 공급가액이라 부가세 10%가 따로 붙는다는 뜻입니다. 300만 원(VAT 별도)이면 실제로 낼 돈은 330만 원입니다. ‘VAT 포함’이면 적힌 금액 안에 부가세가 이미 들어 있습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "합계에서 나눈 공급가액이 1원씩 차이 나요.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "1.1로 나누면 소수점이 생기는 금액이 많아 반올림 방법에 따라 1원 차이가 날 수 있습니다. 이 계산기는 공급가액을 원 단위로 반올림하고 나머지를 세액으로 봅니다. 세금계산서는 발행 프로그램의 계산을 따르세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "간이과세자나 면세 품목도 10%인가요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "아닙니다. 이 계산기는 일반과세자 10% 기준입니다. 간이과세자와 면세 품목은 계산 방식이 다르니 국세청 안내나 세무 대리인에게 확인하세요."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.seg{display:flex;gap:6px;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:12px}
+.seg button{flex:1;height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.92rem;cursor:pointer}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.quick button{height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:.85rem;cursor:pointer}
+.kor{margin-top:6px;font-size:.85rem;color:var(--muted)}
+table.vt{width:100%;border-collapse:collapse;font-size:.9rem;margin:10px 0}
+table.vt th,table.vt td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:right}
+table.vt th:first-child,table.vt td:first-child{text-align:left}
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1011">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <h1>부가세 계산기</h1>
+    <p>VAT 별도 금액엔 10%를 더하고, 포함 금액은 공급가액과 세액으로 나눕니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>금액 넣기</h2>
+    <div class="seg" role="tablist">
+      <button type="button" class="on" data-m="add">VAT 별도 금액 (공급가액)</button>
+      <button type="button" data-m="split">VAT 포함 금액 (합계)</button>
+    </div>
+    <input type="hidden" id="mode" value="add">
+    <label for="amt" id="amtLabel">공급가액 (원)</label>
+    <input id="amt" type="number" inputmode="numeric" min="0" step="1" value="1000000">
+    <div class="kor" id="amtKor"></div>
+    <div class="quick"><button type="button" data-q="100000">10만</button><button type="button" data-q="500000">50만</button><button type="button" data-q="1000000">100만</button><button type="button" data-q="3000000">300만</button><button type="button" data-q="5000000">500만</button><button type="button" data-q="10000000">1,000만</button></div>
+    <p class="hint">일반과세자 10% 기준이에요. 금액은 어디로도 보내지 않고 이 화면에서만 계산해요.</p>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>계산 결과</h2>
+    <div class="big grid g3">
+      <div class="stat"><div class="k">공급가액</div><div class="v" id="rS">0<small>원</small></div></div>
+      <div class="stat"><div class="k">부가세</div><div class="v" id="rT">0<small>원</small></div></div>
+      <div class="stat"><div class="k">합계</div><div class="v" id="rA">0<small>원</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>견적서 금액, 먼저 이것부터 보세요</h2>
+    <p>공사 견적서를 받으면 합계 옆에 ‘VAT 별도’인지 ‘VAT 포함’인지부터 확인하세요. 같은 300만 원이라도 별도면 330만 원을 내야 하고, 포함이면 300만 원이 끝입니다. 업체 두 곳을 비교할 때 한쪽만 별도로 적혀 있으면 10%만큼 싸 보이는 착시가 생겨요.</p>
+    <p>시공하는 쪽이라면 견적서에 공급가액·부가세·합계를 한 줄씩 따로 적어 두는 게 오해를 줄입니다. 항목을 넣으면 이 셋을 자동으로 나눠 주는 <a href="/estimate/">견적서 작성기</a>도 있어요.</p>
+
+    <h2>자주 쓰는 금액 미리 보기</h2>
+    <table class="vt">
+      <thead><tr><th>공급가액</th><th>부가세</th><th>합계</th></tr></thead>
+      <tbody>
+        <tr><td>1,000,000원</td><td>100,000원</td><td>1,100,000원</td></tr>
+        <tr><td>3,000,000원</td><td>300,000원</td><td>3,300,000원</td></tr>
+        <tr><td>5,000,000원</td><td>500,000원</td><td>5,500,000원</td></tr>
+        <tr><td>10,000,000원</td><td>1,000,000원</td><td>11,000,000원</td></tr>
+        <tr><td>20,000,000원</td><td>2,000,000원</td><td>22,000,000원</td></tr>
+        <tr><td>30,000,000원</td><td>3,000,000원</td><td>33,000,000원</td></tr>
+      </tbody>
+    </table>
+
+    <h2>계산 방법</h2>
+    <ul>
+      <li><b>VAT 별도 → 합계:</b> 공급가액 × 0.1 = 부가세, 공급가액 + 부가세 = 합계 (부가세의 원 미만은 버림)</li>
+      <li><b>VAT 포함 → 나누기:</b> 합계 ÷ 1.1 = 공급가액 (원 단위 반올림), 합계 − 공급가액 = 부가세</li>
+    </ul>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>부가세는 어떻게 계산하나요?</h3>
+    <p>일반과세자는 공급가액의 10%가 부가가치세입니다. 공급가액 100만 원이면 부가세 10만 원, 합계 110만 원입니다. 반대로 부가세가 포함된 합계에서 공급가액을 구하려면 1.1로 나눕니다.</p>
+    <h3>견적서의 ‘VAT 별도’는 무슨 뜻인가요?</h3>
+    <p>적힌 금액이 공급가액이라 부가세 10%가 따로 붙는다는 뜻입니다. 300만 원(VAT 별도)이면 실제로 낼 돈은 330만 원입니다. ‘VAT 포함’이면 적힌 금액 안에 부가세가 이미 들어 있습니다.</p>
+    <h3>합계에서 나눈 공급가액이 1원씩 차이 나요.</h3>
+    <p>1.1로 나누면 소수점이 생기는 금액이 많아 반올림 방법에 따라 1원 차이가 날 수 있습니다. 이 계산기는 공급가액을 원 단위로 반올림하고 나머지를 세액으로 봅니다. 세금계산서는 발행 프로그램의 계산을 따르세요.</p>
+    <h3>간이과세자나 면세 품목도 10%인가요?</h3>
+    <p>아닙니다. 이 계산기는 일반과세자 10% 기준입니다. 간이과세자와 면세 품목은 계산 방식이 다르니 국세청 안내나 세무 대리인에게 확인하세요.</p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/area/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9h7V4h9v16z"/><path d="M4 20l7-7"/></svg></div><div class="txt"><b>면적 계산기</b><span class="sub">사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a><a class="item" href="/measure/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg></div><div class="txt"><b>교체 전 치수 기록</b><span class="sub">방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a><a class="item" href="/estimate/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg></div><div class="txt"><b>견적서 작성기</b><span class="sub">공종별 항목 · 부가세 자동 계산 · PDF 저장</span></div><div class="go">→</div></a><a class="item" href="/labor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg></div><div class="txt"><b>인건비 · 3.3% 계산기</b><span class="sub">일당 × 일수 · 3.3% 실수령액 · 일용직 세금</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    결과는 참고용입니다. 세금계산서 발행과 신고는 국세청 홈택스나 세무 대리인의 계산을 따르세요.
+  </footer>
+</div>
+
+<script>
+function floor10(n) { return Math.floor(n / 10 + 1e-9) * 10; }
+function vat(amount, mode) {
+  const a = Math.max(0, Math.round(amount || 0));
+  if (mode === 'split') {
+    const supply = Math.round(a / 1.1);
+    return { supply, tax: a - supply, total: a };
+  }
+  const tax = Math.floor(a * 0.1 + 1e-9);
+  return { supply: a, tax, total: a + tax };
+}
+function biz33(gross) {
+  const g = Math.max(0, Math.round(gross || 0));
+  let it = floor10(g * 0.03);
+  if (it < 1000) it = 0;
+  const lt = floor10(it * 0.1);
+  return { gross: g, incomeTax: it, localTax: lt, net: g - it - lt };
+}
+function biz33Gross(net) {
+  const t = Math.max(0, Math.round(net || 0));
+  let g = Math.round(t / 0.967);
+  while (biz33(g).net < t) g++;
+  return biz33(g);
+}
+function daily(wage, days) {
+  const w = Math.max(0, Math.round(wage || 0));
+  const d = Math.max(0, Math.round(days || 0));
+  const perDay = Math.max(0, w - 150000) * 0.06 * 0.45;
+  let it = floor10(perDay * d);
+  if (it < 1000) it = 0;
+  const lt = floor10(it * 0.1);
+  const gross = w * d;
+  return { gross, perDay, incomeTax: it, localTax: lt, net: gross - it - lt };
+}
+function hangul(n) {
+  n = Math.floor(Math.max(0, n || 0));
+  if (n === 0) return '영';
+  const d = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+  const s = ['', '십', '백', '천'];
+  const b = ['', '만', '억', '조'];
+  let out = '', i = 0;
+  while (n > 0 && i < b.length) {
+    const chunk = n % 10000;
+    if (chunk) {
+      let c = '', x = chunk, j = 0;
+      while (x > 0) { const k = x % 10; if (k) c = d[k] + s[j] + c; x = Math.floor(x / 10); j++; }
+      out = c + b[i] + out;
+    }
+    n = Math.floor(n / 10000); i++;
+  }
+  return out;
+}
+const $ = id => document.getElementById(id);
+const won = n => n.toLocaleString('ko-KR');
+function setMode(m){
+  $('mode').value = m;
+  document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  $('amtLabel').textContent = m === 'add' ? '공급가액 (원)' : '부가세 포함 합계 (원)';
+  calc();
+}
+function calc(){
+  const m = $('mode').value;
+  const a = parseFloat($('amt').value) || 0;
+  const r = vat(a, m);
+  $('amtKor').textContent = a > 0 ? '일금 ' + hangul(a) + '원' : '';
+  $('rS').innerHTML = won(r.supply) + '<small>원</small>';
+  $('rT').innerHTML = won(r.tax) + '<small>원</small>';
+  $('rA').innerHTML = won(r.total) + '<small>원</small>';
+  $('rDetail').innerHTML = a > 0
+    ? (m === 'add' ? won(r.supply) + '원 × 10% = 부가세 <b>' + won(r.tax) + '원</b>' : won(r.total) + '원 ÷ 1.1 = 공급가액 <b>' + won(r.supply) + '원</b>') +
+      '<br>합계 한글 표기: <b>일금 ' + hangul(r.total) + '원정</b> (₩' + won(r.total) + ')'
+    : '금액을 넣어 주세요.';
+}
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.m)));
+document.querySelectorAll('.quick button').forEach(b => b.addEventListener('click', () => { $('amt').value = b.dataset.q; calc(); }));
+document.addEventListener('input', calc);
+document.addEventListener('change', () => setMode($('mode').value));
+calc();
+</script>
+<script src="/common.js"></script>
+</body>
+</html>

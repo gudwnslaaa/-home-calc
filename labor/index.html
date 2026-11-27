@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>인건비 계산기 – 3.3% 실수령액·일용직 일당 세금·공사 인건비 합계 계산</title>
+<meta name="description" content="기공·조공 일당 × 일수 × 인원으로 공사 인건비를 계산하고, 3.3% 원천징수 후 실수령액과 일용직 일당 세금(15만 원 공제)을 함께 보여 줍니다. 실수령액으로 지급액 역산도 됩니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="인건비 계산기 – 3.3% 실수령액·일용직 일당 세금·공사 인건비 합계 계산">
+<meta property="og:description" content="기공·조공 일당 × 일수 × 인원으로 공사 인건비를 계산하고, 3.3% 원천징수 후 실수령액과 일용직 일당 세금(15만 원 공제)을 함께 보여 줍니다. 실수령액으로 지급액 역산도 됩니다.">
+<meta property="og:url" content="https://jibcalc.com/labor/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/labor/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "3.3%는 어떻게 계산하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "사업소득으로 지급할 때 소득세 3%와 지방소득세(소득세의 10%, 지급액의 0.3%)를 합쳐 3.3%를 떼고 줍니다. 100만 원이면 33,000원을 떼고 967,000원을 지급합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "일용직 일당도 3.3%를 떼나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "일용근로자라면 계산이 다릅니다. 하루 일당에서 15만 원을 빼고 남은 금액에 6%를 곱한 뒤, 그 세액의 55%를 공제한 만큼이 소득세입니다. 일당 15만 원 이하면 소득세가 없습니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "세금이 몇백 원이면 안 떼도 되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "원천징수할 소득세가 1,000원 미만이면 떼지 않습니다(소액부징수). 일용직 일당을 며칠 치 한꺼번에 줄 때는 날짜별 세액을 합친 금액으로 판단합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "일용직과 3.3% 중 어느 쪽인지는 누가 정하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "계약서 이름이 아니라 실제로 어떻게 일했는지로 판단합니다. 지시·감독을 받으며 날짜별로 일했다면 일용근로, 독립적으로 일을 맡아 했다면 사업소득에 가깝습니다. 헷갈리면 세무서나 세무 대리인에게 확인하세요."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.seg{display:flex;gap:6px;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:12px}
+.seg button{flex:1;min-height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.9rem;cursor:pointer;line-height:1.25;padding:6px}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
+.pane[hidden]{display:none}
+.rowx{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media (max-width:560px){ .rowx{grid-template-columns:1fr 1fr} }
+.note{font-size:.84rem;color:var(--muted);margin-top:8px}
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1011">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <h1>인건비 · 3.3% 계산기</h1>
+    <p>일당 × 일수 × 인원으로 인건비를 내고, 떼는 세금과 실제로 줄 돈을 계산합니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>지급 방식</h2>
+    <div class="seg">
+      <button type="button" class="on" data-m="biz">3.3% 떼고 지급<br><small>사업소득 · 프리랜서</small></button>
+      <button type="button" data-m="daily">일용직 일당<br><small>일용근로소득</small></button>
+    </div>
+    <input type="hidden" id="mode" value="biz">
+
+    <h2 style="margin-top:18px"><span class="num">2</span>일당과 일수</h2>
+    <div class="rowx">
+      <div><label for="wage">1인 일당 (원)</label><input id="wage" type="number" inputmode="numeric" min="0" step="1000" value="250000"></div>
+      <div><label for="days">일한 날 (일)</label><input id="days" type="number" inputmode="numeric" min="0" step="1" value="5"></div>
+      <div><label for="people">인원 (명)</label><input id="people" type="number" inputmode="numeric" min="1" step="1" value="1"></div>
+    </div>
+    <p class="note" id="modeNote"></p>
+
+    <div class="pane" id="paneBiz">
+      <h2 style="margin-top:18px"><span class="num">3</span>실수령액으로 거꾸로 (선택)</h2>
+      <label for="net">“손에 이만큼 쥐여 주고 싶다” 1인 실수령액 (원)</label>
+      <input id="net" type="number" inputmode="numeric" min="0" step="1000" placeholder="예: 1000000">
+      <div class="detail" id="revOut" style="margin-top:8px"></div>
+    </div>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>계산 결과</h2>
+    <div class="big grid g3">
+      <div class="stat"><div class="k">총 인건비</div><div class="v" id="rG">0<small>원</small></div></div>
+      <div class="stat"><div class="k">떼는 세금</div><div class="v" id="rT">0<small>원</small></div></div>
+      <div class="stat"><div class="k">실제 지급액</div><div class="v" id="rN">0<small>원</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+    <p class="note">고용보험 등 4대보험 공제는 넣지 않았어요. 견적에 넣을 인건비는 <a href="/estimate/" style="color:var(--accent)">견적서 작성기</a>로 이어서 정리하세요.</p>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>같은 일당 25만 원, 떼는 돈이 다릅니다</h2>
+    <p>현장에서 “3.3% 떼고 준다”는 말을 흔히 쓰지만, 일용근로로 처리하면 계산이 달라집니다. 일당 25만 원으로 하루 일했다면 3.3%로는 8,250원을 떼지만, 일용근로로는 (25만 − 15만) × 6% × 45% = 소득세 2,700원에 지방소득세 270원, 합쳐 2,970원입니다. 일당이 17만 원이면 하루 소득세가 540원이라 1,000원이 안 돼 떼지 않지만, 닷새 치를 한꺼번에 주면 2,700원이 되어 떼야 합니다.</p>
+
+    <h2>계산 방법</h2>
+    <ul>
+      <li><b>3.3% (사업소득):</b> 소득세 = 지급액 × 3%, 지방소득세 = 소득세 × 10%</li>
+      <li><b>일용근로소득:</b> 하루 소득세 = (일당 − 150,000원) × 6% × (1 − 55%), 지방소득세 = 소득세 × 10%</li>
+      <li><b>소액부징수:</b> 한 번에 지급하는 금액의 소득세가 1,000원 미만이면 0원</li>
+      <li>세액의 10원 미만은 버리고, 1인 기준으로 계산한 뒤 인원수를 곱합니다.</li>
+    </ul>
+
+    <h2>지급한 뒤 챙길 것</h2>
+    <p>원천징수한 세금은 지급한 달의 다음 달 10일까지 신고·납부하고, 지급명세서도 제출해야 합니다. 일용근로자 지급명세서는 지급일이 속한 달의 다음 달 말일까지 냅니다. 처음이라면 국세청 홈택스의 원천세 신고 메뉴를 보거나 세무 대리인에게 맡기세요.</p>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>3.3%는 어떻게 계산하나요?</h3>
+    <p>사업소득으로 지급할 때 소득세 3%와 지방소득세(소득세의 10%, 지급액의 0.3%)를 합쳐 3.3%를 떼고 줍니다. 100만 원이면 33,000원을 떼고 967,000원을 지급합니다.</p>
+    <h3>일용직 일당도 3.3%를 떼나요?</h3>
+    <p>일용근로자라면 계산이 다릅니다. 하루 일당에서 15만 원을 빼고 남은 금액에 6%를 곱한 뒤, 그 세액의 55%를 공제한 만큼이 소득세입니다. 일당 15만 원 이하면 소득세가 없습니다.</p>
+    <h3>세금이 몇백 원이면 안 떼도 되나요?</h3>
+    <p>원천징수할 소득세가 1,000원 미만이면 떼지 않습니다(소액부징수). 일용직 일당을 며칠 치 한꺼번에 줄 때는 날짜별 세액을 합친 금액으로 판단합니다.</p>
+    <h3>일용직과 3.3% 중 어느 쪽인지는 누가 정하나요?</h3>
+    <p>계약서 이름이 아니라 실제로 어떻게 일했는지로 판단합니다. 지시·감독을 받으며 날짜별로 일했다면 일용근로, 독립적으로 일을 맡아 했다면 사업소득에 가깝습니다. 헷갈리면 세무서나 세무 대리인에게 확인하세요.</p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/area/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9h7V4h9v16z"/><path d="M4 20l7-7"/></svg></div><div class="txt"><b>면적 계산기</b><span class="sub">사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a><a class="item" href="/measure/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg></div><div class="txt"><b>교체 전 치수 기록</b><span class="sub">방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a><a class="item" href="/estimate/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg></div><div class="txt"><b>견적서 작성기</b><span class="sub">공종별 항목 · 부가세 자동 계산 · PDF 저장</span></div><div class="go">→</div></a><a class="item" href="/vat/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg></div><div class="txt"><b>부가세 계산기</b><span class="sub">공급가액 ↔ 합계 · VAT 별도 / 포함</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    결과는 참고용입니다. 소득 구분과 신고는 국세청 안내나 세무 대리인의 판단을 따르세요.
+  </footer>
+</div>
+
+<script>
+function floor10(n) { return Math.floor(n / 10 + 1e-9) * 10; }
+function vat(amount, mode) {
+  const a = Math.max(0, Math.round(amount || 0));
+  if (mode === 'split') {
+    const supply = Math.round(a / 1.1);
+    return { supply, tax: a - supply, total: a };
+  }
+  const tax = Math.floor(a * 0.1 + 1e-9);
+  return { supply: a, tax, total: a + tax };
+}
+function biz33(gross) {
+  const g = Math.max(0, Math.round(gross || 0));
+  let it = floor10(g * 0.03);
+  if (it < 1000) it = 0;
+  const lt = floor10(it * 0.1);
+  return { gross: g, incomeTax: it, localTax: lt, net: g - it - lt };
+}
+function biz33Gross(net) {
+  const t = Math.max(0, Math.round(net || 0));
+  let g = Math.round(t / 0.967);
+  while (biz33(g).net < t) g++;
+  return biz33(g);
+}
+function daily(wage, days) {
+  const w = Math.max(0, Math.round(wage || 0));
+  const d = Math.max(0, Math.round(days || 0));
+  const perDay = Math.max(0, w - 150000) * 0.06 * 0.45;
+  let it = floor10(perDay * d);
+  if (it < 1000) it = 0;
+  const lt = floor10(it * 0.1);
+  const gross = w * d;
+  return { gross, perDay, incomeTax: it, localTax: lt, net: gross - it - lt };
+}
+function hangul(n) {
+  n = Math.floor(Math.max(0, n || 0));
+  if (n === 0) return '영';
+  const d = ['', '일', '이', '삼', '사', '오', '육', '칠', '팔', '구'];
+  const s = ['', '십', '백', '천'];
+  const b = ['', '만', '억', '조'];
+  let out = '', i = 0;
+  while (n > 0 && i < b.length) {
+    const chunk = n % 10000;
+    if (chunk) {
+      let c = '', x = chunk, j = 0;
+      while (x > 0) { const k = x % 10; if (k) c = d[k] + s[j] + c; x = Math.floor(x / 10); j++; }
+      out = c + b[i] + out;
+    }
+    n = Math.floor(n / 10000); i++;
+  }
+  return out;
+}
+const $ = id => document.getElementById(id);
+const won = n => Math.round(n).toLocaleString('ko-KR');
+function setMode(m){
+  $('mode').value = m;
+  document.querySelectorAll('.seg button').forEach(b => b.classList.toggle('on', b.dataset.m === m));
+  $('paneBiz').hidden = m !== 'biz';
+  $('modeNote').textContent = m === 'biz'
+    ? '지급액의 3.3%(소득세 3% + 지방소득세 0.3%)를 떼고 줍니다.'
+    : '일당에서 15만 원을 뺀 금액에 6%, 그 세액의 55%를 공제합니다. 일당 15만 원 이하면 세금이 없어요.';
+  calc();
+}
+function calc(){
+  const m = $('mode').value;
+  const w = parseFloat($('wage').value) || 0;
+  const d = Math.max(0, Math.round(parseFloat($('days').value) || 0));
+  const p = Math.max(1, Math.round(parseFloat($('people').value) || 1));
+  const one = m === 'biz' ? biz33(w * d) : daily(w, d);
+  const tax = (one.incomeTax + one.localTax) * p;
+  $('rG').innerHTML = won(one.gross * p) + '<small>원</small>';
+  $('rT').innerHTML = won(tax) + '<small>원</small>';
+  $('rN').innerHTML = won(one.net * p) + '<small>원</small>';
+  let h = '1인: ' + won(w) + '원 × ' + d + '일 = <b>' + won(one.gross) + '원</b>';
+  if (m === 'biz') {
+    h += '<br>소득세 ' + won(one.incomeTax) + '원 + 지방소득세 ' + won(one.localTax) + '원 → 1인 실수령 <b>' + won(one.net) + '원</b>';
+  } else {
+    h += '<br>하루 소득세 ' + won(Math.floor(one.perDay)) + '원 × ' + d + '일' + (one.incomeTax === 0 && one.perDay > 0 ? ' → 1,000원 미만이라 떼지 않음' : '') +
+      '<br>소득세 ' + won(one.incomeTax) + '원 + 지방소득세 ' + won(one.localTax) + '원 → 1인 실수령 <b>' + won(one.net) + '원</b>';
+    if (w > 150000) {
+      const b = biz33(w * d);
+      h += '<br>같은 금액을 3.3%로 떼면 1인 ' + won(b.incomeTax + b.localTax) + '원을 떼요.';
+    }
+  }
+  if (p > 1) h += '<br>' + p + '명 합계 실제 지급액 <b>' + won(one.net * p) + '원</b>';
+  $('rDetail').innerHTML = w > 0 && d > 0 ? h : '일당과 일수를 넣어 주세요.';
+
+  const n = parseFloat($('net').value) || 0;
+  if (m === 'biz' && n > 0) {
+    const r = biz33Gross(n);
+    $('revOut').innerHTML = '실수령 ' + won(n) + '원을 주려면 지급액 <b>' + won(r.gross) + '원</b> (세금 ' + won(r.incomeTax + r.localTax) + '원, 실수령 ' + won(r.net) + '원)';
+  } else $('revOut').innerHTML = '';
+}
+document.querySelectorAll('.seg button').forEach(b => b.addEventListener('click', () => setMode(b.dataset.m)));
+document.addEventListener('input', calc);
+document.addEventListener('change', () => setMode($('mode').value));
+setMode('biz');
+</script>
+<script src="/common.js"></script>
+</body>
+</html>

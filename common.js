@@ -1,7 +1,7 @@
 /* 모든 계산기 공통 기능
    1) cm로 입력해도 m로 자동 변환
    2) 입력값 기억(이 기기에서만) + 입력 초기화
-   3) 결과 복사 · 공유하기
+   3) 결과 복사 · 공유하기 · 이미지 저장 · 견적서에 담기
    4) 휴대폰에서 화면 아래 결과 고정 바 */
 (function () {
   'use strict';
@@ -161,10 +161,27 @@
     '<button type="button" class="btn" data-a="share">공유하기</button>' +
     '<button type="button" class="btn" data-a="image">이미지로 저장</button>' +
     '<button type="button" class="btn ghost" data-a="reset">입력 초기화</button>';
+  // 결과 수량을 견적서 작성기로 보냄: <section class="result" data-est="통계 순서" data-est-name="품명" data-est-cat="공종">
+  if (result.dataset.est != null) {
+    actions.insertAdjacentHTML('afterbegin', '<button type="button" class="btn" data-a="est">견적서에 담기</button>');
+  }
   result.appendChild(actions);
+  function sendToEstimate() {
+    const stat = result.querySelectorAll('.stat')[parseInt(result.dataset.est, 10) || 0];
+    if (!stat) return;
+    const v = stat.querySelector('.v');
+    const unitEl = v.querySelector('small');
+    const unit = unitEl ? unitEl.textContent.trim() : '';
+    const qty = parseFloat(v.textContent.replace(unit, '').replace(/,/g, ''));
+    if (!(qty > 0)) { toast('먼저 계산 결과가 나오게 값을 넣어 주세요'); return; }
+    const name = result.dataset.estName || stat.querySelector('.k').textContent.replace(/^필요한\s*/, '').trim();
+    const q = new URLSearchParams({ add: name, qty: String(qty), unit, cat: result.dataset.estCat || '' });
+    location.href = '/estimate/?' + q.toString();
+  }
 
   actions.addEventListener('click', async (e) => {
     const a = e.target.closest('button') && e.target.closest('button').dataset.a;
+    if (a === 'est') { sendToEstimate(); return; }
     if (a === 'copy') {
       copyText(resultText()).then(() => toast('결과를 복사했어요. 카톡이나 메모에 붙여넣으세요'),
                                   () => toast('복사하지 못했어요. 화면을 길게 눌러 복사해 주세요'));

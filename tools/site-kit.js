@@ -17,6 +17,9 @@ const ICONS = {
   waste: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg>',
   measure: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg>',
   schedule: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg>',
+  estimate: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg>',
+  labor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg>',
+  vat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg>',
 };
 
 // 사이트 전체 도구 목록 — 순서가 곧 메인·관련 목록 순서
@@ -30,6 +33,9 @@ const TOOLS = [
   { key: 'waste', href: '/waste/', name: '폐기물 정리 도우미', sub: '공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재' },
   { key: 'measure', href: '/measure/', name: '교체 전 치수 기록', sub: '방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리' },
   { key: 'schedule', href: '/schedule/', name: '공사·이사 일정표', sub: '이사 날짜로 공사 순서와 할 일을 거꾸로 계산' },
+  { key: 'estimate', href: '/estimate/', name: '견적서 작성기', sub: '공종별 항목 · 부가세 자동 계산 · PDF 저장' },
+  { key: 'labor', href: '/labor/', name: '인건비 · 3.3% 계산기', sub: '일당 × 일수 · 3.3% 실수령액 · 일용직 세금' },
+  { key: 'vat', href: '/vat/', name: '부가세 계산기', sub: '공급가액 ↔ 합계 · VAT 별도 / 포함' },
 ];
 
 const itemHtml = (t) => `<a class="item" href="${t.href}"><div class="ico">${ICONS[t.key]}</div><div class="txt"><b>${t.name}</b><span class="sub">${t.sub}</span></div><div class="go">→</div></a>`;
