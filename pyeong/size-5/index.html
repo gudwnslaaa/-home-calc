@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>5평 크기는 어느 정도? 16.53㎡를 방 치수로 보기 | 집 공사 계산기</title>
+<meta name="description" content="5평은 약 16.53㎡입니다. 정사각형이면 한 변 약 4.07m, 직사각형 방 치수 예시와 계산 방법, 도배·장판 수량까지 바로 이어서 계산해 보세요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="5평 크기는 어느 정도? 16.53㎡를 방 치수로 보기 | 집 공사 계산기">
+<meta property="og:description" content="5평은 약 16.53㎡입니다. 정사각형이면 한 변 약 4.07m, 직사각형 방 치수 예시와 계산 방법, 도배·장판 수량까지 바로 이어서 계산해 보세요.">
+<meta property="og:url" content="https://jibcalc.com/pyeong/size-5/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/pyeong/size-5/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
+  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
+  --shadow:none;
+  --radius:20px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
+.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
+header{text-align:center;margin-bottom:8px}
+header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
+header p{margin:0;color:var(--muted);font-size:.95rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
+.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
+label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .2s, background .2s}
+input::placeholder{color:#6b7074}
+input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
+.del:hover{color:var(--muted);background:var(--field)}
+.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
+  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
+  transition:all .2s}
+.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+.result{background:var(--soft);border-color:var(--line);box-shadow:none}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.stat{background:#232528;border-radius:16px;padding:18px 20px}
+.stat .k{font-size:.85rem;color:var(--muted)}
+.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:500}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:44px;padding:0 4px}
+article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
+article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
+article p,article li{color:#d8d9d7}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
+  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:500;background:var(--field)}
+footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+@media (max-width:560px){
+  .wrap{padding-top:28px}
+  .card{padding:20px 18px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:14px 16px}
+  .stat .v{font-size:1.6rem}
+}
+</style>
+<style>
+.swap{display:flex;align-items:end;gap:10px}
+.swap > div{flex:1}
+.swap .eq{color:var(--muted);font-size:1.2rem;padding-bottom:12px}
+.cta{margin-top:18px;padding-top:16px;border-top:1px solid var(--line)}
+.cta p{margin:0 0 10px;font-size:.92rem;color:var(--ink);font-weight:500}
+.cta .links{display:flex;flex-wrap:wrap;gap:8px}
+.cta a.btn{text-decoration:none;display:inline-block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chips a{display:inline-block;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);
+  color:var(--ink);text-decoration:none;font-size:.92rem;transition:border-color .2s,color .2s}
+.chips a:hover{border-color:var(--accent);color:var(--accent)}
+.chips a.on{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.area-map{margin:16px 0 8px;font-size:.9rem}
+.lay{border-radius:14px;padding:12px 14px}
+.lay .tag{display:block;font-size:.8rem;color:var(--muted);margin-bottom:8px}
+.lay.contract{border:1px dashed #4a4e52;background:#141516}
+.lay.supply{border:1px solid #3a3d41;background:#1b1d1f}
+.lay.excl{border:1px solid var(--accent);background:var(--accent-soft);color:var(--ink)}
+.lay.excl b{display:block;color:var(--accent);font-weight:600}
+.lay.excl small,.side small,.lay.service small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
+.side{margin-top:8px;padding:8px 12px;border-radius:10px;background:#232528;color:var(--ink)}
+.lay.service{margin-top:10px;border:1px dashed #6b5f3a;color:#e9d9a8;background:rgba(233,217,168,.06)}
+.bar{display:flex;border-radius:12px;overflow:hidden;margin:12px 0 4px;font-size:.85rem;min-height:46px}
+.bar span{display:flex;align-items:center;justify-content:center;text-align:center;padding:6px 8px;line-height:1.35}
+.bar .b1{background:var(--accent);color:#0f1011;font-weight:600}
+.bar .b2{background:#3a3d41;color:var(--ink)}
+.bar-cap{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
+.tagline{display:inline-block;font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
+.notebox{margin-top:14px;font-size:.85rem;color:var(--muted);background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.notebox b{color:var(--ink);font-weight:500}
+@media (max-width:560px){ .swap{flex-direction:column;align-items:stretch} .swap .eq{text-align:center;padding:0} }
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#0F1011">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/pyeong/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">평수 계산기로 돌아가기</a></p>
+    <h1>5평 크기는 어느 정도?</h1>
+    <p>5평을 ㎡와 실제 방 치수로 바꿔 봤습니다.</p>
+  </header>
+
+  <section class="card">
+    <h2>한눈에 보기</h2>
+    <div class="big">
+      <div class="stat"><div class="k">5평</div><div class="v">16.53<small>㎡</small></div></div>
+      <div class="stat"><div class="k">정사각형이면 한 변</div><div class="v">4.07<small>m</small></div></div>
+    </div>
+    <div class="notebox"><b>방 치수로 보면</b> 가로 2.4m × 세로 6.89m · 가로 2.7m × 세로 6.12m · 가로 3.0m × 세로 5.51m 정도가 5평 안팎입니다.</div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>5평 → ㎡ 계산</h2>
+    <p>1평은 400/121㎡(약 3.3058㎡)이므로 5 × 400 ÷ 121 = <b>16.53㎡</b>입니다. 정사각형 방이라면 한 변이 약 407cm인 넓이예요.</p>
+
+    <h2>1평이 3.3058㎡인 이유</h2>
+    <p>평은 사방 6자(尺)인 정사각형 넓이에서 온 단위입니다. 1자를 10/33m로 정해 두었기 때문에 한 변은 60/33m(약 1.82m)이고, 넓이는 (60/33)² = 400/121㎡가 됩니다. 5평은 이 정사각형 5개를 이어 붙인 넓이라고 생각하면 쉽습니다.</p>
+
+    <h2>이 크기 방, 자재는 얼마나?</h2>
+    <p>정사각형 방(한 변 4.07m)으로 보고 바로 계산해 볼 수 있어요. 실제 방은 가로·세로를 재서 넣으세요.</p>
+    <p><a class="btn primary" href="/wallpaper/?w=4.07&l=4.07" style="text-decoration:none;display:inline-block">도배지 계산</a> <a class="btn" href="/floor/?w=4.07&l=4.07" style="text-decoration:none;display:inline-block">장판·마루 계산</a> <a class="btn" href="/tile/?w=4.07&l=4.07" style="text-decoration:none;display:inline-block">바닥 타일 계산</a></p>
+
+    <h2>다른 크기도 보기</h2>
+    <div class="chips"><a href="/pyeong/size-1/">1평 크기 · 3.31㎡</a><a href="/pyeong/size-3/">3평 크기 · 9.92㎡</a><a href="/pyeong/size-5/" class="on" aria-current="page">5평 크기 · 16.53㎡</a><a href="/pyeong/size-10/">10평 크기 · 33.06㎡</a></div>
+    <p style="margin-top:18px"><a class="btn" href="/area/" style="text-decoration:none;display:inline-block">꺾인 방은 면적 계산기로</a> <a class="btn" href="/pyeong/" style="text-decoration:none;display:inline-block">평수 계산기로 돌아가기</a></p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/area/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9h7V4h9v16z"/><path d="M4 20l7-7"/></svg></div><div class="txt"><b>면적 계산기</b><span class="sub">사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a><a class="item" href="/measure/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg></div><div class="txt"><b>교체 전 치수 기록</b><span class="sub">방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    결과는 참고용 추정치입니다. 아파트 공급면적은 단지마다 다르니 분양 공고나 건축물대장으로 확인하세요.
+  </footer>
+</div>
+<script src="/common.js"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@
 const fs = require('fs');
 const path = require('path');
 const { m2ToPyeong, round } = require('./pyeong-math');
+const kit = require('./site-kit');
 
 const ROOT = path.join(__dirname, '..');
 const tileHtml = fs.readFileSync(path.join(ROOT, 'tile/index.html'), 'utf8');
@@ -106,6 +107,18 @@ const FOOT = `  <footer>
 </div>
 `;
 
+const PY_TABLE = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 15, 18, 20, 24, 25, 30, 32, 33, 34, 40, 45, 50, 60, 100];
+const SIZES = [1, 3, 5, 10];
+function convTable() {
+  const rows = [];
+  for (let i = 0; i < PY_TABLE.length; i += 2) {
+    const a = PY_TABLE[i], b = PY_TABLE[i + 1];
+    rows.push(`<tr><td>${a}평</td><td>${f2(a * 400 / 121)}㎡</td><td>${b ? b + '평' : ''}</td><td>${b ? f2(b * 400 / 121) + '㎡' : ''}</td></tr>`);
+  }
+  return `<table><thead><tr><th>평</th><th>㎡</th><th>평</th><th>㎡</th></tr></thead><tbody>${rows.join('')}</tbody></table>`;
+}
+const sizeChips = (current) => `<div class="chips">${SIZES.map((n) =>
+  `<a href="/pyeong/size-${n}/"${n === current ? ' class="on" aria-current="page"' : ''}>${n}평 크기 · ${f2(n * 400 / 121)}㎡</a>`).join('')}</div>`;
 const chips = (current) => `<div class="chips">${AREAS.map((n) =>
   `<a href="/pyeong/${n}/"${n === current ? ' class="on" aria-current="page"' : ''}>${n}㎡ · ${f1(m2ToPyeong(n))}평</a>`).join('')}</div>`;
 
@@ -132,8 +145,8 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEnt
 </script>
 `;
   return head({
-    title: '평수 계산기 – ㎡ 평 변환, 방 크기로 평수 계산',
-    desc: '제곱미터와 평을 바로 바꾸고, 방 가로·세로로 평수를 계산합니다. 전용·공급·계약·서비스 면적 차이와 84㎡가 34평형으로 불리는 이유까지 한 번에 정리했습니다.',
+    title: '평수 계산기 – 평수 변환(㎡ ↔ 평)·평수 변환표·방 크기로 평수 계산',
+    desc: '제곱미터와 평을 바로 바꾸는 평수 변환 계산기입니다. 1평부터 100평까지 평수 변환표, 방 가로·세로로 평수 계산, 전용·공급면적 차이와 84㎡가 34평형으로 불리는 이유까지 정리했습니다.',
     url: 'https://jibcalc.com/pyeong/',
     jsonld,
   }) + `  <header>
@@ -205,6 +218,14 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEnt
 
     <h2>평수 계산 공식</h2>
     <p>평 = ㎡ × 121 ÷ 400, ㎡ = 평 × 400 ÷ 121 입니다. 빠르게 어림할 때는 ㎡에 0.3025를 곱하면 거의 같은 값이 나옵니다. 방 평수는 가로(m) × 세로(m)로 ㎡를 구한 뒤 평으로 바꾸면 됩니다.</p>
+
+    <h2>평수 변환표</h2>
+    <p>자주 찾는 평수를 ㎡로 바꾼 값입니다. 1평 = 400/121㎡로 계산해 소수 둘째 자리까지 적었습니다.</p>
+    ${convTable()}
+
+    <h2>3평, 5평은 실제로 어느 정도일까</h2>
+    <p>숫자만으로는 감이 잘 오지 않는 작은 평수를 방 치수로 풀어 봤습니다.</p>
+    ${sizeChips(null)}
 
     <h2>많이 찾는 아파트 면적</h2>
     <p>전용면적별로 평수와 흔히 부르는 평형을 따로 정리했습니다.</p>
@@ -358,11 +379,69 @@ ${FOOT}<script src="/common.js"></script>
 `;
 }
 
+function sizePage(n) {
+  const m2 = n * 400 / 121;
+  const side = Math.sqrt(m2);
+  const widths = [1.8, 2.4, 2.7, 3.0, 3.6, 4.2, 4.8, 5.4].filter((w) => m2 / w >= w * 0.6 && m2 / w <= w * 3);
+  const ex = widths.slice(0, 3).map((w) => `가로 ${w.toFixed(1)}m × 세로 ${(m2 / w).toFixed(2)}m`);
+  const sideCm = Math.round(side * 100);
+  const q = `?w=${side.toFixed(2)}&l=${side.toFixed(2)}`;
+  const title = `${n}평 크기는 어느 정도? ${f2(m2)}㎡를 방 치수로 보기 | 집 공사 계산기`;
+  const desc = `${n}평은 약 ${f2(m2)}㎡입니다. 정사각형이면 한 변 약 ${side.toFixed(2)}m, 직사각형 방 치수 예시와 계산 방법, 도배·장판 수량까지 바로 이어서 계산해 보세요.`;
+  const url = `https://jibcalc.com/pyeong/size-${n}/`;
+  return head({ title, desc, url }) + `  <header>
+    ${BACK('/pyeong/', '평수 계산기로 돌아가기')}
+    <h1>${n}평 크기는 어느 정도?</h1>
+    <p>${n}평을 ㎡와 실제 방 치수로 바꿔 봤습니다.</p>
+  </header>
+
+  <section class="card">
+    <h2>한눈에 보기</h2>
+    <div class="big">
+      <div class="stat"><div class="k">${n}평</div><div class="v">${f2(m2)}<small>㎡</small></div></div>
+      <div class="stat"><div class="k">정사각형이면 한 변</div><div class="v">${side.toFixed(2)}<small>m</small></div></div>
+    </div>
+    <div class="notebox"><b>방 치수로 보면</b> ${ex.join(' · ')} 정도가 ${n}평 안팎입니다.</div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>${n}평 → ㎡ 계산</h2>
+    <p>1평은 400/121㎡(약 3.3058㎡)이므로 ${n} × 400 ÷ 121 = <b>${f2(m2)}㎡</b>입니다. 정사각형 방이라면 한 변이 약 ${sideCm}cm인 넓이예요.</p>
+
+    <h2>1평이 3.3058㎡인 이유</h2>
+    <p>평은 사방 6자(尺)인 정사각형 넓이에서 온 단위입니다. 1자를 10/33m로 정해 두었기 때문에 한 변은 60/33m(약 1.82m)이고, 넓이는 (60/33)² = 400/121㎡가 됩니다. ${n}평은 이 정사각형 ${n}개를 이어 붙인 넓이라고 생각하면 쉽습니다.</p>
+
+    <h2>이 크기 방, 자재는 얼마나?</h2>
+    <p>정사각형 방(한 변 ${side.toFixed(2)}m)으로 보고 바로 계산해 볼 수 있어요. 실제 방은 가로·세로를 재서 넣으세요.</p>
+    <p><a class="btn primary" href="/wallpaper/${q}" style="text-decoration:none;display:inline-block">도배지 계산</a> <a class="btn" href="/floor/${q}" style="text-decoration:none;display:inline-block">장판·마루 계산</a> <a class="btn" href="/tile/${q}" style="text-decoration:none;display:inline-block">바닥 타일 계산</a></p>
+
+    <h2>다른 크기도 보기</h2>
+    ${sizeChips(n)}
+    <p style="margin-top:18px"><a class="btn" href="/area/" style="text-decoration:none;display:inline-block">꺾인 방은 면적 계산기로</a> <a class="btn" href="/pyeong/" style="text-decoration:none;display:inline-block">평수 계산기로 돌아가기</a></p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    ${RELATED}
+  </section>
+${FOOT}<script src="/common.js"></script>
+</body>
+</html>
+`;
+}
+
 fs.mkdirSync(path.join(ROOT, 'pyeong'), { recursive: true });
+for (const n of SIZES) {
+  fs.mkdirSync(path.join(ROOT, `pyeong/size-${n}`), { recursive: true });
+  fs.writeFileSync(path.join(ROOT, `pyeong/size-${n}/index.html`), sizePage(n));
+}
 fs.writeFileSync(path.join(ROOT, 'pyeong/index.html'), mainPage());
 for (const n of AREAS) {
   fs.mkdirSync(path.join(ROOT, `pyeong/${n}`), { recursive: true });
   fs.writeFileSync(path.join(ROOT, `pyeong/${n}/index.html`), areaPage(n));
 }
-console.log('생성 완료: /pyeong/ +', AREAS.map((n) => `/pyeong/${n}/`).join(' '));
+console.log('생성 완료: /pyeong/ +', AREAS.map((n) => `/pyeong/${n}/`).join(' '), '+', SIZES.map((n) => `/pyeong/size-${n}/`).join(' '));
 module.exports = { AREAS, ICON_PYEONG };
