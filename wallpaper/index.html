@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>도배지 계산기 – 필요한 벽지 롤 수 자동 계산 (실크·합지)</title>
-<meta name="description" content="방 크기와 천장 높이만 넣으면 필요한 도배지 롤 수를 바로 계산합니다. 광폭 실크·소폭 합지, 천장 포함, 문·창문 제외, 무늬 맞춤까지 반영.">
+<title>도배지 계산기 – 필요한 벽지 롤 수 자동 계산 (실크·합지·포인트 벽지)</title>
+<meta name="description" content="방 크기와 천장 높이만 넣으면 필요한 도배지 롤 수를 바로 계산합니다. 광폭 실크·소폭 합지, 천장 포함, 문·창문 제외, 무늬 맞춤까지 반영. 포인트 벽지 한 면도 따로 계산합니다.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="집 공사 계산기">
 <meta property="og:title" content="도배지 계산기 – 필요한 벽지 롤 수 자동 계산 (실크·합지)">
@@ -162,12 +162,38 @@ footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
       <div><label for="price">롤당 가격 (원)</label><input id="price" type="number" inputmode="numeric" placeholder="선택" min="0"></div>
     </div>
     <p class="hint">민무늬 벽지는 무늬 맞춤을 0으로 두세요. 무늬가 있으면 제품 정보의 ‘리피트’ 값을 넣습니다.</p>
+    <div class="divider"></div>
+    <h2><span class="num">4</span>포인트 벽지 (선택)</h2>
+    <label class="check"><input id="pt" type="checkbox"> 벽 한 면은 다른 벽지(포인트 벽지)로 바르기</label>
+    <div id="ptBox" style="display:none">
+      <div class="grid g2" style="margin-top:14px">
+        <div>
+          <label for="ptWall">포인트 벽</label>
+          <select id="ptWall">
+            <option value="a" selected>가로 쪽 벽 한 면</option>
+            <option value="b">세로 쪽 벽 한 면</option>
+          </select>
+        </div>
+        <div>
+          <label for="ptType">포인트 벽지 종류</label>
+          <select id="ptType">
+            <option value="1.06x15.6" selected>광폭 실크 (106cm × 15.6m)</option>
+            <option value="0.53x12.5">소폭 합지 (53cm × 12.5m)</option>
+          </select>
+        </div>
+      </div>
+      <div class="grid g2" style="margin-top:14px">
+        <div><label for="ptRep">포인트 무늬 맞춤 (cm)</label><input id="ptRep" type="number" inputmode="decimal" min="0" value="0"></div>
+        <div><label for="ptPrice">포인트 롤당 가격 (원)</label><input id="ptPrice" type="number" inputmode="numeric" placeholder="선택" min="0"></div>
+      </div>
+      <p class="hint">침대 머리맡이나 TV 뒤처럼 눈이 가는 벽 한 면만 바꾸는 경우예요. 문·창문은 기본 벽지 쪽에 있다고 보고 계산합니다.</p>
+    </div>
   </section>
 
   <section class="card result" aria-live="polite">
     <h2>계산 결과</h2>
     <div class="big">
-      <div class="stat"><div class="k">필요한 벽지</div><div class="v" id="rRoll">0<small>롤</small></div></div>
+      <div class="stat"><div class="k" id="kRoll">필요한 벽지</div><div class="v" id="rRoll">0<small>롤</small></div></div>
       <div class="stat"><div class="k">잘라 붙일 폭 수</div><div class="v" id="rStrip">0<small>폭</small></div></div>
     </div>
     <div class="detail" id="rDetail"></div>
@@ -198,6 +224,8 @@ footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
     <p>옆 폭과 무늬를 이어 붙이려고 위아래로 밀어 맞추는 길이입니다. 무늬가 큰 벽지일수록 폭마다 버리는 길이가 늘어나 롤 수도 늘어납니다.</p>
     <h3>여분 롤을 사두는 게 좋나요?</h3>
     <p>같은 제품도 생산 시기에 따라 색감이 조금씩 달라, 나중에 같은 로트를 구하기 어렵습니다. 보수용으로 1롤 정도 여유를 두는 경우가 많습니다.</p>
+    <h3>포인트 벽지는 몇 롤이 필요한가요?</h3>
+    <p>포인트 벽은 한 면이라 폭 수가 적어서, 보통 기본 벽지보다 훨씬 적게 듭니다. 위 ‘포인트 벽지’를 켜고 어느 벽인지 고르면 그 벽 너비만큼 포인트 벽지 롤 수를 따로 계산하고, 나머지 벽은 기본 벽지로 계산합니다. 무늬가 큰 포인트 벽지는 무늬 맞춤 값을 꼭 넣으세요.</p>
     <h3>계산 결과대로 사면 되나요?</h3>
     <p>대략적인 수량을 빠르게 잡는 도구입니다. 방 모양이 복잡하거나 경사 천장이 있다면 시공자와 한 번 더 확인하세요.</p>
   </article>
@@ -206,8 +234,6 @@ footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
     <h2>다른 계산기도 필요하신가요?</h2>
     <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a></div>
   </section>
-<!-- ===== 도배지 계산기 설명글: wallpaper/index.html 의 계산기 아래, 하단 링크 위에 붙여넣기 ===== -->
-<!-- ===== 타일 계산기 설명글: tile/index.html 의 계산기 아래, 하단 링크(소개·개인정보처리방침·문의) 위에 붙여넣기 ===== -->
 <section class="guide">
   <h2>벽지 고를 때 같이 알아두면 좋은 것</h2>
 
@@ -289,6 +315,10 @@ function calc(){
   const withCeil = $('ceil').checked;
 
   let rolls = 0, strips = 0, warn = '';
+  const usePt = $('pt').checked;
+  $('ptBox').style.display = usePt ? 'block' : 'none';
+  const ptWidth = usePt ? ($('ptWall').value === 'a' ? a : b) : 0;
+  let ptRolls = 0, ptStrips = 0;
   const wallArea = Math.max(0, 2 * (a + b) * h - holeArea());
   const ceilArea = withCeil ? a * b : 0;
 
@@ -297,10 +327,19 @@ function calc(){
     const stripLen = h + extra;
     const perRoll = Math.floor(rollL / stripLen);
     const holeStrips = Math.floor(holeArea() / (rollW * h));
-    const wallStrips = Math.max(0, Math.ceil(2 * (a + b) / rollW) - holeStrips);
+    const wallStrips = Math.max(0, Math.ceil((2 * (a + b) - ptWidth) / rollW) - holeStrips);
     if (perRoll < 1) warn = '한 폭 길이가 롤 길이보다 깁니다. 천장 높이나 롤 규격을 확인하세요.';
     else { rolls += Math.ceil(wallStrips / perRoll); strips += wallStrips; }
 
+    // 포인트 벽
+    if (usePt && ptWidth > 0 && !warn){
+      const [pW, pL] = $('ptType').value.split('x').map(Number);
+      const pLen = h + ((parseFloat($('margin').value) || 0) + (parseFloat($('ptRep').value) || 0)) / 100;
+      const pPerRoll = Math.floor(pL / pLen);
+      ptStrips = Math.ceil(ptWidth / pW);
+      if (pPerRoll < 1) warn = '포인트 벽지 한 폭 길이가 롤 길이보다 깁니다. 무늬 맞춤 값을 확인하세요.';
+      else ptRolls = Math.ceil(ptStrips / pPerRoll);
+    }
     // 천장
     if (withCeil && !warn){
       const longSide = Math.max(a, b), shortSide = Math.min(a, b);
@@ -312,18 +351,22 @@ function calc(){
     }
   }
 
+  $('kRoll').textContent = usePt ? '기본 벽지' : '필요한 벽지';
   $('rRoll').innerHTML = `${fmt(rolls)}<small>롤</small>`;
-  $('rStrip').innerHTML = `${fmt(strips)}<small>폭</small>`;
+  $('rStrip').innerHTML = `${fmt(strips + ptStrips)}<small>폭</small>`;
   const total = wallArea + ceilArea;
   let html = `바를 면적 <b>${fmt(total, 1)}㎡</b> (약 ${fmt(total / 3.3058, 1)}평)`;
   if (withCeil) html += ` · 천장 <b>${fmt(ceilArea, 1)}㎡</b> 포함`;
-  if (rolls > 0) html += `<br>보수용 여분까지 사면 <b>${fmt(rolls + 1)}롤</b>`;
-  if (price > 0 && rolls > 0) html += `<br>예상 벽지 비용 <b>${fmt(rolls * price)}원</b> (여분 포함 ${fmt((rolls + 1) * price)}원)`;
+  if (usePt && ptRolls > 0) html += `<br>포인트 벽지 <b>${fmt(ptRolls)}롤</b> (${fmt(ptStrips)}폭 · 벽 너비 ${fmt(ptWidth, 2)}m)`;
+  if (rolls > 0) html += `<br>보수용 여분까지 사면 기본 벽지 <b>${fmt(rolls + 1)}롤</b>` + (usePt && ptRolls > 0 ? ` · 포인트 <b>${fmt(ptRolls + 1)}롤</b>` : '');
+  if (price > 0 && rolls > 0) html += `<br>예상 기본 벽지 비용 <b>${fmt(rolls * price)}원</b> (여분 포함 ${fmt((rolls + 1) * price)}원)`;
+  const ptPrice = parseFloat($('ptPrice').value) || 0;
+  if (usePt && ptPrice > 0 && ptRolls > 0) html += `<br>예상 포인트 벽지 비용 <b>${fmt(ptRolls * ptPrice)}원</b>`;
   if (warn) html += `<div class="warn">${warn}</div>`;
   $('rDetail').innerHTML = html;
 }
 
-['rw','rl','rh','ceil','type','rep','cw','cl','margin','price'].forEach(id => {
+['rw','rl','rh','ceil','type','rep','cw','cl','margin','price','pt','ptWall','ptType','ptRep','ptPrice'].forEach(id => {
   $(id).addEventListener('input', calc);
   $(id).addEventListener('change', calc);
 });
