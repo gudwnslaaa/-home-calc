@@ -4,9 +4,9 @@ const im = require('./insul-math');
 
 const EXTRA_STYLE = `<style>
 .panes{display:grid;gap:10px}
-.pn{display:grid;grid-template-columns:1.3fr 1fr 1fr 80px 36px;gap:8px;align-items:end;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}
+.pn{display:grid;grid-template-columns:1.3fr 1fr 1fr 80px 44px;gap:8px;align-items:end;padding:12px;border:1px solid var(--line);border-radius:10px;background:var(--soft)}
 .pn .x{height:44px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:1.1rem;cursor:pointer}
-@media (max-width:560px){ .pn{grid-template-columns:1fr 1fr 70px 36px} .pn .nm{grid-column:1 / -1} }
+@media (max-width:560px){ .pn{grid-template-columns:1fr 1fr 70px 44px} .pn .nm{grid-column:1 / -1} }
 .check{display:flex;align-items:center;gap:10px;margin-top:4px;font-size:.95rem;color:var(--ink);cursor:pointer;font-weight:500}
 .check input{width:20px;height:20px;accent-color:#1c2024;margin:0}
 .opt[hidden]{display:none}
@@ -124,7 +124,7 @@ const fmt = (n, d = 0) => n.toLocaleString('ko-KR', { maximumFractionDigits: d, 
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const KEY = 'jibcalc-insulation-v1';
 let store = null; try { store = window.localStorage; } catch (e) {}
-const m = v => { v = parseFloat(v) || 0; return v >= 30 ? v / 100 : v; }; // 30 이상은 cm
+const m = v => { v = parseFloat(v) || 0; return v >= 1000 ? v / 1000 : v >= 30 ? v / 100 : v; }; // 1000 이상 mm, 30 이상 cm
 
 function addPane(v = {}){
   const el = document.createElement('div');
@@ -140,7 +140,7 @@ function addPane(v = {}){
   el.querySelector('.h').value = v.h ?? '';
   el.querySelector('.c').value = v.c ?? 1;
   el.querySelector('.x').addEventListener('click', () => { el.remove(); calc(); });
-  el.querySelectorAll('.w,.h').forEach(i => i.addEventListener('change', () => { const x = parseFloat(i.value); if (x >= 30) { i.value = Math.round(x) / 100; calc(); } }));
+  el.querySelectorAll('.w,.h').forEach(i => i.addEventListener('change', () => { const x = parseFloat(i.value); if (x >= 30) { i.value = m(x); calc(); } }));
   $('panes').appendChild(el);
 }
 function panes(){

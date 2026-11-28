@@ -4,7 +4,7 @@ const mm = require('./money-math');
 
 const EXTRA_STYLE = `<style>
 .seg{display:flex;gap:6px;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:12px}
-.seg button{flex:1;min-height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.9rem;cursor:pointer;line-height:1.25;padding:6px}
+.seg button{flex:1;min-height:44px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.9rem;cursor:pointer;line-height:1.25;padding:6px}
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
 .pane[hidden]{display:none}
 .rowx{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}

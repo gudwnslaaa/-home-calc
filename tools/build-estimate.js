@@ -28,18 +28,18 @@ const UNITS = ['식', '㎡', '평', 'm', '개', '박스', '롤', 'L', '통', '�
 const EXTRA_STYLE = `<style>
 .items{display:grid;gap:10px}
 .it{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--field)}
-.it .r1{display:grid;grid-template-columns:110px 1fr 36px;gap:8px;align-items:end}
+.it .r1{display:grid;grid-template-columns:110px 1fr 44px;gap:8px;align-items:end}
 .it .r2{display:grid;grid-template-columns:90px 80px 1fr 100px;gap:8px;margin-top:8px;align-items:end}
 .it .amt{margin-top:8px;font-size:.85rem;color:var(--muted);text-align:right}
 .it .amt b{color:var(--ink);font-weight:600}
 .it .x{height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:1.1rem;cursor:pointer}
-@media (max-width:560px){ .it .r1{grid-template-columns:96px 1fr 36px} .it .r2{grid-template-columns:1fr 1fr} }
+@media (max-width:560px){ .it .r1{grid-template-columns:96px 1fr 44px} .it .r2{grid-template-columns:1fr 1fr} }
 .g2x{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media (max-width:560px){ .g2x{grid-template-columns:1fr} }
 textarea{width:100%;min-height:84px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--ink);padding:10px 12px;font:inherit;font-size:.92rem;resize:vertical;box-sizing:border-box}
-.pay{display:grid;grid-template-columns:1fr 80px 1.6fr 36px;gap:8px;align-items:end;margin-top:8px}
+.pay{display:grid;grid-template-columns:1fr 80px 1.6fr 44px;gap:8px;align-items:end;margin-top:8px}
 .pay .x{height:44px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:1.1rem;cursor:pointer}
-@media (max-width:560px){ .pay{grid-template-columns:1fr 70px 36px} .pay .cond{grid-column:1 / -1;order:4} }
+@media (max-width:560px){ .pay{grid-template-columns:1fr 70px 44px} .pay .cond{grid-column:1 / -1;order:4} }
 .check{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--ink);cursor:pointer;font-weight:500}
 .check input{width:20px;height:20px;accent-color:#1c2024;margin:0}
 .it{background:var(--soft)}

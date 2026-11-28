@@ -105,7 +105,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);bac
 .g3{grid-template-columns:1fr 1fr 1fr}
 .row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
 .del{border:none;background:transparent;color:var(--muted);font-size:1.25rem;cursor:pointer;
-  padding:8px 10px;line-height:1;border-radius:8px}
+  min-width:44px;min-height:44px;padding:8px 10px;line-height:1;border-radius:8px}
 .del:hover{color:var(--ink);background:var(--soft)}
 .add{margin-top:6px;border:1px dashed #b9beb6;background:transparent;color:var(--ink);
   border-radius:10px;padding:11px 12px;cursor:pointer;font-size:.92rem;width:100%;font-family:inherit;font-weight:500}
@@ -151,10 +151,10 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
 </style>
 <style>
 .seg{display:flex;gap:6px;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:12px}
-.seg button{flex:1;height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.92rem;cursor:pointer}
+.seg button{flex:1;height:44px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.92rem;cursor:pointer}
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
 .quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.quick button{height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:.85rem;cursor:pointer}
+.quick button{height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:.85rem;cursor:pointer}
 .kor{margin-top:6px;font-size:.85rem;color:var(--muted)}
 table.vt{width:100%;border-collapse:collapse;font-size:.9rem;margin:10px 0}
 table.vt th,table.vt td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:right}

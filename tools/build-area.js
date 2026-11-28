@@ -5,7 +5,7 @@ const kit = require('./site-kit');
 const EXTRA_STYLE = `<style>
 .shapes{display:grid;gap:10px}
 .shp{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--field)}
-.shp .top{display:grid;grid-template-columns:1fr 96px 36px;gap:8px;align-items:end}
+.shp .top{display:grid;grid-template-columns:1fr 96px 44px;gap:8px;align-items:end}
 .shp .dims{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .shp .dims > div[hidden]{display:none}
 .shp .sub{margin-top:8px;font-size:.82rem;color:var(--muted)}

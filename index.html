@@ -67,7 +67,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);bac
 .g3{grid-template-columns:1fr 1fr 1fr}
 .row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
 .del{border:none;background:transparent;color:var(--muted);font-size:1.25rem;cursor:pointer;
-  padding:8px 10px;line-height:1;border-radius:8px}
+  min-width:44px;min-height:44px;padding:8px 10px;line-height:1;border-radius:8px}
 .del:hover{color:var(--ink);background:var(--soft)}
 .add{margin-top:6px;border:1px dashed #b9beb6;background:transparent;color:var(--ink);
   border-radius:10px;padding:11px 12px;cursor:pointer;font-size:.92rem;width:100%;font-family:inherit;font-weight:500}
@@ -187,7 +187,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
 (function(){
   const $ = id => document.getElementById(id);
   const fmt = n => n.toLocaleString('ko-KR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  function m(el){ let v = parseFloat(el.value) || 0; return v >= 30 ? v / 100 : v; } // 30 이상은 cm로 봄
+  function m(el){ let v = parseFloat(el.value) || 0; return v >= 1000 ? v / 1000 : v >= 30 ? v / 100 : v; } // 1000 이상 mm, 30 이상 cm로 봄
   function upd(){
     const w = m($('qw')), l = m($('ql')), a = w * l;
     $('qPy').textContent = fmt(a * 121 / 400) + '평';

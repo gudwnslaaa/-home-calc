@@ -105,7 +105,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);bac
 .g3{grid-template-columns:1fr 1fr 1fr}
 .row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
 .del{border:none;background:transparent;color:var(--muted);font-size:1.25rem;cursor:pointer;
-  padding:8px 10px;line-height:1;border-radius:8px}
+  min-width:44px;min-height:44px;padding:8px 10px;line-height:1;border-radius:8px}
 .del:hover{color:var(--ink);background:var(--soft)}
 .add{margin-top:6px;border:1px dashed #b9beb6;background:transparent;color:var(--ink);
   border-radius:10px;padding:11px 12px;cursor:pointer;font-size:.92rem;width:100%;font-family:inherit;font-weight:500}
@@ -156,13 +156,13 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
 #plan .f.sel rect{stroke-width:3}
 #plan .f text{pointer-events:none;font-family:inherit}
 .presets{display:flex;flex-wrap:wrap;gap:6px}
-.presets button{height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.86rem;cursor:pointer}
+.presets button{height:44px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.86rem;cursor:pointer}
 .presets button:hover{border-color:var(--ink);background:var(--accent-soft)}
 .selbox{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--soft)}
 .selbox[hidden]{display:none}
 .selrow{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:8px}
 .nudge{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
-.nudge button{min-width:44px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.nudge button{min-width:48px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
 .nudge button.wide{padding:0 12px}
 .nudge .sp{flex:1}
 .legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--muted);margin-top:8px}
@@ -527,6 +527,13 @@ $('delBtn').addEventListener('click', () => { if (sel < 0) return; items.splice(
   render();
 }));
 document.querySelectorAll('#presets button').forEach(b => b.addEventListener('click', () => addItem(b.dataset.n, +b.dataset.w, +b.dataset.d)));
+// cm 칸에 1000 이상을 넣으면 mm로 보고 cm로 바꿈
+['rw', 'rd', 'dpos', 'dw', 'sw', 'sd'].forEach(id => $(id).addEventListener('change', () => {
+  const v = parseFloat($(id).value);
+  if (v >= 1000) { $(id).value = Math.round(v / 10); $(id).dispatchEvent(new Event('input', { bubbles: true }));
+    let n = $(id).nextElementSibling; if (!n || !n.classList.contains('fnote')) { n = document.createElement('div'); n.className = 'fnote'; $(id).insertAdjacentElement('afterend', n); }
+    n.textContent = Math.round(v) + 'mm → ' + Math.round(v / 10) + 'cm로 바꿨어요'; }
+}, true));
 ['rw', 'rd', 'dwall', 'dpos', 'dw', 'dh', 'dslide', 'minPass'].forEach(id => $(id).addEventListener(id === 'dslide' || id === 'dwall' || id === 'dh' ? 'change' : 'input', () => { items.forEach(clamp); render(); }));
 
 // 평면도를 PNG로

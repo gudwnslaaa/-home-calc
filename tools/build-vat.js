@@ -4,10 +4,10 @@ const mm = require('./money-math');
 
 const EXTRA_STYLE = `<style>
 .seg{display:flex;gap:6px;background:var(--field);border:1px solid var(--line);border-radius:12px;padding:4px;margin-bottom:12px}
-.seg button{flex:1;height:40px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.92rem;cursor:pointer}
+.seg button{flex:1;height:44px;border:0;border-radius:9px;background:transparent;color:var(--muted);font:inherit;font-size:.92rem;cursor:pointer}
 .seg button.on{background:var(--card);color:var(--ink);box-shadow:0 0 0 1px var(--line)}
 .quick{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.quick button{height:34px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:.85rem;cursor:pointer}
+.quick button{height:40px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--muted);font:inherit;font-size:.85rem;cursor:pointer}
 .kor{margin-top:6px;font-size:.85rem;color:var(--muted)}
 table.vt{width:100%;border-collapse:collapse;font-size:.9rem;margin:10px 0}
 table.vt th,table.vt td{border-bottom:1px solid var(--line);padding:8px 6px;text-align:right}

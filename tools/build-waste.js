@@ -28,7 +28,7 @@ const EXTRA_STYLE = `<style>
 .it.on{border-color:var(--accent);background:var(--accent-soft)}
 .it span{font-size:.9rem;line-height:1.3}
 .step{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.step button{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1rem;cursor:pointer;line-height:1}
+.step button{width:44px;height:44px;border-radius:9px;border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:1rem;cursor:pointer;line-height:1}
 .step b{min-width:18px;text-align:center;font-weight:600;font-size:.95rem}
 .plan{margin-top:16px;display:grid;gap:12px}
 .pl{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--field)}

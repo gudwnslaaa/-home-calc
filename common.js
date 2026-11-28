@@ -36,7 +36,8 @@
   const result = document.querySelector('.result');
   if (!result) return; // 계산기 페이지가 아니면 여기서 끝
 
-  /* ---------- 1) cm → m 자동 변환 ---------- */
+  /* ---------- 1) 단위 자동 변환 · 입력값 점검 ---------- */
+  // m 칸에 넣은 숫자: 1000 이상은 mm, 30~999는 cm로 보고 m로 바꿈 (현장에서는 mm를 많이 씀)
   function isMeterInput(el) {
     if (!el || el.type !== 'number') return false;
     if (el.dataset.unit === 'none') return false; // 긴 길이(롤 길이 등)는 변환하지 않음
@@ -45,18 +46,95 @@
     const label = box && box.querySelector('label');
     return !!(label && label.textContent.includes('(m)'));
   }
+  function toMeter(v) {
+    if (v >= 1000) return { m: Math.round(v) / 1000, unit: 'mm' };
+    if (v >= 30) return { m: Math.round(v) / 100, unit: 'cm' };
+    return null;
+  }
+  // 칸 바로 아래에 짧은 안내 (변환·경고)
+  function note(el, text, bad) {
+    let n = el.nextElementSibling;
+    if (!n || !n.classList || !n.classList.contains('fnote')) {
+      if (!text) return;
+      n = document.createElement('div');
+      n.className = 'fnote';
+      el.insertAdjacentElement('afterend', n);
+    }
+    if (!text) { n.remove(); el.classList.remove('bad'); el.removeAttribute('aria-invalid'); return; }
+    n.textContent = text;
+    n.classList.toggle('warn', !!bad);
+    el.classList.toggle('bad', !!bad);
+    if (bad) el.setAttribute('aria-invalid', 'true'); else el.removeAttribute('aria-invalid');
+  }
+  function check(el) {
+    if (!el || el.type !== 'number' || el.value === '') { if (el && el.type === 'number') note(el, ''); return; }
+    const v = parseFloat(el.value);
+    const min = el.min !== '' ? parseFloat(el.min) : null;
+    if (!(v === v)) return note(el, '숫자만 넣어 주세요', true);
+    if (v < 0) return note(el, '0보다 큰 값을 넣어 주세요', true);
+    if (min !== null && v < min) return note(el, min + ' 이상으로 넣어 주세요', true);
+    if (isMeterInput(el) && v > 15 && v < 30) return note(el, v + 'm가 맞나요? 숫자를 다시 확인해 주세요', true);
+    const n = el.nextElementSibling;
+    if (n && n.classList && n.classList.contains('fnote') && n.classList.contains('warn')) note(el, '');
+  }
   // 캡처 단계에서 먼저 바꿔서 계산기가 바뀐 값으로 계산하게 함
   document.addEventListener('change', (e) => {
     const el = e.target;
-    if (!isMeterInput(el)) return;
-    const v = parseFloat(el.value);
-    if (v >= 30) {
-      const m = Math.round(v) / 100;
-      el.value = m;
-      el.dispatchEvent(new Event('input', { bubbles: true }));
-      toast(`${v}cm로 보고 ${m}m로 바꿨어요`);
+    if (isMeterInput(el)) {
+      const v = parseFloat(el.value);
+      const c = toMeter(v);
+      if (c) {
+        el.value = c.m;
+        note(el, `${Math.round(v)}${c.unit} → ${c.m}m로 바꿨어요`, false);
+        el.dispatchEvent(new Event('input', { bubbles: true }));
+        return;
+      }
     }
+    check(el);
   }, true);
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (!el || el.type !== 'number') return;
+    // 타이핑 중에는 변환 안내만 미리 보여 줌 (값은 칸을 벗어날 때 바꿈)
+    if (isMeterInput(el) && e.isTrusted) {
+      const c = toMeter(parseFloat(el.value));
+      if (c) { note(el, `칸을 벗어나면 ${c.unit}로 보고 ${c.m}m로 바꿔요`, false); return; }
+    }
+    check(el);
+  }, true);
+
+  /* ---------- 1-1) 처음 넣어 둔 예시 값 안내 ---------- */
+  const TKEY = 'jibcalc-touched:' + location.pathname;
+  let touched = false;
+  try {
+    // 이미 이 화면에 저장해 둔 값이 있으면(지난번에 쓴 사람) 예시가 아님
+    const seg = location.pathname.replace(/\//g, '');
+    touched = !!localStorage.getItem(TKEY) || Object.keys(localStorage).some((k) => k === 'hc:' + location.pathname || (seg && k.startsWith('jibcalc-' + seg + '-')));
+  } catch (e) { touched = true; }
+  if (/[?&](w|l|add)=/.test(location.search)) touched = true; // 다른 화면에서 치수를 받아 온 경우
+  const markTouched = () => {
+    if (touched) return;
+    touched = true;
+    try { localStorage.setItem(TKEY, '1'); } catch (e) {}
+    const bn = result.querySelector('.example-note');
+    if (bn) bn.remove();
+  };
+  if (!touched) {
+    const bn = document.createElement('p');
+    bn.className = 'example-note';
+    bn.textContent = '처음 넣어 둔 예시 값으로 계산한 결과예요. 내 치수로 바꿔 보세요.';
+    const h = result.querySelector('h2');
+    if (h) h.insertAdjacentElement('afterend', bn); else result.prepend(bn);
+  } else {
+    try { localStorage.setItem(TKEY, '1'); } catch (e) {}
+  }
+  ['input', 'change', 'click'].forEach((t) => document.addEventListener(t, (e) => {
+    if (!e.isTrusted) return;
+    const el = e.target;
+    if (t === 'click' && !(el.closest && el.closest('main, .wrap') && el.closest('button, .tabs, .presets, .seg, [data-mv]'))) return;
+    if (el.closest && el.closest('.result')) return; // 결과판 버튼은 '내 값'이 아님
+    markTouched();
+  }, true));
 
   /* ---------- 2) 입력값 기억 ---------- */
   const containers = ['areas', 'holes', 'rooms'].filter((id) => document.getElementById(id));
@@ -193,7 +271,7 @@
     } else if (a === 'image') {
       try { await saveImage(); } catch (err) { toast('이미지를 만들지 못했어요. 결과 복사를 이용해 주세요'); }
     } else if (a === 'reset') {
-      if (store) { try { store.removeItem(KEY); } catch (err) {} }
+      if (store) { try { store.removeItem(KEY); store.removeItem(TKEY); } catch (err) {} }
       location.reload();
     }
   });

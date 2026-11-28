@@ -97,7 +97,7 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);bac
 .g3{grid-template-columns:1fr 1fr 1fr}
 .row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
 .del{border:none;background:transparent;color:var(--muted);font-size:1.25rem;cursor:pointer;
-  padding:8px 10px;line-height:1;border-radius:8px}
+  min-width:44px;min-height:44px;padding:8px 10px;line-height:1;border-radius:8px}
 .del:hover{color:var(--ink);background:var(--soft)}
 .add{margin-top:6px;border:1px dashed #b9beb6;background:transparent;color:var(--ink);
   border-radius:10px;padding:11px 12px;cursor:pointer;font-size:.92rem;width:100%;font-family:inherit;font-weight:500}
@@ -144,7 +144,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
 <style>
 .shapes{display:grid;gap:10px}
 .shp{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--field)}
-.shp .top{display:grid;grid-template-columns:1fr 96px 36px;gap:8px;align-items:end}
+.shp .top{display:grid;grid-template-columns:1fr 96px 44px;gap:8px;align-items:end}
 .shp .dims{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
 .shp .dims > div[hidden]{display:none}
 .shp .sub{margin-top:8px;font-size:.82rem;color:var(--muted)}

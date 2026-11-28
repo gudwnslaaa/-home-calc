@@ -107,3 +107,10 @@ header + .list{margin-top:24px}
   .quick .qrow{grid-template-columns:1fr 1fr}
   .quick .qout{grid-column:1 / -1}
 }
+
+/* 입력칸 아래 안내 (단위 변환·잘못된 값) */
+.fnote{font-size:.8rem;color:var(--muted);margin-top:4px;line-height:1.4}
+.fnote.warn{color:#b3261e;font-weight:600}
+input.bad{border-color:#b3261e!important;box-shadow:0 0 0 3px rgba(179,38,30,.12)!important}
+/* 처음 예시 값 안내 띠 (결과판 안) */
+.example-note{margin:-4px 0 14px;padding:8px 12px;border-radius:8px;background:rgba(255,196,0,.14);color:#ffe28a;font-size:.86rem;border:1px dashed rgba(255,196,0,.5)}
