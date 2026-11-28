@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>가구 배치 도우미 – 방 크기에 침대·옷장 넣어 보기, 침대 사이즈·통로 폭 확인</title>
+<meta name="description" content="방 가로·세로를 넣고 퀸·슈퍼싱글 침대, 옷장, 책상, 소파를 끌어다 놓아 보세요. 문이 걸리는지, 가구 사이 통로가 몇 cm 남는지 바로 보여 주는 무료 가구 배치 도우미입니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="가구 배치 도우미 – 방 크기에 침대·옷장 넣어 보기, 침대 사이즈·통로 폭 확인">
+<meta property="og:description" content="방 가로·세로를 넣고 퀸·슈퍼싱글 침대, 옷장, 책상, 소파를 끌어다 놓아 보세요. 문이 걸리는지, 가구 사이 통로가 몇 cm 남는지 바로 보여 주는 무료 가구 배치 도우미입니다.">
+<meta property="og:url" content="https://jibcalc.com/room/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/room/">
+<script type="application/ld+json" id="crumb">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"집 공사 계산기","item":"https://jibcalc.com/"},{"@type":"ListItem","position":2,"name":"가구 배치 도우미","item":"https://jibcalc.com/room/"}]}</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "퀸 침대와 슈퍼싱글 침대 크기는?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "매트리스 기준으로 퀸은 가로 1500 × 세로 2000mm, 슈퍼싱글은 1100 × 2000mm 제품이 많습니다. 다만 프레임은 매트리스보다 커서, 슈퍼싱글이라도 프레임 길이가 2170mm인 제품이 있습니다. 배치할 때는 프레임 치수를 넣으세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "가구 사이 통로는 얼마나 남겨야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "정해진 기준은 없고 사람과 쓰임에 따라 다릅니다. 이 도우미는 ‘편하게 지나갈 폭’을 직접 정하게 하고, 그보다 좁은 틈을 표시해 줍니다. 기본값 60cm는 예시예요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "방문이 가구에 걸리는지 확인할 수 있나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "문이 달린 벽, 위치, 폭, 경첩 쪽을 넣으면 문이 열리는 반원 영역을 그려 주고, 가구가 그 안에 들어가면 빨갛게 표시합니다. 미닫이 문은 ‘미닫이·열림 없음’을 켜세요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "넣은 배치는 저장되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "이 기기의 브라우저에만 저장되어 다시 들어오면 이어서 볼 수 있습니다. ‘평면도 그림 저장’으로 이미지를 받아 두면 가구 매장이나 가족에게 보여 주기 좋습니다."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* 집 공사 계산기 기본 스타일 — 현장 줄자 테마 (tools/apply-theme.js 가 모든 페이지에 넣음) */
+:root{
+  color-scheme:light;
+  --bg:#eef0ec; --card:#ffffff; --ink:#1c2024; --muted:#5b636b; --line:#d6dad3;
+  --field:#f7f8f5; --accent:#7a5a00; --accent-soft:#fff3c4; --soft:#f2f3ef;
+  --tape:#ffc400; --tape-deep:#e0ab00; --panel:#1c2024;
+  --shadow:0 1px 0 rgba(28,32,36,.04);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans KR","Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;font-variant-numeric:tabular-nums}
+/* 페이지 맨 위 줄자 띠 */
+body::before{content:"";display:block;height:14px;background-color:var(--tape);
+  background-image:
+    repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 50px),
+    repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 10px);
+  background-size:100% 9px,100% 4px;background-repeat:no-repeat;background-position:0 0,0 0;
+  border-bottom:1px solid var(--tape-deep)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 72px}
+a{color:var(--ink);text-decoration-color:var(--tape);text-decoration-thickness:3px;text-underline-offset:3px}
+a:hover{text-decoration-color:var(--ink)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:6px}
+header{text-align:left;margin-bottom:8px}
+header h1{font-size:1.85rem;font-weight:700;margin:4px 0 6px;letter-spacing:-0.02em;line-height:1.3}
+header p{margin:0;color:var(--muted);font-size:1rem;max-width:36em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:18px;box-shadow:var(--shadow)}
+.card h2{font-size:1.02rem;font-weight:700;margin:0 0 14px;color:var(--ink);letter-spacing:-0.01em}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:5px;background:var(--tape);color:var(--ink);font-size:.8rem;font-weight:700;margin-right:9px;vertical-align:1px}
+label{display:block;font-size:.86rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+input,select,textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .15s, box-shadow .15s, background .15s}
+input::placeholder,textarea::placeholder{color:#8f969c}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:var(--muted);font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:8px}
+.del:hover{color:var(--ink);background:var(--soft)}
+.add{margin-top:6px;border:1px dashed #b9beb6;background:transparent;color:var(--ink);
+  border-radius:10px;padding:11px 12px;cursor:pointer;font-size:.92rem;width:100%;font-family:inherit;font-weight:500}
+.add:hover{border-color:var(--ink);background:var(--accent-soft)}
+.hint{font-size:.84rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+/* 결과판: 흑연색 바탕에 노란 숫자. 안쪽은 색 변수를 바꿔 어두운 판에 맞춤 */
+.result{--card:#1c2024;--ink:#f2f3ef;--muted:#aeb4b9;--line:#353b41;--field:#262b30;--soft:#262b30;--accent:#ffc400;--accent-soft:rgba(255,196,0,.16);
+  background:var(--panel);color:var(--ink);border-color:var(--panel);position:relative;overflow:hidden;padding-top:30px}
+.result::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background-color:var(--tape);
+  background-image:repeating-linear-gradient(90deg,#1c2024 0 1px,transparent 1px 10px);background-size:100% 4px;background-repeat:no-repeat}
+.result a{color:var(--ink)}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--soft);border-radius:10px;padding:16px 18px;border:1px solid var(--line)}
+.stat .k{font-size:.86rem;color:var(--muted)}
+.stat .v{font-size:2rem;font-weight:700;color:var(--accent);letter-spacing:-0.02em;line-height:1.25;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:500;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.92rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:600}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:48px;padding:0 2px;max-width:40em}
+article h2{font-size:1.2rem;font-weight:700;margin:40px 0 10px;letter-spacing:-0.01em}
+article h3{font-size:1rem;font-weight:700;margin:24px 0 4px}
+article p,article li{color:#30363c}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.92rem;margin:12px 0;
+  background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:10px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:600;background:var(--soft)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);text-align:left}
+@media (max-width:560px){
+  .wrap{padding-top:20px}
+  header h1{font-size:1.6rem}
+  .card{padding:20px 16px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:13px 14px}
+  .stat .v{font-size:1.6rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+.plan-wrap{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);margin-top:18px;padding:12px;position:relative}
+#plan{width:100%;height:auto;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+#plan .f{cursor:grab}
+#plan .f.sel rect{stroke-width:3}
+#plan .f text{pointer-events:none;font-family:inherit}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button{height:36px;padding:0 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.86rem;cursor:pointer}
+.presets button:hover{border-color:var(--ink);background:var(--accent-soft)}
+.selbox{margin-top:12px;border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--soft)}
+.selbox[hidden]{display:none}
+.selrow{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:8px}
+.nudge{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;align-items:center}
+.nudge button{min-width:44px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;cursor:pointer}
+.nudge button.wide{padding:0 12px}
+.nudge .sp{flex:1}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:.82rem;color:var(--muted);margin-top:8px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.check{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--ink);cursor:pointer;font-weight:500;margin-top:6px}
+.check input{width:20px;height:20px;accent-color:#1c2024;margin:0}
+.warns{margin:10px 0 0;padding-left:18px}
+.warns li{margin:3px 0}
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#ffc400">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <h1>가구 배치 도우미</h1>
+    <p>사기 전에 넣어 보세요. 방에 가구를 끌어다 놓으면 문이 걸리는지, 통로가 몇 cm 남는지 바로 보입니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>방과 문</h2>
+    <div class="grid g2">
+      <div><label for="rw">방 가로 (cm)</label><input id="rw" data-unit="none" type="number" inputmode="numeric" min="100" step="1" value="330"></div>
+      <div><label for="rd">방 세로 (cm)</label><input id="rd" data-unit="none" type="number" inputmode="numeric" min="100" step="1" value="360"></div>
+    </div>
+    <div class="grid g2" style="margin-top:12px">
+      <div><label for="dwall">문이 있는 벽</label>
+        <select id="dwall"><option value="bottom" selected>아래쪽 벽</option><option value="top">위쪽 벽</option><option value="left">왼쪽 벽</option><option value="right">오른쪽 벽</option></select></div>
+      <div><label for="dpos">벽 끝에서 문까지 (cm)</label><input id="dpos" data-unit="none" type="number" inputmode="numeric" min="0" step="1" value="230"></div>
+      <div><label for="dw">문 폭 (cm)</label><input id="dw" data-unit="none" type="number" inputmode="numeric" min="50" step="1" value="90"></div>
+      <div><label for="dh">경첩 쪽</label>
+        <select id="dh"><option value="a">벽 시작 쪽</option><option value="b" selected>벽 끝 쪽</option></select></div>
+    </div>
+    <label class="check"><input id="dslide" type="checkbox"> 미닫이·열림 없음 (문 열림 영역 안 그림)</label>
+    <p class="hint">위쪽·아래쪽 벽은 왼쪽 끝에서, 왼쪽·오른쪽 벽은 위쪽 끝에서 잰 거리예요. 그림을 보며 맞추세요.</p>
+  </section>
+
+  <section class="card">
+    <h2><span class="num">2</span>가구 넣기</h2>
+    <div class="presets" id="presets">
+      <button type="button" data-n="싱글 침대" data-w="100" data-d="200">+ 싱글 침대</button>
+      <button type="button" data-n="슈퍼싱글 침대" data-w="110" data-d="200">+ 슈퍼싱글 침대</button>
+      <button type="button" data-n="퀸 침대" data-w="150" data-d="200">+ 퀸 침대</button>
+      <button type="button" data-n="킹 침대" data-w="160" data-d="200">+ 킹 침대</button>
+      <button type="button" data-n="옷장" data-w="120" data-d="60">+ 옷장</button>
+      <button type="button" data-n="서랍장" data-w="80" data-d="45">+ 서랍장</button>
+      <button type="button" data-n="책상" data-w="120" data-d="60">+ 책상</button>
+      <button type="button" data-n="의자" data-w="50" data-d="50">+ 의자</button>
+      <button type="button" data-n="소파" data-w="200" data-d="90">+ 소파</button>
+      <button type="button" data-n="TV장" data-w="180" data-d="40">+ TV장</button>
+      <button type="button" data-n="식탁" data-w="120" data-d="80">+ 식탁</button>
+      <button type="button" data-n="냉장고" data-w="90" data-d="90">+ 냉장고</button>
+      <button type="button" data-n="세탁기" data-w="70" data-d="70">+ 세탁기</button>
+      <button type="button" data-n="화장대" data-w="80" data-d="40">+ 화장대</button>
+      <button type="button" data-n="가구" data-w="80" data-d="50">+ 직접 만들기</button>
+    </div>
+    <p class="hint">버튼의 크기는 흔한 <b>예시 크기</b>예요. 넣은 뒤 실제 제품 치수(프레임 포함 바깥 치수)로 고쳐 쓰세요.</p>
+    <div class="grid g2" style="margin-top:12px">
+      <div><label for="minPass">편하게 지나갈 폭 (cm)</label><input id="minPass" data-unit="none" type="number" inputmode="numeric" min="10" step="5" value="60"></div>
+    </div>
+  </section>
+
+  <div class="plan-wrap">
+    <svg id="plan" role="img" aria-label="방 평면도"></svg>
+    <div class="legend"><span><i style="background:#fff3c4;border:1px solid #1c2024"></i>가구</span><span><i style="background:#ffd9d2;border:1px solid #b3261e"></i>겹침·문 걸림</span><span><i style="background:#e8efe6;border:1px dashed #5b636b"></i>문 열림 영역</span></div>
+    <div class="selbox" id="selbox" hidden>
+      <div class="selrow">
+        <div><label for="sn">이름</label><input id="sn" type="text"></div>
+        <div><label for="sw">가로 (cm)</label><input id="sw" data-unit="none" type="number" inputmode="numeric" min="5" step="1"></div>
+        <div><label for="sd">세로 (cm)</label><input id="sd" data-unit="none" type="number" inputmode="numeric" min="5" step="1"></div>
+      </div>
+      <div class="nudge">
+        <button type="button" data-mv="-5,0" aria-label="왼쪽으로 5cm">←</button>
+        <button type="button" data-mv="0,-5" aria-label="위로 5cm">↑</button>
+        <button type="button" data-mv="0,5" aria-label="아래로 5cm">↓</button>
+        <button type="button" data-mv="5,0" aria-label="오른쪽으로 5cm">→</button>
+        <span class="sp"></span>
+        <button type="button" class="wide" id="rotBtn">90° 돌리기</button>
+        <button type="button" class="wide" id="dupBtn">복사</button>
+        <button type="button" class="wide" id="delBtn">빼기</button>
+      </div>
+    </div>
+    <p class="hint" style="margin:8px 4px 2px">가구를 눌러 고르고 끌어서 옮기세요. 고른 가구는 화살표로 5cm씩 움직일 수 있어요.</p>
+  </div>
+
+  <section class="card result" aria-live="polite">
+    <h2>배치 결과</h2>
+    <div class="big">
+      <div class="stat"><div class="k">가구가 차지하는 바닥</div><div class="v" id="rUsed">0<small>%</small></div></div>
+      <div class="stat"><div class="k">걸리는 곳</div><div class="v" id="rBad">0<small>곳</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+    <ul class="warns detail" id="rWarn"></ul>
+    <div class="actions" style="margin-top:12px"><button type="button" class="btn primary" id="pngBtn">평면도 그림 저장</button></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>침대는 매트리스가 아니라 프레임 치수로</h2>
+    <p>매트리스 크기는 퀸이 1500 × 2000mm, 슈퍼싱글이 1100 × 2000mm인 제품이 많습니다. 하지만 방에 들어가는 건 프레임이에요. 헤드보드가 있는 프레임은 매트리스보다 길어서, 같은 슈퍼싱글이라도 프레임 길이가 2170mm인 제품이 있습니다. 판매 페이지에서 ‘프레임 전체 크기’를 찾아 넣어야 실제와 맞습니다.</p>
+
+    <h2>먼저 큰 가구, 그다음 문과 통로</h2>
+    <p>침대·옷장·소파처럼 큰 가구 자리부터 잡고, 문이 열리는 영역과 지나다닐 길을 비워 둔 뒤 작은 가구를 채우면 실패가 줄어듭니다. 옷장은 문을 여는 공간까지, 서랍장은 서랍을 빼는 공간까지 앞쪽을 비워 두세요. 이 도우미에서 가구 앞에 빈 상자를 하나 넣어 두면 그 공간을 확인할 수 있어요.</p>
+
+    <h2>방 크기를 그대로 다른 계산기로</h2>
+    <p>배치를 정했다면 같은 방 크기로 <a href="/floor/" id="lnkFloor">장판·마루</a>, <a href="/wallpaper/" id="lnkWall">도배지</a> 수량을 바로 계산하고, <a href="/pyeong/">평수</a>도 확인해 보세요. 이사 날짜에 맞춰 할 일을 정리하려면 <a href="/moving/">이사 체크리스트</a>도 있어요.</p>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>퀸 침대와 슈퍼싱글 침대 크기는?</h3>
+    <p>매트리스 기준으로 퀸은 가로 1500 × 세로 2000mm, 슈퍼싱글은 1100 × 2000mm 제품이 많습니다. 다만 프레임은 매트리스보다 커서, 슈퍼싱글이라도 프레임 길이가 2170mm인 제품이 있습니다. 배치할 때는 프레임 치수를 넣으세요.</p>
+    <h3>가구 사이 통로는 얼마나 남겨야 하나요?</h3>
+    <p>정해진 기준은 없고 사람과 쓰임에 따라 다릅니다. 이 도우미는 ‘편하게 지나갈 폭’을 직접 정하게 하고, 그보다 좁은 틈을 표시해 줍니다. 기본값 60cm는 예시예요.</p>
+    <h3>방문이 가구에 걸리는지 확인할 수 있나요?</h3>
+    <p>문이 달린 벽, 위치, 폭, 경첩 쪽을 넣으면 문이 열리는 반원 영역을 그려 주고, 가구가 그 안에 들어가면 빨갛게 표시합니다. 미닫이 문은 ‘미닫이·열림 없음’을 켜세요.</p>
+    <h3>넣은 배치는 저장되나요?</h3>
+    <p>이 기기의 브라우저에만 저장되어 다시 들어오면 이어서 볼 수 있습니다. ‘평면도 그림 저장’으로 이미지를 받아 두면 가구 매장이나 가족에게 보여 주기 좋습니다.</p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/insulation/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h16"/><circle cx="8" cy="7.5" r="1"/><circle cx="16" cy="16.5" r="1"/><circle cx="16" cy="7.5" r="1"/><circle cx="8" cy="16.5" r="1"/></svg></div><div class="txt"><b>창문 단열 · 뽁뽁이 계산기</b><span class="sub">뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/area/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9h7V4h9v16z"/><path d="M4 20l7-7"/></svg></div><div class="txt"><b>면적 계산기</b><span class="sub">사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평</span></div><div class="go">→</div></a><a class="item" href="/moving/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/><path d="M7.5 9l9-4"/></svg></div><div class="txt"><b>이사 체크리스트</b><span class="sub">이사 날짜로 한 달 전부터 할 일 · 체크 저장</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a><a class="item" href="/measure/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg></div><div class="txt"><b>교체 전 치수 기록</b><span class="sub">방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a><a class="item" href="/estimate/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg></div><div class="txt"><b>견적서 작성기</b><span class="sub">공종별 항목 · 부가세 자동 계산 · PDF 저장</span></div><div class="go">→</div></a><a class="item" href="/labor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg></div><div class="txt"><b>인건비 · 3.3% 계산기</b><span class="sub">일당 × 일수 · 3.3% 실수령액 · 일용직 세금</span></div><div class="go">→</div></a><a class="item" href="/vat/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg></div><div class="txt"><b>부가세 계산기</b><span class="sub">공급가액 ↔ 합계 · VAT 별도 / 포함</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    가구 크기 기본값은 예시입니다. 실제 제품 치수와 방 실측값으로 확인하세요.
+  </footer>
+</div>
+
+<script>
+function overlaps(a, b) {
+  return a.x < b.x + b.w - 1e-9 && b.x < a.x + a.w - 1e-9 && a.y < b.y + b.d - 1e-9 && b.y < a.y + a.d - 1e-9;
+}
+function doorZone(door, W, D) {
+  if (!door || door.slide || !(door.w > 0)) return null;
+  const r = door.w, p = door.pos;
+  let hx, hy, box;
+  if (door.wall === 'top' || door.wall === 'bottom') {
+    hx = door.hinge === 'b' ? p + r : p; hy = door.wall === 'top' ? 0 : D;
+    box = { x: p, y: door.wall === 'top' ? 0 : D - r, w: r, d: r };
+  } else {
+    hy = door.hinge === 'b' ? p + r : p; hx = door.wall === 'left' ? 0 : W;
+    box = { x: door.wall === 'left' ? 0 : W - r, y: p, w: r, d: r };
+  }
+  return { hx, hy, r, box };
+}
+function hitsDoor(f, z) {
+  if (!z || !overlaps(f, z.box)) return false;
+  const cx = Math.max(f.x, Math.min(z.hx, f.x + f.w));
+  const cy = Math.max(f.y, Math.min(z.hy, f.y + f.d));
+  return Math.hypot(cx - z.hx, cy - z.hy) < z.r - 1e-9;
+}
+function gaps(items, W, D) {
+  const out = [];
+  items.forEach((a, i) => {
+    const dirs = [
+      ['왼쪽', a.x, -1], ['오른쪽', W - (a.x + a.w), -1], ['위쪽', a.y, -1], ['아래쪽', D - (a.y + a.d), -1],
+    ];
+    items.forEach((b, j) => {
+      if (i === j) return;
+      const yOver = a.y < b.y + b.d && b.y < a.y + a.d;
+      const xOver = a.x < b.x + b.w && b.x < a.x + a.w;
+      if (yOver && b.x + b.w <= a.x + 1e-9 && a.x - (b.x + b.w) < dirs[0][1]) dirs[0] = ['왼쪽', a.x - (b.x + b.w), j];
+      if (yOver && b.x >= a.x + a.w - 1e-9 && b.x - (a.x + a.w) < dirs[1][1]) dirs[1] = ['오른쪽', b.x - (a.x + a.w), j];
+      if (xOver && b.y + b.d <= a.y + 1e-9 && a.y - (b.y + b.d) < dirs[2][1]) dirs[2] = ['위쪽', a.y - (b.y + b.d), j];
+      if (xOver && b.y >= a.y + a.d - 1e-9 && b.y - (a.y + a.d) < dirs[3][1]) dirs[3] = ['아래쪽', b.y - (a.y + a.d), j];
+    });
+    dirs.forEach(([side, g, j]) => out.push({ i, side, gap: Math.round(g), with: j }));
+  });
+  return out;
+}
+function analyze(items, W, D, door, minPass) {
+  const z = doorZone(door, W, D);
+  const bad = new Set(), notes = [];
+  items.forEach((a, i) => {
+    if (a.x < -1e-9 || a.y < -1e-9 || a.x + a.w > W + 1e-9 || a.y + a.d > D + 1e-9) { bad.add(i); notes.push({ type: 'out', i }); }
+    if (hitsDoor(a, z)) { bad.add(i); notes.push({ type: 'door', i }); }
+    for (let j = i + 1; j < items.length; j++) if (overlaps(a, items[j])) { bad.add(i); bad.add(j); notes.push({ type: 'overlap', i, j }); }
+  });
+  const narrow = [];
+  const seen = new Set();
+  gaps(items, W, D).forEach((g) => {
+    if (g.gap < 5 || g.gap >= minPass) return;
+    if (g.with < 0 && g.gap < 30) return; // 벽과 30cm 미만은 통로가 아니라 자투리로 봄
+    const key = g.with >= 0 ? [Math.min(g.i, g.with), Math.max(g.i, g.with), g.gap].join('-') : g.i + '-' + g.side;
+    if (seen.has(key)) return;
+    seen.add(key);
+    narrow.push(g);
+  });
+  const used = items.reduce((s, a) => s + a.w * a.d, 0);
+  return { bad: [...bad], notes, narrow, used, free: W * D - used, zone: z };
+}
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const KEY = 'jibcalc-room-v1';
+let store = null; try { store = window.localStorage; } catch (e) {}
+let items = [], sel = -1, drag = null;
+const num = (id, d) => { const v = parseFloat($(id).value); return v > 0 ? v : d; };
+const snap = v => Math.round(v / 5) * 5;
+function room(){ return { W: Math.min(3000, num('rw', 330)), D: Math.min(3000, num('rd', 360)) }; }
+function door(){ return { wall: $('dwall').value, pos: Math.max(0, parseFloat($('dpos').value) || 0), w: num('dw', 90), hinge: $('dh').value, slide: $('dslide').checked }; }
+function clamp(it){ const { W, D } = room(); it.x = Math.max(0, Math.min(W - it.w, it.x)); it.y = Math.max(0, Math.min(D - it.d, it.y)); }
+
+function freeSpot(w, d){
+  const { W, D } = room();
+  for (let y = 0; y + d <= D; y += 10) for (let x = 0; x + w <= W; x += 10) {
+    const c = { x, y, w, d };
+    if (!items.some(o => overlaps(c, o))) return { x, y };
+  }
+  return { x: 0, y: 0 };
+}
+function addItem(n, w, d){
+  const p = freeSpot(w, d);
+  items.push({ n, w, d, x: p.x, y: p.y });
+  sel = items.length - 1;
+  render();
+}
+
+function el(tag, attrs, parent){ const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+function render(){
+  const { W, D } = room();
+  const dr = door();
+  const pad = Math.max(W, D) * 0.07;
+  const svg = $('plan');
+  svg.setAttribute('viewBox', [-pad, -pad, W + pad * 2, D + pad * 2].join(' '));
+  svg.innerHTML = '';
+  const fs = Math.max(W, D) / 34;
+  // 바닥과 50cm 격자
+  el('rect', { x: 0, y: 0, width: W, height: D, fill: '#fbfbf9' }, svg);
+  const g = el('g', { stroke: '#e3e6df', 'stroke-width': 1 }, svg);
+  for (let x = 50; x < W; x += 50) el('line', { x1: x, y1: 0, x2: x, y2: D }, g);
+  for (let y = 50; y < D; y += 50) el('line', { x1: 0, y1: y, x2: W, y2: y }, g);
+  // 문 열림 영역
+  const z = doorZone(dr, W, D);
+  if (z) {
+    const sx = z.box.x === z.hx ? 1 : -1, sy = z.box.y === z.hy ? 1 : -1;
+    let path;
+    if (dr.wall === 'top' || dr.wall === 'bottom') {
+      const ex = z.hx + sx * z.r, ey = z.hy, oy = z.hy + sy * z.r;
+      path = 'M' + z.hx + ' ' + z.hy + ' L' + ex + ' ' + ey + ' A' + z.r + ' ' + z.r + ' 0 0 ' + (sx * sy > 0 ? 1 : 0) + ' ' + z.hx + ' ' + oy + ' Z';
+    } else {
+      const ex = z.hx, ey = z.hy + sy * z.r, ox = z.hx + sx * z.r;
+      path = 'M' + z.hx + ' ' + z.hy + ' L' + ex + ' ' + ey + ' A' + z.r + ' ' + z.r + ' 0 0 ' + (sx * sy > 0 ? 0 : 1) + ' ' + ox + ' ' + z.hy + ' Z';
+    }
+    el('path', { d: path, fill: '#e8efe6', stroke: '#5b636b', 'stroke-dasharray': '6 5', 'stroke-width': 1.5 }, svg);
+  }
+  // 벽 (문 자리는 비움)
+  const wall = el('g', { stroke: '#1c2024', 'stroke-width': Math.max(6, fs * 0.45), 'stroke-linecap': 'square', fill: 'none' }, svg);
+  const segs = { top: [[0, 0], [W, 0]], bottom: [[0, D], [W, D]], left: [[0, 0], [0, D]], right: [[W, 0], [W, D]] };
+  for (const k in segs) {
+    const [[x1, y1], [x2, y2]] = segs[k];
+    if (k === dr.wall) {
+      const horiz = k === 'top' || k === 'bottom';
+      const a = dr.pos, b = dr.pos + dr.w;
+      if (horiz) { if (a > 0) el('line', { x1: 0, y1, x2: Math.min(a, W), y2 }, wall); if (b < W) el('line', { x1: b, y1, x2: W, y2 }, wall); }
+      else { if (a > 0) el('line', { x1, y1: 0, x2, y2: Math.min(a, D) }, wall); if (b < D) el('line', { x1, y1: b, x2, y2: D }, wall); }
+    } else el('line', { x1, y1, x2, y2 }, wall);
+  }
+  // 치수
+  el('text', { x: W / 2, y: -pad * 0.35, 'text-anchor': 'middle', 'font-size': fs, fill: '#5b636b' }, svg).textContent = W + 'cm';
+  const t = el('text', { x: -pad * 0.35, y: D / 2, 'text-anchor': 'middle', 'font-size': fs, fill: '#5b636b', transform: 'rotate(-90 ' + (-pad * 0.35) + ' ' + (D / 2) + ')' }, svg); t.textContent = D + 'cm';
+  // 가구
+  const res = analyze(items, W, D, dr, num('minPass', 60));
+  const badSet = new Set(res.bad);
+  items.forEach((it, i) => {
+    const gI = el('g', { class: 'f' + (i === sel ? ' sel' : ''), 'data-i': i, tabindex: 0, role: 'button', 'aria-label': it.n + ' ' + it.w + '×' + it.d + 'cm' }, svg);
+    el('rect', { x: it.x, y: it.y, width: it.w, height: it.d, rx: 3, fill: badSet.has(i) ? '#ffd9d2' : (i === sel ? '#ffe58a' : '#fff3c4'), stroke: badSet.has(i) ? '#b3261e' : '#1c2024', 'stroke-width': 1.5 }, gI);
+    const f2 = Math.min(fs, it.w / 5, it.d / 2.4);
+    const tx = el('text', { x: it.x + it.w / 2, y: it.y + it.d / 2 - f2 * 0.15, 'text-anchor': 'middle', 'font-size': f2, 'font-weight': 600, fill: '#1c2024' }, gI); tx.textContent = it.n;
+    const ts = el('text', { x: it.x + it.w / 2, y: it.y + it.d / 2 + f2 * 1.05, 'text-anchor': 'middle', 'font-size': f2 * 0.8, fill: '#5b636b' }, gI); ts.textContent = it.w + '×' + it.d;
+  });
+  // 좁은 틈 표시선
+  res.narrow.forEach(n => {
+    const a = items[n.i];
+    let x1, y1, x2, y2;
+    const cx = a.x + a.w / 2, cy = a.y + a.d / 2;
+    if (n.side === '왼쪽') { x1 = a.x - n.gap; x2 = a.x; y1 = y2 = cy; }
+    if (n.side === '오른쪽') { x1 = a.x + a.w; x2 = x1 + n.gap; y1 = y2 = cy; }
+    if (n.side === '위쪽') { y1 = a.y - n.gap; y2 = a.y; x1 = x2 = cx; }
+    if (n.side === '아래쪽') { y1 = a.y + a.d; y2 = y1 + n.gap; x1 = x2 = cx; }
+    el('line', { x1, y1, x2, y2, stroke: '#b3261e', 'stroke-width': 2, 'stroke-dasharray': '4 3' }, svg);
+    el('text', { x: (x1 + x2) / 2 + (x1 === x2 ? fs * 0.3 : 0), y: (y1 + y2) / 2 - (y1 === y2 ? fs * 0.3 : 0), 'font-size': fs * 0.8, fill: '#b3261e', 'font-weight': 600, 'text-anchor': x1 === x2 ? 'start' : 'middle' }, svg).textContent = n.gap + 'cm';
+  });
+  results(res, W, D);
+  selPanel();
+  save();
+}
+
+function results(res, W, D){
+  const area = W * D;
+  $('rUsed').innerHTML = (area ? Math.round(res.used / area * 100) : 0) + '<small>%</small>';
+  const badCount = res.notes.length + res.narrow.length;
+  $('rBad').innerHTML = badCount + '<small>곳</small>';
+  $('rDetail').innerHTML = '방 ' + (area / 10000).toFixed(2) + '㎡ (' + (area / 10000 * 121 / 400).toFixed(2) + '평) · 가구 ' + items.length + '개 · 남는 바닥 <b>' + (res.free / 10000).toFixed(2) + '㎡</b>';
+  const nm = i => items[i] ? items[i].n : '';
+  // 받침 있으면 이/과, 없으면 가/와
+  const js = (w, a, b) => { const c = (w || '').charCodeAt(w.length - 1); return w + ((c >= 0xAC00 && c <= 0xD7A3 && (c - 0xAC00) % 28) ? a : b); };
+  const lines = [];
+  res.notes.forEach(n => {
+    if (n.type === 'overlap') lines.push('<b>' + js(nm(n.i), '과', '와') + '</b> <b>' + js(nm(n.j), '이', '가') + '</b> 겹쳐요');
+    if (n.type === 'door') lines.push('<b>' + js(nm(n.i), '이', '가') + '</b> 문 열리는 자리에 걸려요');
+    if (n.type === 'out') lines.push('<b>' + js(nm(n.i), '이', '가') + '</b> 방보다 커요');
+  });
+  res.narrow.forEach(n => lines.push('<b>' + nm(n.i) + '</b> ' + n.side + (n.with >= 0 ? ' ↔ <b>' + nm(n.with) + '</b>' : ' ↔ 벽') + ' 사이 ' + n.gap + 'cm (기준 ' + num('minPass', 60) + 'cm보다 좁아요)'));
+  $('rWarn').innerHTML = lines.length ? lines.map(l => '<li>' + l + '</li>').join('') : (items.length ? '<li>걸리는 곳 없이 들어가요</li>' : '<li>위에서 가구를 넣어 보세요</li>');
+  // 다른 계산기 링크에 방 크기
+  const q = '?w=' + (W / 100) + '&l=' + (D / 100);
+  $('lnkFloor').href = '/floor/' + q; $('lnkWall').href = '/wallpaper/' + q;
+}
+
+function selPanel(){
+  const it = items[sel];
+  $('selbox').hidden = !it;
+  if (!it) return;
+  if (document.activeElement !== $('sn')) $('sn').value = it.n;
+  if (document.activeElement !== $('sw')) $('sw').value = it.w;
+  if (document.activeElement !== $('sd')) $('sd').value = it.d;
+}
+
+// 끌어서 옮기기
+function pt(e){ const svg = $('plan'); const p = svg.createSVGPoint(); p.x = e.clientX; p.y = e.clientY; return p.matrixTransform(svg.getScreenCTM().inverse()); }
+$('plan').addEventListener('pointerdown', e => {
+  const g = e.target.closest('.f');
+  if (!g) { sel = -1; render(); return; }
+  sel = +g.dataset.i;
+  const p = pt(e), it = items[sel];
+  drag = { dx: p.x - it.x, dy: p.y - it.y, id: e.pointerId };
+  $('plan').setPointerCapture(e.pointerId);
+  render();
+});
+$('plan').addEventListener('pointermove', e => {
+  if (!drag || e.pointerId !== drag.id) return;
+  const p = pt(e), it = items[sel];
+  it.x = snap(p.x - drag.dx); it.y = snap(p.y - drag.dy); clamp(it);
+  render();
+});
+const endDrag = () => { drag = null; };
+$('plan').addEventListener('pointerup', endDrag);
+$('plan').addEventListener('pointercancel', endDrag);
+$('plan').addEventListener('keydown', e => {
+  const g = e.target.closest('.f'); if (!g) return;
+  sel = +g.dataset.i;
+  const mv = { ArrowLeft: [-5, 0], ArrowRight: [5, 0], ArrowUp: [0, -5], ArrowDown: [0, 5] }[e.key];
+  if (mv) { e.preventDefault(); move(mv[0], mv[1]); setTimeout(() => { const n = document.querySelector('#plan .f[data-i="' + sel + '"]'); if (n) n.focus(); }, 0); }
+});
+function move(dx, dy){ const it = items[sel]; if (!it) return; it.x += dx; it.y += dy; clamp(it); render(); }
+document.querySelectorAll('[data-mv]').forEach(b => b.addEventListener('click', () => { const [dx, dy] = b.dataset.mv.split(',').map(Number); move(dx, dy); }));
+$('rotBtn').addEventListener('click', () => { const it = items[sel]; if (!it) return; const cx = it.x + it.w / 2, cy = it.y + it.d / 2; [it.w, it.d] = [it.d, it.w]; it.x = snap(cx - it.w / 2); it.y = snap(cy - it.d / 2); clamp(it); render(); });
+$('dupBtn').addEventListener('click', () => { const it = items[sel]; if (!it) return; addItem(it.n, it.w, it.d); });
+$('delBtn').addEventListener('click', () => { if (sel < 0) return; items.splice(sel, 1); sel = -1; render(); });
+['sn', 'sw', 'sd'].forEach(id => $(id).addEventListener('input', () => {
+  const it = items[sel]; if (!it) return;
+  if (id === 'sn') it.n = $('sn').value.slice(0, 20) || '가구';
+  else { const v = parseFloat($(id).value); if (v >= 5 && v <= 3000) { it[id === 'sw' ? 'w' : 'd'] = v; clamp(it); } }
+  render();
+}));
+document.querySelectorAll('#presets button').forEach(b => b.addEventListener('click', () => addItem(b.dataset.n, +b.dataset.w, +b.dataset.d)));
+['rw', 'rd', 'dwall', 'dpos', 'dw', 'dh', 'dslide', 'minPass'].forEach(id => $(id).addEventListener(id === 'dslide' || id === 'dwall' || id === 'dh' ? 'change' : 'input', () => { items.forEach(clamp); render(); }));
+
+// 평면도를 PNG로
+$('pngBtn').addEventListener('click', () => {
+  const svg = $('plan').cloneNode(true);
+  const vb = svg.getAttribute('viewBox').split(' ').map(Number);
+  const scale = 1600 / vb[2];
+  svg.setAttribute('width', 1600); svg.setAttribute('height', Math.round(vb[3] * scale));
+  svg.setAttribute('xmlns', NS);
+  svg.querySelectorAll('text').forEach(t => t.setAttribute('font-family', 'Apple SD Gothic Neo, Malgun Gothic, sans-serif'));
+  const data = new XMLSerializer().serializeToString(svg);
+  const img = new Image();
+  img.onload = () => {
+    const c = document.createElement('canvas'); c.width = 1600; c.height = Math.round(vb[3] * scale) + 80;
+    const x = c.getContext('2d'); x.fillStyle = '#ffffff'; x.fillRect(0, 0, c.width, c.height);
+    x.drawImage(img, 0, 0);
+    x.fillStyle = '#5b636b'; x.font = '28px sans-serif';
+    x.fillText('jibcalc.com 가구 배치 도우미 · 가구 크기는 실제 치수로 확인하세요', 30, c.height - 30);
+    c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = '가구배치.png'; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); }, 'image/png');
+  };
+  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(data);
+});
+
+function save(){
+  if (!store) return;
+  const f = {}; ['rw', 'rd', 'dwall', 'dpos', 'dw', 'dh', 'minPass'].forEach(id => f[id] = $(id).value); f.dslide = $('dslide').checked;
+  try { store.setItem(KEY, JSON.stringify({ f, items })); } catch (e) {}
+}
+function load(){
+  let d = null; try { d = store && JSON.parse(store.getItem(KEY)); } catch (e) {}
+  if (!d || !Array.isArray(d.items)) return false;
+  Object.entries(d.f || {}).forEach(([id, v]) => { const e = $(id); if (!e) return; if (e.type === 'checkbox') e.checked = !!v; else e.value = v; });
+  items = d.items.filter(it => it && it.w > 0 && it.d > 0).map(it => ({ n: String(it.n || '가구').slice(0, 20), w: +it.w, d: +it.d, x: +it.x || 0, y: +it.y || 0 }));
+  return true;
+}
+document.addEventListener('click', e => { if (e.target.closest('[data-a="reset"]') && store) { try { store.removeItem(KEY); } catch (err) {} } }, true);
+// 다른 계산기에서 ?w=&l=(m)로 오면 방 크기로
+(function(){
+  const q = new URLSearchParams(location.search); const w = parseFloat(q.get('w')), l = parseFloat(q.get('l'));
+  const loaded = load();
+  if (w > 0 && l > 0 && w < 30 && l < 30) { $('rw').value = Math.round(w * 100); $('rd').value = Math.round(l * 100); history.replaceState(null, '', location.pathname); }
+  if (!loaded) { items = [{ n: '퀸 침대', w: 150, d: 200, x: 0, y: 0 }, { n: '옷장', w: 120, d: 60, x: 210, y: 0 }, { n: '책상', w: 120, d: 60, x: 0, y: 300 }]; }
+  items.forEach(clamp);
+  render();
+})();
+</script>
+<script src="/common.js"></script>
+</body>
+</html>

@@ -12,6 +12,7 @@ for (const rel of ['index.html', 'tile/index.html', 'wallpaper/index.html', 'pai
   s = s.replace(/<style>[\s\S]*?<\/style>/, () => '<style>' + css + '</style>');
   s = s.replace(FONT_OLD, FONT_NEW);
   s = s.replace(/<meta name="theme-color" content="[^"]*">/, '<meta name="theme-color" content="#ffc400">');
+  if (!s.includes('site.webmanifest')) s = s.replace('<meta name="theme-color" content="#ffc400">', '<meta name="theme-color" content="#ffc400">\n<link rel="manifest" href="/site.webmanifest">');
   // 경로 표시(BreadcrumbList) — 메인 제외
   if (rel !== 'index.html' && !s.includes('id="crumb"')) {
     const kit = require('./site-kit');

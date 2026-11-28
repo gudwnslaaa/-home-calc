@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이사 체크리스트 – 이사 날짜만 넣으면 한 달 전부터 할 일 날짜별 정리</title>
+<meta name="description" content="이사 날짜를 넣으면 업체 견적, 인터넷 이전, 대형폐기물, 가스·전기 정산, 전입신고·확정일자까지 이사 한 달 전부터 2주 뒤까지 할 일을 날짜별로 정리해 줍니다. 체크하면 저장되고 인쇄도 됩니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="이사 체크리스트 – 이사 날짜만 넣으면 한 달 전부터 할 일 날짜별 정리">
+<meta property="og:description" content="이사 날짜를 넣으면 업체 견적, 인터넷 이전, 대형폐기물, 가스·전기 정산, 전입신고·확정일자까지 이사 한 달 전부터 2주 뒤까지 할 일을 날짜별로 정리해 줍니다. 체크하면 저장되고 인쇄도 됩니다.">
+<meta property="og:url" content="https://jibcalc.com/moving/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/moving/">
+<script type="application/ld+json" id="crumb">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"집 공사 계산기","item":"https://jibcalc.com/"},{"@type":"ListItem","position":2,"name":"이사 체크리스트","item":"https://jibcalc.com/moving/"}]}</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "전입신고는 언제까지 해야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "이사한 날부터 14일 안에 해야 하고, 정당한 사유 없이 넘기면 5만 원 이하의 과태료가 나올 수 있습니다. 정부24에서 온라인으로 하거나 새 주소지 주민센터에서 할 수 있어요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "전월세라면 무엇을 꼭 챙겨야 하나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "이사한 날 바로 전입신고를 하고 임대차계약서에 확정일자를 받아 두세요. 집을 넘겨받고 전입신고까지 마치면 다음 날 0시부터 대항력이 생기고, 확정일자까지 받으면 우선변제권도 갖추게 됩니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "전입신고만 하면 주소가 다 바뀌나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "아닙니다. 우편물은 주거이전 우편물 전송 서비스를 따로 신청해야 하고, 은행·카드·보험처럼 자주 쓰는 곳은 직접 확인하는 게 안전합니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "체크한 내용은 저장되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "이 기기의 브라우저에 저장되어 다시 들어오면 이어서 볼 수 있어요. ‘인쇄’로 종이에 뽑아 냉장고에 붙여 두어도 좋습니다."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* 집 공사 계산기 기본 스타일 — 현장 줄자 테마 (tools/apply-theme.js 가 모든 페이지에 넣음) */
+:root{
+  color-scheme:light;
+  --bg:#eef0ec; --card:#ffffff; --ink:#1c2024; --muted:#5b636b; --line:#d6dad3;
+  --field:#f7f8f5; --accent:#7a5a00; --accent-soft:#fff3c4; --soft:#f2f3ef;
+  --tape:#ffc400; --tape-deep:#e0ab00; --panel:#1c2024;
+  --shadow:0 1px 0 rgba(28,32,36,.04);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans KR","Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;font-variant-numeric:tabular-nums}
+/* 페이지 맨 위 줄자 띠 */
+body::before{content:"";display:block;height:14px;background-color:var(--tape);
+  background-image:
+    repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 50px),
+    repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 10px);
+  background-size:100% 9px,100% 4px;background-repeat:no-repeat;background-position:0 0,0 0;
+  border-bottom:1px solid var(--tape-deep)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 72px}
+a{color:var(--ink);text-decoration-color:var(--tape);text-decoration-thickness:3px;text-underline-offset:3px}
+a:hover{text-decoration-color:var(--ink)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:6px}
+header{text-align:left;margin-bottom:8px}
+header h1{font-size:1.85rem;font-weight:700;margin:4px 0 6px;letter-spacing:-0.02em;line-height:1.3}
+header p{margin:0;color:var(--muted);font-size:1rem;max-width:36em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:18px;box-shadow:var(--shadow)}
+.card h2{font-size:1.02rem;font-weight:700;margin:0 0 14px;color:var(--ink);letter-spacing:-0.01em}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:5px;background:var(--tape);color:var(--ink);font-size:.8rem;font-weight:700;margin-right:9px;vertical-align:1px}
+label{display:block;font-size:.86rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+input,select,textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .15s, box-shadow .15s, background .15s}
+input::placeholder,textarea::placeholder{color:#8f969c}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:var(--muted);font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:8px}
+.del:hover{color:var(--ink);background:var(--soft)}
+.add{margin-top:6px;border:1px dashed #b9beb6;background:transparent;color:var(--ink);
+  border-radius:10px;padding:11px 12px;cursor:pointer;font-size:.92rem;width:100%;font-family:inherit;font-weight:500}
+.add:hover{border-color:var(--ink);background:var(--accent-soft)}
+.hint{font-size:.84rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+/* 결과판: 흑연색 바탕에 노란 숫자. 안쪽은 색 변수를 바꿔 어두운 판에 맞춤 */
+.result{--card:#1c2024;--ink:#f2f3ef;--muted:#aeb4b9;--line:#353b41;--field:#262b30;--soft:#262b30;--accent:#ffc400;--accent-soft:rgba(255,196,0,.16);
+  background:var(--panel);color:var(--ink);border-color:var(--panel);position:relative;overflow:hidden;padding-top:30px}
+.result::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background-color:var(--tape);
+  background-image:repeating-linear-gradient(90deg,#1c2024 0 1px,transparent 1px 10px);background-size:100% 4px;background-repeat:no-repeat}
+.result a{color:var(--ink)}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--soft);border-radius:10px;padding:16px 18px;border:1px solid var(--line)}
+.stat .k{font-size:.86rem;color:var(--muted)}
+.stat .v{font-size:2rem;font-weight:700;color:var(--accent);letter-spacing:-0.02em;line-height:1.25;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:500;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.92rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:600}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:48px;padding:0 2px;max-width:40em}
+article h2{font-size:1.2rem;font-weight:700;margin:40px 0 10px;letter-spacing:-0.01em}
+article h3{font-size:1rem;font-weight:700;margin:24px 0 4px}
+article p,article li{color:#30363c}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.92rem;margin:12px 0;
+  background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:10px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:600;background:var(--soft)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);text-align:left}
+@media (max-width:560px){
+  .wrap{padding-top:20px}
+  header h1{font-size:1.6rem}
+  .card{padding:20px 16px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:13px 14px}
+  .stat .v{font-size:1.6rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+.day{margin-top:18px}
+.day h3{display:flex;align-items:baseline;gap:10px;font-size:1rem;margin:0 0 8px}
+.day h3 .dd{display:inline-block;min-width:58px;padding:2px 8px;border-radius:6px;background:var(--tape);color:#1c2024;font-size:.82rem;font-weight:700;text-align:center}
+.day h3 .dd.past{background:#d6dad3}
+.day h3 .dt{color:var(--muted);font-weight:500;font-size:.9rem}
+.tk{display:flex;gap:12px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:6px;cursor:pointer}
+.tk input{width:22px;height:22px;margin:2px 0 0;accent-color:#1c2024;flex:none}
+.tk b{font-weight:600}
+.tk p{margin:2px 0 0;color:var(--muted);font-size:.88rem;line-height:1.6}
+.tk a{font-size:.86rem}
+.tk.done{background:var(--soft)}
+.tk.done b{text-decoration:line-through;color:var(--muted)}
+.tk .rm{margin-left:auto;border:0;background:transparent;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:0 4px}
+.check{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--ink);cursor:pointer;font-weight:500;margin-top:10px}
+.check input{width:20px;height:20px;accent-color:#1c2024;margin:0}
+.addrow{display:grid;grid-template-columns:120px 1fr auto;gap:8px;align-items:end;margin-top:12px}
+@media (max-width:560px){ .addrow{grid-template-columns:1fr 1fr} .addrow .btn{grid-column:1 / -1} }
+@media print{
+  body::before,header .back,.card:not(.list-card),.result,.related,article,footer,.ad-slot,.sticky-bar,.no-print{display:none!important}
+  body{background:#fff}
+  .list-card{border:0;box-shadow:none;padding:0}
+  .tk{break-inside:avoid}
+}
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#ffc400">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <h1>이사 체크리스트</h1>
+    <p>이사 날짜만 넣으면 한 달 전부터 이사 후 2주까지 할 일이 날짜별로 정리됩니다.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>이사 날짜</h2>
+    <div class="grid g2">
+      <div><label for="move">이사하는 날</label><input id="move" type="date"></div>
+    </div>
+    <label class="check"><input id="tenant" type="checkbox" checked> 전월세로 들어가요 (확정일자 챙기기)</label>
+    <label class="check"><input id="hideDone" type="checkbox"> 끝낸 일 숨기기</label>
+  </section>
+
+  <section class="card result" aria-live="polite">
+    <h2>진행 상황</h2>
+    <div class="big">
+      <div class="stat"><div class="k">끝낸 일</div><div class="v" id="rDone">0<small>/ 0</small></div></div>
+      <div class="stat"><div class="k">이사까지</div><div class="v" id="rLeft">-<small>일</small></div></div>
+    </div>
+    <div class="detail" id="rDetail"></div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <section class="card list-card">
+    <h2 style="display:flex;align-items:center;gap:10px"><span class="num">2</span>날짜별 할 일 <button type="button" class="btn no-print" id="printBtn" style="margin-left:auto">인쇄</button></h2>
+    <div id="list"></div>
+    <div class="addrow no-print">
+      <div><label for="newDay">이사일 기준 (일)</label><input id="newDay" type="number" inputmode="numeric" step="1" value="-3" min="-90" max="60"></div>
+      <div><label for="newText">내 할 일 추가</label><input id="newText" type="text" placeholder="예: 에어컨 이전 설치 예약"></div>
+      <button type="button" class="btn primary" id="addBtn">추가</button>
+    </div>
+    <p class="hint no-print">‘이사일 기준’은 이사 전이면 음수(-7은 일주일 전), 이사 후면 양수로 넣어요. 날짜는 참고용 권장 시점이에요.</p>
+  </section>
+
+  <article>
+    <h2>이사 당일 꼭 남길 것: 계량기와 새 집 사진</h2>
+    <p>짐이 들어가면 바닥 흠집이 원래 있던 건지 이삿짐에 생긴 건지 가리기 어렵습니다. 들어가자마자 벽·바닥·문을 사진과 영상으로 남기고, 나가는 집과 들어가는 집의 전기·수도·가스 계량기 숫자도 찍어 두세요. 정산할 때 말다툼이 없어집니다.</p>
+
+    <h2>전입신고와 확정일자</h2>
+    <p>전입신고는 이사한 날부터 14일 안에 해야 합니다. 정부24에서 온라인으로 하거나 주민센터에 직접 가서 할 수 있어요. 전월세라면 이사한 날 바로 전입신고를 하고 임대차계약서에 확정일자도 받아 두는 게 좋습니다. 집을 넘겨받고 전입신고까지 마치면 다음 날 0시부터 대항력이 생기고, 확정일자까지 갖추면 보증금을 먼저 돌려받을 수 있는 우선변제권도 생깁니다.</p>
+
+    <h2>공사와 이사가 겹친다면</h2>
+    <p>도배나 바닥 공사를 하고 들어간다면 <a href="/schedule/">공사·이사 일정표</a>로 이사 날짜에서 거꾸로 공사 순서를 잡고, 버릴 물건은 <a href="/waste/">폐기물 정리 도우미</a>로 무상수거와 대형폐기물을 나눠 두세요. 새 집에 가구가 들어가는지는 <a href="/room/">가구 배치 도우미</a>로 미리 확인할 수 있어요.</p>
+
+    <h2>자주 묻는 질문</h2>
+    <h3>전입신고는 언제까지 해야 하나요?</h3>
+    <p>이사한 날부터 14일 안에 해야 하고, 정당한 사유 없이 넘기면 5만 원 이하의 과태료가 나올 수 있습니다. 정부24에서 온라인으로 하거나 새 주소지 주민센터에서 할 수 있어요.</p>
+    <h3>전월세라면 무엇을 꼭 챙겨야 하나요?</h3>
+    <p>이사한 날 바로 전입신고를 하고 임대차계약서에 확정일자를 받아 두세요. 집을 넘겨받고 전입신고까지 마치면 다음 날 0시부터 대항력이 생기고, 확정일자까지 받으면 우선변제권도 갖추게 됩니다.</p>
+    <h3>전입신고만 하면 주소가 다 바뀌나요?</h3>
+    <p>아닙니다. 우편물은 주거이전 우편물 전송 서비스를 따로 신청해야 하고, 은행·카드·보험처럼 자주 쓰는 곳은 직접 확인하는 게 안전합니다.</p>
+    <h3>체크한 내용은 저장되나요?</h3>
+    <p>이 기기의 브라우저에 저장되어 다시 들어오면 이어서 볼 수 있어요. ‘인쇄’로 종이에 뽑아 냉장고에 붙여 두어도 좋습니다.</p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/insulation/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h16"/><circle cx="8" cy="7.5" r="1"/><circle cx="16" cy="16.5" r="1"/><circle cx="16" cy="7.5" r="1"/><circle cx="8" cy="16.5" r="1"/></svg></div><div class="txt"><b>창문 단열 · 뽁뽁이 계산기</b><span class="sub">뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/area/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9h7V4h9v16z"/><path d="M4 20l7-7"/></svg></div><div class="txt"><b>면적 계산기</b><span class="sub">사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a><a class="item" href="/room/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1.5"/><rect x="5.5" y="5.5" width="6" height="8" rx="1"/><path d="M14 21v-4.5a4.5 4.5 0 0 1 4.5-4.5H21"/></svg></div><div class="txt"><b>가구 배치 도우미</b><span class="sub">침대·옷장 넣어 보기 · 문 걸림 · 통로 폭</span></div><div class="go">→</div></a><a class="item" href="/measure/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg></div><div class="txt"><b>교체 전 치수 기록</b><span class="sub">방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a><a class="item" href="/estimate/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg></div><div class="txt"><b>견적서 작성기</b><span class="sub">공종별 항목 · 부가세 자동 계산 · PDF 저장</span></div><div class="go">→</div></a><a class="item" href="/labor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg></div><div class="txt"><b>인건비 · 3.3% 계산기</b><span class="sub">일당 × 일수 · 3.3% 실수령액 · 일용직 세금</span></div><div class="go">→</div></a><a class="item" href="/vat/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg></div><div class="txt"><b>부가세 계산기</b><span class="sub">공급가액 ↔ 합계 · VAT 별도 / 포함</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    날짜는 권장 시점이에요. 기관별 신청 기한과 방법은 해당 기관 안내를 따르세요.
+  </footer>
+</div>
+
+<script>
+const TASKS = [{"id":"b0","d":-30,"t":"이사 업체 견적 받기","p":"같은 조건(짐 양·층수·사다리차 여부)으로 여러 곳 견적을 받아 비교해요.","c":"","l":""},{"id":"b1","d":-30,"t":"버릴 물건 고르기","p":"안 쓰는 가구·가전부터 골라 두면 짐도 이사 비용도 줄어요.","c":"","l":"/waste/"},{"id":"b2","d":-28,"t":"공사가 있다면 일정 짜기","p":"도배·바닥 등 공사가 있으면 이사 날짜에서 거꾸로 공사 순서를 잡아요.","c":"","l":"/schedule/"},{"id":"b3","d":-21,"t":"인터넷·TV 이전 신청","p":"이사 당일 바로 쓰려면 미리 날짜를 잡아 두는 게 좋아요.","c":"","l":""},{"id":"b4","d":-21,"t":"학교·어린이집 옮길 준비","p":"아이가 있다면 옮길 곳에 필요한 서류와 시기를 문의해요.","c":"","l":""},{"id":"b5","d":-14,"t":"대형폐기물 신고 · 폐가전 무상수거 예약","p":"구청·주민센터 대형폐기물 신고, 큰 가전은 무상 방문수거를 예약해요.","c":"","l":"/waste/"},{"id":"b6","d":-14,"t":"새 집 치수 재기 · 가구 배치 정하기","p":"방 크기, 문 폭, 창문 크기를 재고 가구가 들어가는지 확인해요.","c":"","l":"/room/"},{"id":"b7","d":-10,"t":"커튼·블라인드 · 조명 준비","p":"새 집 창문 치수로 맞춰 미리 주문해요.","c":"","l":""},{"id":"b8","d":-7,"t":"관리사무소에 이사 날짜 알리기","p":"엘리베이터 사용과 이사 시간을 미리 예약해요.","c":"","l":""},{"id":"b9","d":-7,"t":"도시가스 철거·연결 예약","p":"이사 나가는 집과 들어가는 집 모두 날짜를 잡아요.","c":"","l":""},{"id":"b10","d":-5,"t":"전기·수도 요금 정산 신청","p":"나가는 날 기준으로 정산되게 각 공급사에 신청해요.","c":"","l":""},{"id":"b11","d":-5,"t":"중요 서류·귀중품 따로 챙기기","p":"계약서, 통장, 보석, 상비약은 이삿짐과 섞지 말고 직접 들고 가요.","c":"","l":""},{"id":"b12","d":-3,"t":"짐 싸기 시작","p":"자주 안 쓰는 물건부터 싸고, 상자마다 방 이름을 적어 두면 풀 때 편해요.","c":"","l":""},{"id":"b13","d":-2,"t":"냉장고 음식 줄이기","p":"이사 전날 비울 수 있게 장보기를 멈춰요.","c":"","l":""},{"id":"b14","d":-1,"t":"냉장고 비우기 · 세탁기 물 빼기","p":"냉장고는 전원을 끄고 물기를 닦아 두고, 세탁기는 남은 물을 빼 둬요.","c":"","l":""},{"id":"b15","d":-1,"t":"이사 당일 가방 싸기","p":"세면도구, 충전기, 갈아입을 옷, 공구, 쓰레기봉투, 휴지를 한 가방에.","c":"","l":""},{"id":"b16","d":0,"t":"계량기 숫자 사진 찍기","p":"나가는 집과 들어가는 집의 전기·수도·가스 계량기를 찍어 두면 정산할 때 확실해요.","c":"","l":""},{"id":"b17","d":0,"t":"새 집 상태 사진 · 영상 남기기","p":"짐을 들이기 전에 벽·바닥·문의 흠집을 찍어 두세요.","c":"","l":""},{"id":"b18","d":0,"t":"도어락 비밀번호 바꾸기","p":"들어간 날 바로 바꿔요.","c":"","l":""},{"id":"b19","d":0,"t":"잔금 · 보증금 처리","p":"잔금을 치르고, 나가는 집은 보증금을 돌려받는지 확인해요.","c":"","l":""},{"id":"b20","d":0,"t":"전입신고","p":"정부24에서 온라인으로 하거나 주민센터에 가서 할 수 있어요. 이사한 날 바로 하는 게 좋아요.","c":"","l":""},{"id":"b21","d":0,"t":"확정일자 받기","p":"전월세라면 전입신고와 함께 임대차계약서에 확정일자를 받아 두세요. 인터넷등기소나 주민센터에서 할 수 있어요.","c":"tenant","l":""},{"id":"b22","d":1,"t":"우편물 주소 옮기기","p":"정부24 전입신고 때 함께 신청하거나 인터넷우체국의 주거이전 우편물 전송 서비스를 따로 신청해요.","c":"","l":""},{"id":"b23","d":3,"t":"입주 청소 · 하자 확인","p":"청소하면서 수전·배수·문·창문이 제대로 되는지 확인하고 사진을 남겨요.","c":"","l":""},{"id":"b24","d":7,"t":"은행·카드·보험 주소 바꾸기","p":"전입신고 하나로 모든 주소가 바뀌지는 않아요. 자주 쓰는 곳은 직접 바꿔요.","c":"","l":""},{"id":"b25","d":13,"t":"전입신고 마감 (늦어도 이날까지)","p":"이사 후 14일 안에 해야 하고, 넘기면 과태료가 나올 수 있어요.","c":"","l":""}];
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const KEY = 'jibcalc-moving-v1';
+let store = null; try { store = window.localStorage; } catch (e) {}
+let state = { done: {}, mine: [] };
+const W = ['일', '월', '화', '수', '목', '금', '토'];
+function iso(d){ return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+function fmt(d){ return (d.getMonth() + 1) + '월 ' + d.getDate() + '일 (' + W[d.getDay()] + ')'; }
+function today(){ const t = new Date(); t.setHours(0, 0, 0, 0); return t; }
+function label(n){ return n === 0 ? '이사 당일' : n < 0 ? 'D' + n : 'D+' + n; }
+
+function all(){
+  const tenant = $('tenant').checked;
+  return TASKS.filter(t => t.c !== 'tenant' || tenant).concat(state.mine).sort((a, b) => a.d - b.d);
+}
+function render(){
+  const mv = $('move').value ? new Date($('move').value + 'T00:00:00') : null;
+  const list = all();
+  const now = today();
+  const groups = {};
+  list.forEach(t => (groups[t.d] = groups[t.d] || []).push(t));
+  const hide = $('hideDone').checked;
+  let html = '';
+  Object.keys(groups).map(Number).sort((a, b) => a - b).forEach(d => {
+    const items = groups[d].filter(t => !(hide && state.done[t.id]));
+    if (!items.length) return;
+    const date = mv ? new Date(mv.getTime() + d * 86400000) : null;
+    const past = date && date < now;
+    html += '<div class="day"><h3><span class="dd' + (past ? ' past' : '') + '">' + label(d) + '</span>' + (date ? '<span class="dt">' + fmt(date) + '</span>' : '') + '</h3>' +
+      items.map(t => '<label class="tk' + (state.done[t.id] ? ' done' : '') + '"><input type="checkbox" data-id="' + t.id + '"' + (state.done[t.id] ? ' checked' : '') + '><span><b>' + esc(t.t) + '</b>' +
+        (t.p ? '<p>' + esc(t.p) + '</p>' : '') + (t.l ? '<a href="' + t.l + '">관련 도구 열기</a>' : '') + '</span>' +
+        (t.mine ? '<button type="button" class="rm" data-rm="' + t.id + '" aria-label="내 할 일 지우기">×</button>' : '') + '</label>').join('') + '</div>';
+  });
+  $('list').innerHTML = html || '<p class="hint">모두 끝냈어요.</p>';
+  const doneN = list.filter(t => state.done[t.id]).length;
+  $('rDone').innerHTML = doneN + '<small>/ ' + list.length + '</small>';
+  if (mv) {
+    const left = Math.round((mv - now) / 86400000);
+    $('rLeft').innerHTML = left > 0 ? left + '<small>일</small>' : left === 0 ? '오늘<small></small>' : '지남<small></small>';
+    const next = list.filter(t => !state.done[t.id]).find(t => new Date(mv.getTime() + t.d * 86400000) >= now) || list.find(t => !state.done[t.id]);
+    const overdue = list.filter(t => !state.done[t.id] && new Date(mv.getTime() + t.d * 86400000) < now).length;
+    $('rDetail').innerHTML = (next ? '다음 할 일: <b>' + esc(next.t) + '</b> (' + fmt(new Date(mv.getTime() + next.d * 86400000)) + ')' : '모두 끝냈어요') +
+      (overdue ? '<br>날짜가 지났는데 아직 안 한 일 <b>' + overdue + '개</b>' : '');
+  } else { $('rLeft').innerHTML = '-<small>일</small>'; $('rDetail').innerHTML = '이사 날짜를 넣어 주세요.'; }
+  save();
+}
+function save(){ if (!store) return; try { store.setItem(KEY, JSON.stringify({ move: $('move').value, tenant: $('tenant').checked, hideDone: $('hideDone').checked, done: state.done, mine: state.mine })); } catch (e) {} }
+function load(){
+  let d = null; try { d = store && JSON.parse(store.getItem(KEY)); } catch (e) {}
+  if (!d) return false;
+  $('move').value = d.move || ''; $('tenant').checked = d.tenant !== false; $('hideDone').checked = !!d.hideDone;
+  state.done = d.done || {}; state.mine = Array.isArray(d.mine) ? d.mine.filter(m => m && m.t).map(m => ({ id: String(m.id), d: Math.max(-90, Math.min(60, parseInt(m.d, 10) || 0)), t: String(m.t).slice(0, 60), p: '', l: '', mine: true })) : [];
+  return true;
+}
+$('list').addEventListener('change', e => { const id = e.target.dataset.id; if (!id) return; if (e.target.checked) state.done[id] = 1; else delete state.done[id]; render(); });
+$('list').addEventListener('click', e => { const b = e.target.closest('[data-rm]'); if (!b) return; e.preventDefault(); state.mine = state.mine.filter(m => m.id !== b.dataset.rm); delete state.done[b.dataset.rm]; render(); });
+$('addBtn').addEventListener('click', () => {
+  const t = $('newText').value.trim(); if (!t) { $('newText').focus(); return; }
+  const d = Math.max(-90, Math.min(60, parseInt($('newDay').value, 10) || 0));
+  state.mine.push({ id: 'm' + Date.now(), d, t: t.slice(0, 60), p: '', l: '', mine: true });
+  $('newText').value = ''; render();
+});
+$('newText').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); $('addBtn').click(); } });
+$('printBtn').addEventListener('click', () => window.print());
+['move', 'tenant', 'hideDone'].forEach(id => $(id).addEventListener('change', render));
+document.addEventListener('click', e => { if (e.target.closest('[data-a="reset"]') && store) { try { store.removeItem(KEY); } catch (err) {} } }, true);
+if (!load()) { const t = today(); t.setDate(t.getDate() + 30); $('move').value = iso(t); }
+render();
+</script>
+<script src="/common.js"></script>
+</body>
+</html>

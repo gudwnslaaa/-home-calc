@@ -91,6 +91,7 @@ ${EXTRA_STYLE}
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#ffc400">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/common.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
 </head>

@@ -18,6 +18,8 @@ const ICONS = {
   measure: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg>',
   schedule: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg>',
   insulation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h16"/><circle cx="8" cy="7.5" r="1"/><circle cx="16" cy="16.5" r="1"/><circle cx="16" cy="7.5" r="1"/><circle cx="8" cy="16.5" r="1"/></svg>',
+  room: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1.5"/><rect x="5.5" y="5.5" width="6" height="8" rx="1"/><path d="M14 21v-4.5a4.5 4.5 0 0 1 4.5-4.5H21"/></svg>',
+  moving: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/><path d="M7.5 9l9-4"/></svg>',
   estimate: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg>',
   labor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg>',
   vat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg>',
@@ -32,7 +34,9 @@ const TOOLS = [
   { key: 'insulation', group: 'mat', href: '/insulation/', name: '창문 단열 · 뽁뽁이 계산기', sub: '뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지' },
   { key: 'pyeong', group: 'size', href: '/pyeong/', name: '평수 계산기', sub: '㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설' },
   { key: 'area', group: 'size', href: '/area/', name: '면적 계산기', sub: '사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평' },
+  { key: 'moving', group: 'prep', href: '/moving/', name: '이사 체크리스트', sub: '이사 날짜로 한 달 전부터 할 일 · 체크 저장' },
   { key: 'waste', group: 'prep', href: '/waste/', name: '폐기물 정리 도우미', sub: '공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재' },
+  { key: 'room', group: 'size', href: '/room/', name: '가구 배치 도우미', sub: '침대·옷장 넣어 보기 · 문 걸림 · 통로 폭' },
   { key: 'measure', group: 'size', href: '/measure/', name: '교체 전 치수 기록', sub: '방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리' },
   { key: 'schedule', group: 'prep', href: '/schedule/', name: '공사·이사 일정표', sub: '이사 날짜로 공사 순서와 할 일을 거꾸로 계산' },
   { key: 'estimate', group: 'money', href: '/estimate/', name: '견적서 작성기', sub: '공종별 항목 · 부가세 자동 계산 · PDF 저장' },
@@ -88,6 +92,7 @@ ${extraStyle}
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#ffc400">
+<link rel="manifest" href="/site.webmanifest">
 <link rel="stylesheet" href="/common.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
 </head>

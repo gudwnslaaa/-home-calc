@@ -287,3 +287,30 @@
     }, { threshold: 0.15 }).observe(result);
   }
 })();
+
+/* ===== 앱처럼 쓰기(오프라인) · 최근 쓴 계산기 ===== */
+(function () {
+  if ('serviceWorker' in navigator && location.protocol === 'https:') {
+    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+  }
+  let store = null;
+  try { store = window.localStorage; } catch (e) { return; }
+  const RKEY = 'jibcalc-recent';
+  const path = location.pathname;
+  const read = () => { try { return JSON.parse(store.getItem(RKEY)) || []; } catch (e) { return []; } };
+  // 계산기 페이지 방문 기록 (메인·소개·평수 세부 페이지 등은 제외)
+  if (/^\/[a-z0-9-]+\/$/.test(path) && !/^\/(about|privacy|contact)\/$/.test(path)) {
+    const list = [path].concat(read().filter((p) => p !== path)).slice(0, 3);
+    try { store.setItem(RKEY, JSON.stringify(list)); } catch (e) {}
+  }
+  // 메인 화면: 최근 쓴 계산기 보여 주기
+  const box = document.getElementById('recent');
+  if (box) {
+    const items = read().map((p) => document.querySelector('.groups a.item[href="' + p + '"]')).filter(Boolean);
+    if (items.length) {
+      const list = box.querySelector('.list');
+      items.forEach((a) => list.appendChild(a.cloneNode(true)));
+      box.hidden = false;
+    }
+  }
+})();
