@@ -4,6 +4,25 @@ const kit = require('./site-kit');
 const mm = require('./money-math');
 
 const CATS = ['철거', '설비', '전기', '목공', '타일', '도장', '도배', '바닥', '욕실', '주방', '창호', '조명', '가구', '청소', '폐기물', '기타'];
+// 공사별 항목 틀 (단가는 비워 둠)
+const TEMPLATES = {
+  bath: { name: '욕실 리모델링', items: [
+    ['철거', '기존 욕실 철거·폐기물', '식', '인건비'], ['설비', '배관 정리', '식', '인건비'], ['욕실', '방수 시공', '식', '인건비'],
+    ['타일', '벽 타일', '박스', '자재비'], ['타일', '바닥 타일', '박스', '자재비'], ['타일', '타일 시공', '품', '인건비'],
+    ['욕실', '양변기', '개', '자재비'], ['욕실', '세면대·수전', '개', '자재비'], ['욕실', '욕실장·거울', '개', '자재비'],
+    ['욕실', '천장재', '식', '자재비'], ['조명', '욕실 조명·환풍기', '개', '자재비'], ['청소', '준공 청소', '식', '경비']] },
+  paper: { name: '도배 · 장판', items: [
+    ['도배', '벽지', '롤', '자재비'], ['도배', '도배 시공', '품', '인건비'], ['바닥', '장판', 'm', '자재비'],
+    ['바닥', '장판 시공', '식', '인건비'], ['철거', '기존 장판 철거·폐기', '식', '인건비'], ['가구', '짐 이동', '식', '경비']] },
+  kitchen: { name: '주방', items: [
+    ['철거', '기존 싱크대 철거', '식', '인건비'], ['주방', '싱크대 상·하부장', 'm', '자재비'], ['주방', '상판', 'm', '자재비'],
+    ['주방', '싱크볼·수전', '개', '자재비'], ['설비', '배관·가스 연결', '식', '인건비'], ['타일', '주방 벽 타일', '박스', '자재비'],
+    ['전기', '콘센트·조명', '개', '자재비']] },
+  paint: { name: '페인트 도장', items: [
+    ['도장', '바탕 정리·퍼티', '식', '인건비'], ['도장', '페인트', 'L', '자재비'], ['도장', '도장 시공', '품', '인건비'], ['기타', '보양', '식', '경비']] },
+  site: { name: '현장 경비 (공통)', items: [
+    ['기타', '자재 운반·양중', '식', '경비'], ['기타', '엘리베이터 보양', '식', '경비'], ['폐기물', '폐기물 처리', '식', '경비'], ['청소', '입주 청소', '식', '경비']] },
+};
 const UNITS = ['식', '㎡', '평', 'm', '개', '박스', '롤', 'L', '통', '장', '일', '인', '품', '회'];
 
 const EXTRA_STYLE = `<style>
@@ -53,6 +72,7 @@ const faq = [
   ['인테리어 견적서에는 무엇을 적어야 하나요?', '공종별 항목(철거·설비·목공·타일·도배 등), 품명과 규격, 수량과 단위, 단가와 금액, 그리고 공급가액·부가세·합계를 나눠 적는 게 기본입니다. 견적 유효기간, 결제 조건, 견적에 포함되지 않은 공사도 함께 적어 두면 나중에 다툼이 줄어듭니다.'],
   ['견적서를 PDF로 저장하려면?', '‘견적서 보기’를 누른 뒤 ‘인쇄 · PDF 저장’을 누르고, 인쇄 창에서 대상(프린터)을 ‘PDF로 저장’으로 고르면 됩니다. 휴대폰은 인쇄 화면에서 공유 버튼으로 PDF를 보낼 수 있어요.'],
   ['넣은 내용은 어디에 저장되나요?', '지금 쓰는 기기의 브라우저 안에만 저장되고 서버로 보내지 않습니다. 다른 기기에서는 보이지 않으니, 완성한 견적서는 PDF로 저장해 두세요. ‘입력 초기화’를 누르면 지워집니다.'],
+  ['견적서를 여러 개 만들어 둘 수 있나요?', '‘견적서 관리’에서 이름을 붙여 저장하면 30개까지 이 기기에 보관하고 다시 불러올 수 있습니다. 욕실·도배·주방처럼 자주 하는 공사는 ‘공사별 항목 틀’로 항목을 한 번에 넣고 수량과 단가만 채우면 됩니다.'],
   ['공과잡비는 몇 %로 잡나요?', '정해진 비율은 없고 업체와 공사 규모에 따라 다릅니다. 이 계산기는 직접 넣은 비율만 적용하고, 0%로 두면 넣지 않습니다.'],
 ];
 
@@ -69,7 +89,26 @@ const html = kit.head({
   </header>
 
   <section class="card">
+    <h2>견적서 관리</h2>
+    <div class="g2x">
+      <div><label for="savedList">저장한 견적서</label><select id="savedList"><option value="">저장한 견적서가 없어요</option></select></div>
+      <div><label for="saveName">저장할 이름</label><input id="saveName" type="text" placeholder="예: OO아파트 욕실"></div>
+    </div>
+    <div class="tools">
+      <button type="button" class="btn primary" id="saveBtn">지금 견적서 저장</button>
+      <button type="button" class="btn" id="loadBtn">불러오기</button>
+      <button type="button" class="btn ghost" id="delBtn">삭제</button>
+      <button type="button" class="btn ghost" id="newBtn">새 견적서</button>
+    </div>
+    <p class="hint">견적서는 이 기기 브라우저에만 저장돼요. 새 견적서를 누르면 업체 정보는 그대로 두고 항목·고객 정보만 비워요.</p>
+  </section>
+
+  <section class="card">
     <h2><span class="num">1</span>견적 항목</h2>
+    <div class="g2x" style="margin-bottom:12px;align-items:end">
+      <div><label for="tpl">공사별 항목 틀</label><select id="tpl">${Object.entries(TEMPLATES).map(([k, t]) => `<option value="${k}">${t.name}</option>`).join('')}</select></div>
+      <div><button type="button" class="btn" id="tplBtn" style="width:100%">항목 틀 넣기 (단가는 직접)</button></div>
+    </div>
     <datalist id="catList">${CATS.map((c) => `<option value="${c}">`).join('')}</datalist>
     <datalist id="unitList">${UNITS.map((u) => `<option value="${u}">`).join('')}</datalist>
     <div class="items" id="items"></div>
@@ -134,6 +173,7 @@ const html = kit.head({
       <li>공종·품명·수량·단위·단가를 넣으면 항목별 금액과 공종별 소계를 자동 계산</li>
       <li>부가세 별도·포함·없음 선택, 공과잡비(%)·할인·끝자리 정리</li>
       <li>합계를 ‘일금 ○○원정’ 한글 표기로 함께 표시</li>
+      <li>욕실·도배 장판·주방·도장·현장 경비 항목 틀, 견적서 여러 개 저장·불러오기</li>
       <li>흰 종이 양식으로 보기 → 인쇄 또는 PDF 저장, 엑셀에 붙여 넣을 표 복사</li>
     </ul>
     <p>수량을 뽑을 땐 <a href="/tile/">타일</a>, <a href="/wallpaper/">도배지</a>, <a href="/paint/">페인트</a>, <a href="/floor/">장판·마루</a> 계산기를, 인건비는 <a href="/labor/">인건비·3.3% 계산기</a>를, 부가세만 따로 확인할 땐 <a href="/vat/">부가세 계산기</a>를 쓰세요.</p>
@@ -327,6 +367,73 @@ function flash(msg){
   t.textContent = msg; t.hidden = false; clearTimeout(t._h); t._h = setTimeout(() => t.hidden = true, 2200);
 }
 
+const TEMPLATES = ${JSON.stringify(Object.fromEntries(Object.entries(TEMPLATES).map(([k, t]) => [k, t.items])))};
+$('tplBtn').addEventListener('click', () => {
+  const list = TEMPLATES[$('tpl').value] || [];
+  // 비어 있는 첫 줄은 지우고 넣기
+  readItems().forEach(i => { if (!i.name && !i.qty && !i.price) i.el.remove(); });
+  let first = null;
+  list.forEach(([cat, name, unit, kind]) => { const el = addItem({ cat, name, unit, kind }); first = first || el; });
+  calc();
+  if (first) first.scrollIntoView({ block: 'center', behavior: 'smooth' });
+  flash($('tpl').selectedOptions[0].textContent + ' 항목 ' + list.length + '개를 넣었어요. 수량과 단가를 채워 주세요');
+});
+
+// 여러 견적서 저장·불러오기
+const SKEY = 'jibcalc-estimates-v1';
+const readSaved = () => { try { return JSON.parse(store.getItem(SKEY)) || {}; } catch (e) { return {}; } };
+function refreshSaved(sel){
+  const all = readSaved();
+  const names = Object.keys(all).sort((a, b) => (all[b].t || 0) - (all[a].t || 0));
+  $('savedList').innerHTML = names.length
+    ? names.map(n => '<option value="' + esc(n) + '">' + esc(n) + ' (' + new Date(all[n].t).toLocaleDateString('ko-KR') + ')</option>').join('')
+    : '<option value="">저장한 견적서가 없어요</option>';
+  if (sel && all[sel]) $('savedList').value = sel;
+}
+function current(){
+  const d = { f: {}, items: readItems().map(({ el, amount, ...rest }) => rest) };
+  FIELDS.forEach(id => d.f[id] = $(id).value);
+  return d;
+}
+function apply(d){
+  $('items').innerHTML = '';
+  FIELDS.forEach(id => { if (d.f && d.f[id] != null) $(id).value = d.f[id]; });
+  (d.items || []).forEach(v => addItem(v));
+  calc();
+}
+$('saveBtn').addEventListener('click', () => {
+  if (!store) return flash('이 브라우저에서는 저장할 수 없어요');
+  const name = ($('saveName').value.trim() || $('site').value.trim() || $('cuName').value.trim() || ('견적서 ' + $('edate').value)).slice(0, 40);
+  const all = readSaved();
+  if (!all[name] && Object.keys(all).length >= 30) return flash('저장은 30개까지예요. 안 쓰는 견적서를 지워 주세요');
+  all[name] = { t: Date.now(), d: current() };
+  try { store.setItem(SKEY, JSON.stringify(all)); } catch (e) { return flash('저장 공간이 부족해요'); }
+  refreshSaved(name); $('saveName').value = name;
+  flash('‘' + name + '’으로 저장했어요');
+});
+$('loadBtn').addEventListener('click', () => {
+  const n = $('savedList').value, all = readSaved();
+  if (!n || !all[n]) return flash('불러올 견적서를 골라 주세요');
+  apply(all[n].d); $('saveName').value = n;
+  flash('‘' + n + '’을 불러왔어요');
+});
+$('delBtn').addEventListener('click', () => {
+  const n = $('savedList').value, all = readSaved();
+  if (!n || !all[n]) return flash('지울 견적서를 골라 주세요');
+  if ($('delBtn').dataset.confirm !== n) { $('delBtn').dataset.confirm = n; $('delBtn').textContent = '한 번 더 누르면 삭제'; setTimeout(() => { $('delBtn').dataset.confirm = ''; $('delBtn').textContent = '삭제'; }, 3000); return; }
+  delete all[n];
+  try { store.setItem(SKEY, JSON.stringify(all)); } catch (e) {}
+  $('delBtn').dataset.confirm = ''; $('delBtn').textContent = '삭제';
+  refreshSaved(); flash('‘' + n + '’을 지웠어요');
+});
+$('newBtn').addEventListener('click', () => {
+  $('items').innerHTML = '';
+  ['cuName', 'site', 'memo', 'saveName'].forEach(id => $(id).value = '');
+  ['misc', 'disc'].forEach(id => $(id).value = '0'); $('cut').value = '0';
+  addItem(); calc();
+  flash('새 견적서를 시작해요. 업체 정보는 그대로 두었어요');
+});
+
 $('addItem').addEventListener('click', () => { addItem(); calc(); });
 $('viewBtn').addEventListener('click', () => { $('sheet').innerHTML = sheetHtml(); $('sheetWrap').hidden = false; document.body.style.overflow = 'hidden'; });
 $('closeBtn').addEventListener('click', () => { $('sheetWrap').hidden = true; document.body.style.overflow = ''; });
@@ -348,6 +455,7 @@ if (!load()) {
   addItem({ cat: '타일', name: '타일 시공', qty: 2, unit: '품', price: 300000, kind: '인건비' });
 }
 if (!$('edate').value) { const t = new Date(); $('edate').value = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
+refreshSaved();
 importFromUrl();
 calc();
 </script>
