@@ -31,7 +31,7 @@
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <style>
 /* 집 공사 계산기 기본 스타일 — 현장 줄자 테마 (tools/apply-theme.js 가 모든 페이지에 넣음) */
 :root{
@@ -192,6 +192,11 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
       <div><label for="price">박스당 가격 (원)</label><input id="price" type="number" inputmode="numeric" placeholder="선택" min="0"></div>
     </div>
     <p class="hint">박스당 장수는 제품마다 다릅니다. 박스 겉면이나 판매 페이지를 꼭 확인하세요.</p>
+    <div class="grid g2" style="margin-top:12px">
+      <div><label for="adhA">접착제 1포 시공 면적 (㎡)</label><input id="adhA" type="number" inputmode="decimal" min="0" step="0.5" placeholder="선택 · 포장 표기값"></div>
+      <div><label for="grtA">줄눈재 1개 시공 면적 (㎡)</label><input id="grtA" type="number" inputmode="decimal" min="0" step="0.5" placeholder="선택 · 포장 표기값"></div>
+    </div>
+    <p class="hint">부자재 양은 타일 크기·줄눈 폭·바탕에 따라 달라 제품 포장에 적힌 시공 면적을 넣으면 계산해 드려요.</p>
   </section>
 
   <!-- 결과 -->
@@ -345,10 +350,14 @@ function calc(){
   let html = `실제 시공 면적 <b>${fmt(area, 2)}㎡</b> · 로스율 <b>${fmt(loss * 100)}%</b> 포함`;
   if (perBox > 0 && boxes > 0) html += `<br>박스로 사면 <b>${fmt(boxes * perBox)}장</b> (여분 ${fmt(spare)}장)`;
   if (price > 0 && boxes > 0) html += `<br>예상 타일 비용 <b>${fmt(boxes * price)}원</b>`;
+  const adhA = parseFloat($('adhA').value) || 0, grtA = parseFloat($('grtA').value) || 0;
+  if (area > 0 && adhA > 0) html += `<br>접착제 <b>${fmt(Math.ceil(area * (1 + loss) / adhA))}포</b> (1포 ${fmt(adhA, 1)}㎡ 기준)`;
+  if (area > 0 && grtA > 0) html += `<br>줄눈재 <b>${fmt(Math.ceil(area * (1 + loss) / grtA))}개</b> (1개 ${fmt(grtA, 1)}㎡ 기준)`;
+  if (boxes > 0) html += `<br>같은 타일은 한 번에 주문하세요. 생산 묶음(로트)이 다르면 색이 조금 다를 수 있어요.`;
   $('rDetail').innerHTML = html;
 }
 
-['size','pattern','tw','th','loss','gap','perBox','price'].forEach(id => {
+['size','pattern','tw','th','loss','gap','perBox','price','adhA','grtA'].forEach(id => {
   $(id).addEventListener('input', calc);
   $(id).addEventListener('change', calc);
 });

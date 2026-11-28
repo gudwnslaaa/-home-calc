@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://jibcalc.com/floor/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -182,6 +182,16 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
     <p class="hint">박스당 면적은 제품마다 크게 다릅니다. 박스 겉면이나 판매 페이지의 값을 꼭 확인하세요.</p>
   </section>
 
+  <section class="card">
+    <h2>함께 계산 (선택)</h2>
+    <label class="check" style="display:flex;align-items:center;gap:10px;margin-top:6px;font-weight:500;color:var(--ink);cursor:pointer"><input type="checkbox" style="width:20px;height:20px;accent-color:#1c2024;margin:0" id="bb"> 걸레받이 길이</label>
+    <div class="grid g2" style="margin-top:10px">
+      <div><label for="bbDoor">문 폭 합계 (m)</label><input id="bbDoor" data-unit="m" type="number" inputmode="decimal" min="0" step="0.05" value="0.9"></div>
+      <div><label for="bbLen">걸레받이 1개 길이 (m)</label><input id="bbLen" data-unit="none" type="number" inputmode="decimal" min="0" step="0.1" placeholder="선택"></div>
+    </div>
+    <p class="hint">걸레받이는 방 둘레에서 문 폭을 뺀 길이만큼 필요해요. 붙박이장 앞처럼 안 붙이는 곳이 있으면 문 폭 합계에 더해 넣으세요.</p>
+  </section>
+
   <section class="card result" data-est="0" data-est-cat="바닥" aria-live="polite">
     <h2>계산 결과</h2>
     <div class="big">
@@ -320,6 +330,12 @@ function calc(){
     if (boxes > 0) html += `<br>박스로 사면 <b>${fmt(boxes * box, 2)}㎡</b>까지 깔 수 있어요`;
     if (price > 0 && boxes > 0) html += `<br>예상 마루 비용 <b>${fmt(boxes * price)}원</b>`;
   }
+  if ($('bb').checked) {
+    const per = list.reduce((t, [a, b]) => t + 2 * (a + b), 0);
+    const bbNeed = Math.max(0, per - (parseFloat($('bbDoor').value) || 0));
+    const bbLen = parseFloat($('bbLen').value) || 0;
+    if (bbNeed > 0) html += `<br>걸레받이 <b>${fmt(bbNeed, 1)}m</b> (방 둘레 ${fmt(per, 1)}m − 문 폭)` + (bbLen > 0 ? ` → ${fmt(bbLen, 1)}m짜리 <b>${Math.ceil(bbNeed / bbLen - 1e-9)}개</b>` : '');
+  }
   $('rDetail').innerHTML = html;
 }
 
@@ -330,7 +346,7 @@ document.querySelectorAll('.tabs button').forEach(btn => btn.addEventListener('c
   $('m-wood').classList.toggle('on', mode === 'wood');
   calc();
 }));
-['vw','vm','vp','wb','wl','wp'].forEach(id => {
+['vw','vm','vp','wb','wl','wp','bb','bbDoor','bbLen'].forEach(id => {
   $(id).addEventListener('input', calc);
   $(id).addEventListener('change', calc);
 });

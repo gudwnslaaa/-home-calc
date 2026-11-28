@@ -84,7 +84,7 @@ function head({ title, desc, url, jsonld = '' }) {
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="${url}">
 ${jsonld}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 ${BASE_STYLE}
 ${EXTRA_STYLE}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">

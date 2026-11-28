@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://jibcalc.com/paint/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -177,6 +177,15 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
     </div>
     <p class="hint">통 가격을 넣으면 가격을 넣은 크기만으로 가장 싸게 사는 조합과 예상 비용을 보여 드려요.</p>
     <p class="hint">‘1L당 칠하는 면적’은 제품마다 다릅니다. 통 겉면의 도포 면적 값을 넣으면 더 정확해요. 여유분은 롤러·통에 남는 양과 흡수를 감안한 값입니다.</p>
+  </section>
+
+  <section class="card">
+    <h2>함께 계산 (선택)</h2>
+    <label class="check" style="display:flex;align-items:center;gap:10px;margin-top:6px;font-weight:500;color:var(--ink);cursor:pointer"><input type="checkbox" style="width:20px;height:20px;accent-color:#1c2024;margin:0" id="primer"> 젯소·프라이머(바탕칠) 1회</label>
+    <div class="grid g2" style="margin-top:10px">
+      <div><label for="pcov">바탕칠 1L당 칠하는 면적 (㎡)</label><input id="pcov" type="number" inputmode="decimal" min="0.1" step="0.5" value="10"></div>
+    </div>
+    <p class="hint">새 벽지·석고보드나 색을 크게 바꿀 때는 바탕칠을 먼저 하는 경우가 많아요. 면적값은 예시라 제품 표기값으로 바꿔 넣으세요.</p>
   </section>
 
   <section class="card result" data-est="0" data-est-name="페인트" data-est-cat="도장" aria-live="polite">
@@ -347,6 +356,10 @@ function calc(){
 
   let html = `${coats}회 칠 · 여유분 <b>${fmt(loss * 100)}%</b> 포함`;
   if (ceilArea > 0) html += ` · 천장 <b>${fmt(ceilArea, 1)}㎡</b> 포함`;
+  if ($('primer').checked) {
+    const pcov = parseFloat($('pcov').value) || 0;
+    if (pcov > 0 && area > 0) html += `<br>바탕칠(젯소·프라이머) 1회 <b>${fmt(Math.ceil(area / pcov * (1 + loss) * 10) / 10, 1)}L</b> 따로 준비`;
+  }
   $('rDetail').innerHTML = html;
 
   const need = Math.round(liters * 10) / 10;
@@ -364,7 +377,7 @@ function calc(){
   $('rCombo').innerHTML = pills;
 }
 
-['rw','rl','rh','walls','ceil','coats','cov','loss','p18','p4','p1'].forEach(id => {
+['rw','rl','rh','walls','ceil','coats','cov','loss','p18','p4','p1','primer','pcov'].forEach(id => {
   $(id).addEventListener('input', calc);
   $(id).addEventListener('change', calc);
 });

@@ -5,7 +5,7 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..');
 const css = fs.readFileSync(path.join(__dirname, 'base.css'), 'utf8');
 const FONT_OLD = /<link href="https:\/\/fonts\.googleapis\.com\/css2\?family=[^"]+" rel="stylesheet">/;
-const FONT_NEW = '<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">';
+const FONT_NEW = '<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;700&display=swap" rel="stylesheet">';
 for (const rel of ['index.html', 'tile/index.html', 'wallpaper/index.html', 'paint/index.html', 'floor/index.html', 'about/index.html', 'privacy/index.html', 'contact/index.html']) {
   const file = path.join(ROOT, rel);
   let s = fs.readFileSync(file, 'utf8');
