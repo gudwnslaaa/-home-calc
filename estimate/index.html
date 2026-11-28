@@ -173,7 +173,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
 .it .amt{margin-top:8px;font-size:.85rem;color:var(--muted);text-align:right}
 .it .amt b{color:var(--ink);font-weight:600}
 .it .x{height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:1.1rem;cursor:pointer}
-@media (max-width:560px){ .it .r1{grid-template-columns:96px 1fr 44px} .it .r2{grid-template-columns:1fr 1fr} }
+@media (max-width:560px){ .it .r1{grid-template-columns:1fr 44px} .it .r1 > div:nth-child(2){grid-column:1 / -1;order:3} .it .r2{grid-template-columns:1fr 1fr} }
 .g2x{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media (max-width:560px){ .g2x{grid-template-columns:1fr} }
 textarea{width:100%;min-height:84px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--ink);padding:10px 12px;font:inherit;font-size:.92rem;resize:vertical;box-sizing:border-box}
@@ -184,6 +184,12 @@ textarea{width:100%;min-height:84px;border-radius:12px;border:1px solid var(--li
 .check input{width:20px;height:20px;accent-color:#1c2024;margin:0}
 .it{background:var(--soft)}
 .it input,.it select{background:var(--card)}
+.mgmt summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;min-height:32px}
+.mgmt summary::-webkit-details-marker{display:none}
+.mgmt summary::before{content:"";width:10px;height:10px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(-45deg);margin-right:4px;transition:transform .15s}
+.mgmt[open] summary::before{transform:rotate(45deg)}
+.mgmt[open] summary{margin-bottom:12px}
+.mgmt summary span{color:var(--muted);font-size:.86rem}
 .steps{position:sticky;top:0;z-index:20;display:flex;gap:6px;overflow-x:auto;margin:14px -4px 0;padding:8px 4px;background:var(--bg);scrollbar-width:none}
 .steps::-webkit-scrollbar{display:none}
 .steps a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-size:.9rem;font-weight:600}
@@ -241,17 +247,17 @@ section[id^="s"]{scroll-margin-top:64px}
 <body>
 <div class="wrap">
   <header>
-    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 처음으로</a></p>
     <h1>견적서 작성기</h1>
     <p>항목만 넣으면 합계·부가세·한글 금액까지 정리된 견적서가 나옵니다.</p>
   </header>
 
   <nav class="steps" aria-label="견적서 단계">
-    <a href="#s1">1 항목</a><a href="#s2">2 조정</a><a href="#s3">3 정보</a><a href="#s4">4 대금</a><a href="#s5" class="go">합계 · 보내기</a>
+    <a href="#s1">1 항목</a><a href="#s2">2 조정</a><a href="#s3">3 정보</a><a href="#s4">4 대금</a><a href="#s5" class="go">합계</a>
   </nav>
 
   <section class="card">
-    <h2>견적서 관리</h2>
+    <details class="mgmt" id="mgmt"><summary><b>견적서 저장 · 불러오기</b> <span id="mgmtCount">저장한 견적서 없음</span></summary>
     <div class="g2x">
       <div><label for="savedList">저장한 견적서</label><select id="savedList"><option value="">저장한 견적서가 없어요</option></select></div>
       <div><label for="saveName">저장할 이름</label><input id="saveName" type="text" placeholder="예: OO아파트 욕실"></div>
@@ -264,6 +270,7 @@ section[id^="s"]{scroll-margin-top:64px}
     </div>
     <div class="tools" style="margin-top:8px"><button type="button" class="btn ghost" data-backup="export">모든 견적서 파일로 내보내기</button><button type="button" class="btn ghost" data-backup="import">백업 가져오기</button></div>
     <p class="hint">견적서는 이 기기 브라우저에만 저장돼요. 새 견적서를 누르면 업체 정보는 그대로 두고 항목·고객 정보만 비워요.</p>
+    </details>
   </section>
 
   <section class="card" id="s1">
@@ -717,6 +724,7 @@ function refreshSaved(sel){
     ? names.map(n => '<option value="' + esc(n) + '">' + esc(n) + ' (' + new Date(all[n].t).toLocaleDateString('ko-KR') + ')</option>').join('')
     : '<option value="">저장한 견적서가 없어요</option>';
   if (sel && all[sel]) $('savedList').value = sel;
+  $('mgmtCount').textContent = names.length ? names.length + '개 저장됨' : '저장한 견적서 없음';
 }
 function current(){
   const d = { f: {}, items: readItems().map(({ el, amount, ...rest }) => rest), pay: { on: $('usePay').checked, rows: readPays() } };
@@ -901,6 +909,6 @@ importFromUrl();
 importInbox();
 calc();
 </script>
-<script src="/common.js?v=99a4957d"></script>
+<script src="/common.js?v=b0d9225c"></script>
 </body>
 </html>

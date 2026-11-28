@@ -352,6 +352,8 @@
       '<button type="button" class="btn" data-a="image">이미지로 저장</button>' +
       '<button type="button" class="btn" data-a="report">계산이 이상해요</button>' +
     '</div>';
+  // 결과판에 페이지 자체의 주 버튼(예: 평면도 그림 저장)이 이미 있으면 노란 버튼이 둘이 되지 않게 낮춤
+  if (result.querySelector('.btn.primary')) actions.querySelector('.btn.primary').classList.remove('primary');
   result.appendChild(actions);
   // 계산 근거 한 줄
   const basis = document.createElement('p');
@@ -507,7 +509,7 @@
 
   /* ---------- 4) 휴대폰 결과 고정 바 ---------- */
   const stats = [...result.querySelectorAll('.stat')];
-  if (!stats.length) return;
+  if (!stats.length || result.dataset.plain) return; // 자재 목록처럼 직접 만든 결과판은 고정 바 없음
   const bar = document.createElement('button');
   bar.type = 'button';
   bar.className = 'sticky-bar';

@@ -57,7 +57,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>공사·이사 일정표</h1>
     <p>이사 날짜로 공사 순서와 할 일을 거꾸로 계산합니다.</p>
   </header>

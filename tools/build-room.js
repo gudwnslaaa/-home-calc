@@ -47,7 +47,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>가구 배치 도우미</h1>
     <p>사기 전에 넣어 보세요. 방에 가구를 끌어다 놓으면 문이 걸리는지, 통로가 몇 cm 남는지 바로 보입니다.</p>
   </header>

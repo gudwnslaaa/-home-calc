@@ -40,7 +40,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>자재 목록</h1>
     <p>계산기에서 ‘자재 목록에 담기’를 누른 항목이 여기에 모여요. 가게에 보내거나 견적서로 옮기세요.</p>
   </header>

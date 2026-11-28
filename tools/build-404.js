@@ -5,7 +5,7 @@ const html = kit.head({
   desc: '주소가 바뀌었거나 없는 페이지입니다. 집 공사 계산기의 다른 계산기를 이용해 보세요.',
   url: 'https://jibcalc.com/',
 }).replace('<link rel="canonical" href="https://jibcalc.com/">', '<meta name="robots" content="noindex">') + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 처음으로')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>페이지를 찾을 수 없어요</h1>
     <p>주소가 바뀌었거나 없는 페이지예요. 아래에서 필요한 계산기를 골라 주세요.</p>
   </header>

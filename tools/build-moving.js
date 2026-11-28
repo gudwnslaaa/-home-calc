@@ -71,7 +71,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>이사 체크리스트</h1>
     <p>이사 날짜만 넣으면 한 달 전부터 이사 후 2주까지 할 일이 날짜별로 정리됩니다.</p>
   </header>

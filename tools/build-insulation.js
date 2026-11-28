@@ -28,7 +28,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>창문 단열 · 뽁뽁이 계산기</h1>
     <p>유리 크기만 넣으면 뽁뽁이 롤 수와 자를 크기, 문풍지·단열벽지 수량까지 나옵니다.</p>
   </header>
@@ -37,7 +37,7 @@ const html = kit.head({
     <h2><span class="num">1</span>유리 크기 (가로 × 세로, m)</h2>
     <div class="panes" id="panes"></div>
     <button class="add" type="button" id="addPane">+ 유리 추가</button>
-    <p class="hint">창틀이 아니라 <b>유리 한 장</b>의 크기를 재세요. 미닫이 창은 보통 유리가 두 장이니 장수에 2를 넣으면 돼요. cm로 넣어도 m로 바뀝니다.</p>
+    <p class="hint">창틀이 아니라 <b>유리 한 장</b>의 크기를 재세요. 미닫이 창은 보통 유리가 두 장이니 장수에 2를 넣으면 돼요. cm나 mm로 넣어도 m로 바뀝니다.</p>
   </section>
 
   <section class="card">

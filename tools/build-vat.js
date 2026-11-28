@@ -32,7 +32,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>부가세 계산기</h1>
     <p>VAT 별도 금액엔 10%를 더하고, 포함 금액은 공급가액과 세액으로 나눕니다.</p>
   </header>

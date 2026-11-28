@@ -31,7 +31,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>면적 계산기</h1>
     <p>도형을 더하고 빼서 면적을 ㎡와 평으로 계산합니다.</p>
   </header>

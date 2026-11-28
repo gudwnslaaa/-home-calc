@@ -58,7 +58,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>폐기물 정리 도우미</h1>
     <p>버릴 물건을 고르면, 어디로 어떻게 버리는지 정리해 드립니다.</p>
   </header>

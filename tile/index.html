@@ -134,7 +134,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
 <body>
 <div class="wrap">
   <header>
-    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 처음으로</a></p>
     <h1>타일 수량 계산기</h1>
     <p>면적과 타일 규격만 넣으면 필요한 장수·박스 수·예상 비용이 바로 나옵니다.</p>
   </header>
@@ -149,7 +149,7 @@ footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-si
     <h2><span class="num">2</span>빼야 할 부분 (문·창문·욕조 등)</h2>
     <div id="holes"></div>
     <button class="add" type="button" onclick="addRow('holes')">+ 제외 부분 추가</button>
-    <p class="hint">m 단위로 넣으세요. 줄자로 잰 cm 값(예: 240)을 그대로 넣어도 자동으로 m로 바뀝니다.</p>
+    <p class="hint">m 단위로 넣으세요. 줄자로 잰 cm(240)나 mm(2400)를 그대로 넣어도 m로 바뀌고, 칸 아래에 바꾼 값을 보여 드려요.</p>
   </section>
 
   <!-- 2. 타일 정보 -->
@@ -366,6 +366,6 @@ function calc(){
 addRow('areas', '욕실 바닥', '2.0', '1.5');
 addRow('holes');
 </script>
-<script src="/common.js?v=99a4957d"></script>
+<script src="/common.js?v=b0d9225c"></script>
 </body>
 </html>

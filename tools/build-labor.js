@@ -26,7 +26,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>인건비 · 3.3% 계산기</h1>
     <p>일당 × 일수 × 인원으로 인건비를 내고, 떼는 세금과 실제로 줄 돈을 계산합니다.</p>
   </header>

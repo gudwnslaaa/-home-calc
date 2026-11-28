@@ -152,7 +152,7 @@ ${JSON.stringify({ '@context': 'https://schema.org', '@type': 'FAQPage', mainEnt
     url: 'https://jibcalc.com/pyeong/',
     jsonld,
   }) + `  <header>
-    ${BACK('/', '집 공사 계산기 · 전체 보기')}
+    ${BACK('/', '집 공사 계산기 처음으로')}
     <h1>평수 계산기</h1>
     <p>㎡와 평을 바로 바꾸고, 방 크기로 평수를 계산합니다.</p>
   </header>

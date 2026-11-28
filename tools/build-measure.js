@@ -59,7 +59,7 @@ const html = kit.head({
   jsonld: kit.faqJsonLd(faq),
   extraStyle: EXTRA_STYLE,
 }) + `  <header>
-    ${kit.back('/', '집 공사 계산기 · 전체 보기')}
+    ${kit.back('/', '집 공사 계산기 처음으로')}
     <h1>교체 전 치수 기록</h1>
     <p>방문·변기를 바꾸기 전에 어디를 재야 하는지 그림으로 안내하고, 잰 값을 정리해 드립니다.</p>
   </header>
