@@ -77,7 +77,7 @@ function head({ title, desc, url, jsonld = '' }) {
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${desc}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image" content="${require('./site-kit').ogFor(url)}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">

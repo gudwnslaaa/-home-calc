@@ -57,6 +57,13 @@ const GROUPS = [
 const itemHtml = (t) => `<a class="item" href="${t.href}"><div class="ico">${ICONS[t.key]}</div><div class="txt"><b>${t.name}</b><span class="sub">${t.sub}</span></div><div class="go">→</div></a>`;
 const related = (exclude) => `<div class="list">${TOOLS.filter((t) => t.key !== exclude).map(itemHtml).join('')}</div>`;
 
+// 페이지마다 링크 미리보기 그림 (img/og/<첫 경로>.jpg 가 있으면 그것, 없으면 기본 그림)
+function ogFor(url) {
+  const m = String(url || '').match(/^https:\/\/jibcalc\.com\/([a-z0-9-]+)\//);
+  const key = m && m[1];
+  return key && fs.existsSync(path.join(ROOT, 'img', 'og', key + '.jpg')) ? `https://jibcalc.com/img/og/${key}.jpg` : 'https://jibcalc.com/img/og-image.jpg';
+}
+
 // 검색 결과에 '집 공사 계산기 › 페이지' 경로로 보이게 하는 표시
 function crumbJsonLd(name, url) {
   if (!url || url === 'https://jibcalc.com/') return '';
@@ -80,7 +87,7 @@ function head({ title, desc, url, jsonld = '', extraStyle = '' }) {
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${desc}">
 <meta property="og:url" content="${url}">
-<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image" content="${ogFor(url)}">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="ko_KR">
@@ -123,4 +130,4 @@ const write = (rel, html) => {
   fs.writeFileSync(file, html);
 };
 
-module.exports = { crumbJsonLd, ROOT, BASE_STYLE, ICONS, TOOLS, GROUPS, itemHtml, related, head, back, foot, faqJsonLd, write };
+module.exports = { ogFor, crumbJsonLd, ROOT, BASE_STYLE, ICONS, TOOLS, GROUPS, itemHtml, related, head, back, foot, faqJsonLd, write };

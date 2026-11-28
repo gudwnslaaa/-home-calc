@@ -13,6 +13,12 @@ for (const rel of ['index.html', 'tile/index.html', 'wallpaper/index.html', 'pai
   s = s.replace(FONT_OLD, FONT_NEW);
   s = s.replace(/<meta name="theme-color" content="[^"]*">/, '<meta name="theme-color" content="#ffc400">');
   if (!s.includes('site.webmanifest')) s = s.replace('<meta name="theme-color" content="#ffc400">', '<meta name="theme-color" content="#ffc400">\n<link rel="manifest" href="/site.webmanifest">');
+  // 페이지별 링크 미리보기 그림
+  {
+    const kit = require('./site-kit');
+    const url = (s.match(/<link rel="canonical" href="([^"]+)">/) || [])[1];
+    if (url) s = s.replace(/<meta property="og:image" content="[^"]*">/, `<meta property="og:image" content="${kit.ogFor(url)}">`);
+  }
   // 경로 표시(BreadcrumbList) — 메인 제외
   if (rel !== 'index.html' && !s.includes('id="crumb"')) {
     const kit = require('./site-kit');
