@@ -507,6 +507,9 @@
     toast('결과 이미지를 저장했어요');
   }
 
+  // 넓은 화면에서 결과를 오른쪽에 따라오게 (결과판이 .wrap 바로 아래에 있을 때만)
+  if (result.parentElement && result.parentElement.classList.contains('wrap') && !result.dataset.plain && !result.dataset.nocol) document.body.classList.add('two-col');
+
   /* ---------- 4) 휴대폰 결과 고정 바 ---------- */
   const stats = [...result.querySelectorAll('.stat')];
   if (!stats.length || result.dataset.plain) return; // 자재 목록처럼 직접 만든 결과판은 고정 바 없음

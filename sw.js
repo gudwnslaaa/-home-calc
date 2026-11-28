@@ -1,7 +1,7 @@
 // 집 공사 계산기 서비스 워커 — 신호가 약한 현장에서도 열리게 함
 // 페이지(HTML)는 인터넷이 되면 항상 새로 받고(안 되면 저장본), 그 밖의 파일은 저장본을 먼저 쓰고 뒤에서 새로 받음
-const CACHE = 'jibcalc-2dc084cab0d9225c';
-const PRECACHE = ['/', '/common.css?v=2dc084ca', '/common.js?v=b0d9225c', '/favicon.svg', '/img/logo-mark.svg',
+const CACHE = 'jibcalc-d6820db7d63a8904';
+const PRECACHE = ['/', '/common.css?v=d6820db7', '/common.js?v=d63a8904', '/favicon.svg', '/img/logo-mark.svg',
   '/tile/', '/wallpaper/', '/paint/', '/floor/', '/insulation/', '/pyeong/', '/area/', '/room/', '/measure/',
   '/estimate/', '/labor/', '/vat/', '/moving/', '/order/', '/schedule/', '/waste/', '/404.html'];
 
