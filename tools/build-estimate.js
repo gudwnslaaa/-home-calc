@@ -44,6 +44,11 @@ textarea{width:100%;min-height:84px;border-radius:12px;border:1px solid var(--li
 .check input{width:20px;height:20px;accent-color:#1c2024;margin:0}
 .it{background:var(--soft)}
 .it input,.it select{background:var(--card)}
+.steps{position:sticky;top:0;z-index:20;display:flex;gap:6px;overflow-x:auto;margin:14px -4px 0;padding:8px 4px;background:var(--bg);scrollbar-width:none}
+.steps::-webkit-scrollbar{display:none}
+.steps a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-size:.9rem;font-weight:600}
+.steps a.go{background:var(--tape);border-color:var(--tape);color:#1c2024}
+section[id^="s"]{scroll-margin-top:64px}
 .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .kor{font-size:.85rem;color:var(--muted);margin-top:6px}
 .imported{border-color:var(--accent)}
@@ -96,6 +101,10 @@ const html = kit.head({
     <p>항목만 넣으면 합계·부가세·한글 금액까지 정리된 견적서가 나옵니다.</p>
   </header>
 
+  <nav class="steps" aria-label="견적서 단계">
+    <a href="#s1">1 항목</a><a href="#s2">2 조정</a><a href="#s3">3 정보</a><a href="#s4">4 대금</a><a href="#s5" class="go">합계 · 보내기</a>
+  </nav>
+
   <section class="card">
     <h2>견적서 관리</h2>
     <div class="g2x">
@@ -111,7 +120,7 @@ const html = kit.head({
     <p class="hint">견적서는 이 기기 브라우저에만 저장돼요. 새 견적서를 누르면 업체 정보는 그대로 두고 항목·고객 정보만 비워요.</p>
   </section>
 
-  <section class="card">
+  <section class="card" id="s1">
     <h2><span class="num">1</span>견적 항목</h2>
     <div class="g2x" style="margin-bottom:12px;align-items:end">
       <div><label for="tpl">공사별 항목 틀</label><select id="tpl">${Object.entries(TEMPLATES).map(([k, t]) => `<option value="${k}">${t.name}</option>`).join('')}</select></div>
@@ -124,7 +133,7 @@ const html = kit.head({
     <p class="hint">처음 보이는 세 줄은 쓰는 법을 보여 주는 예시예요. 지우고 새로 넣으세요. 타일·도배·페인트·바닥 계산기 결과에서 ‘견적서에 담기’를 누르면 수량이 여기로 들어와요.</p>
   </section>
 
-  <section class="card">
+  <section class="card" id="s2">
     <h2><span class="num">2</span>금액 조정</h2>
     <div class="grid g2">
       <div><label for="vatm">부가세</label>
@@ -136,7 +145,7 @@ const html = kit.head({
     </div>
   </section>
 
-  <section class="card">
+  <section class="card" id="s3">
     <h2><span class="num">3</span>견적서에 들어갈 정보 <small style="color:var(--muted);font-weight:400">(선택)</small></h2>
     <div class="g2x">
       <div><label for="coName">업체명</label><input id="coName" type="text" placeholder="예: OO인테리어"></div>
@@ -150,7 +159,7 @@ const html = kit.head({
     <textarea id="memo" placeholder="예) 계약금·중도금·잔금 비율, 견적에 포함되지 않은 공사, 자재 변경 시 금액 조정 등"></textarea>
   </section>
 
-  <section class="card">
+  <section class="card" id="s4">
     <h2><span class="num">4</span>대금 지급 일정 <small style="color:var(--muted);font-weight:400">(선택)</small></h2>
     <label class="check"><input id="usePay" type="checkbox"> 계약금·중도금·잔금을 견적서에 함께 적기</label>
     <div id="payBox" hidden>
@@ -160,7 +169,7 @@ const html = kit.head({
     </div>
   </section>
 
-  <section class="card result" aria-live="polite">
+  <section class="card result" id="s5" aria-live="polite">
     <h2>견적 합계</h2>
     <div class="big grid g3">
       <div class="stat"><div class="k">공급가액</div><div class="v" id="rS">0<small>원</small></div></div>
@@ -169,7 +178,8 @@ const html = kit.head({
     </div>
     <div class="detail" id="rDetail"></div>
     <div class="tools">
-      <button type="button" class="btn primary" id="viewBtn">견적서 보기 · PDF 저장</button>
+      <button type="button" class="btn primary" id="imgBtn">견적서 이미지로 보내기</button>
+      <button type="button" class="btn" id="viewBtn">견적서 보기 · PDF 저장</button>
       <button type="button" class="btn" id="tsvBtn">엑셀용 표 복사</button>
     </div>
   </section>
@@ -178,7 +188,7 @@ const html = kit.head({
   <div class="ad-slot"></div>
 
   <div id="sheetWrap" hidden>
-    <div class="sheetbar"><button type="button" class="btn primary" id="printBtn">인쇄 · PDF 저장</button><button type="button" class="btn" id="closeBtn">닫기</button></div>
+    <div class="sheetbar"><button type="button" class="btn primary" id="imgBtn2">이미지로 보내기</button><button type="button" class="btn" id="printBtn">인쇄 · PDF 저장</button><button type="button" class="btn" id="closeBtn">닫기</button></div>
     <div id="sheet"></div>
   </div>
 
@@ -523,15 +533,114 @@ document.addEventListener('click', e => { const b = e.target.closest('[data-a="r
 document.addEventListener('input', calc);
 document.addEventListener('change', calc);
 
+let usedExamples = false;
 if (!load()) {
+  usedExamples = true;
   setPays(null);
   addItem({ cat: '철거', name: '욕실 벽·바닥 타일 철거', qty: 1, unit: '식', price: 500000, kind: '인건비' });
   addItem({ cat: '타일', name: '벽 타일 300×600', qty: 12, unit: '박스', price: 28000, kind: '자재비' });
   addItem({ cat: '타일', name: '타일 시공', qty: 2, unit: '품', price: 300000, kind: '인건비' });
 }
 if (!$('edate').value) { const t = new Date(); $('edate').value = t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0'); }
+// 자재 목록에서 '견적서로 모두 보내기'로 넘어온 항목
+function importInbox(){
+  if (!store) return;
+  let list = null;
+  try { list = JSON.parse(store.getItem('jibcalc-estimate-inbox')); store.removeItem('jibcalc-estimate-inbox'); } catch (e) {}
+  if (!Array.isArray(list) || !list.length) return;
+  // 처음 보이던 예시 줄은 지우고, 빈 줄도 정리
+  if (usedExamples) $('items').innerHTML = '';
+  readItems().forEach(i => { if (!i.name && !i.qty && !i.price) i.el.remove(); });
+  let first = null;
+  list.slice(0, 60).forEach(v => { const el = addItem({ cat: String(v.cat || '').slice(0, 20), name: String(v.name || '').slice(0, 60), qty: +v.qty || '', unit: String(v.unit || '').slice(0, 10), kind: '자재비' }, true); first = first || el; });
+  setTimeout(() => { if (first) first.scrollIntoView({ block: 'center' }); flash('자재 ' + list.length + '개를 넣었어요. 단가를 채워 주세요'); }, 250);
+}
+
+// 견적서를 이미지로 그려서 공유(휴대폰) 또는 저장
+async function sheetImage(){
+  if (document.fonts && document.fonts.ready) await document.fonts.ready;
+  const c = compute();
+  const rows = c.items.filter(i => i.name || i.amount);
+  const W = 1080, P = 64, font = getComputedStyle(document.body).fontFamily;
+  const cv = document.createElement('canvas'), x = cv.getContext('2d');
+  const F = (w, sz) => w + ' ' + sz + 'px ' + font;
+  const fit = (t, maxW, sz, w) => { x.font = F(w || 400, sz); let s = String(t); while (s.length > 1 && x.measureText(s).width > maxW) s = s.slice(0, -1); return s === String(t) ? s : s.slice(0, -1) + '…'; };
+  const pay = $('usePay').checked ? payPlan(c.total).rows : [];
+  const memo = $('memo').value.trim();
+  const memoLines = memo ? memo.split('\\n').slice(0, 8) : [];
+  const H = 380 + rows.length * 46 + Object.keys(c.byCat).length * 40 + 6 * 44 + (pay.length ? 70 + pay.length * 42 : 0) + (memoLines.length ? 60 + memoLines.length * 34 : 0) + 120;
+  cv.width = W; cv.height = H;
+  x.fillStyle = '#ffffff'; x.fillRect(0, 0, W, H);
+  x.fillStyle = '#ffc400'; x.fillRect(0, 0, W, 14);
+  x.fillStyle = '#111'; x.textAlign = 'center'; x.font = F(700, 46); x.fillText('견 적 서', W / 2, 96);
+  x.textAlign = 'left'; x.font = F(400, 26);
+  let y = 150;
+  const d = $('edate').value ? new Date($('edate').value + 'T00:00:00') : new Date();
+  const fd = t => t.getFullYear() + '. ' + (t.getMonth() + 1) + '. ' + t.getDate() + '.';
+  const vd = parseInt($('valid').value, 10);
+  const left = [($('cuName').value ? $('cuName').value + ' 귀하' : ''), ($('site').value ? '현장: ' + $('site').value : ''), '견적일: ' + fd(d) + (vd > 0 ? ' (유효 ' + vd + '일)' : '')].filter(Boolean);
+  const right = [$('coName').value, $('coTel').value].filter(Boolean);
+  left.forEach((t, i) => { const w = i === 0 && $('cuName').value ? 700 : 400; x.fillText(fit(t, 560, 26, w), P, y + i * 36); });
+  x.textAlign = 'right'; right.forEach((t, i) => { x.font = F(i === 0 ? 700 : 400, 26); x.fillText(fit(t, 380, 26, i === 0 ? 700 : 400), W - P, y + i * 36); }); x.textAlign = 'left';
+  y += Math.max(left.length, right.length) * 36 + 20;
+  x.strokeStyle = '#111'; x.lineWidth = 3; x.strokeRect(P, y, W - P * 2, 70);
+  x.font = F(700, 28); x.fillText(fit('합계  일금 ' + hangul(c.total) + '원정  (₩' + won(c.total) + ')', W - P * 2 - 40, 28, 700), P + 20, y + 46);
+  y += 100;
+  const cols = [P, P + 470, P + 600, P + 780, W - P];
+  x.fillStyle = '#f1f1f1'; x.fillRect(P, y, W - P * 2, 44); x.fillStyle = '#111'; x.font = F(700, 23);
+  x.fillText('품명 · 규격', cols[0] + 12, y + 30); x.textAlign = 'right'; x.fillText('수량', cols[2] - 12, y + 30); x.fillText('단가', cols[3] - 12, y + 30); x.fillText('금액', cols[4] - 12, y + 30); x.textAlign = 'left';
+  y += 44;
+  let last = null;
+  x.lineWidth = 1; x.strokeStyle = '#ccc';
+  rows.forEach(i => {
+    const cat = i.cat || '기타';
+    if (cat !== last) { x.fillStyle = '#fafafa'; x.fillRect(P, y, W - P * 2, 40); x.fillStyle = '#111'; x.font = F(700, 22); x.fillText(cat, cols[0] + 12, y + 28); x.textAlign = 'right'; x.fillText('소계 ' + won(c.byCat[cat] || 0), cols[4] - 12, y + 28); x.textAlign = 'left'; y += 40; last = cat; }
+    x.font = F(400, 23); x.fillStyle = '#111';
+    x.fillText(fit(i.name, cols[1] - cols[0] + 110, 23), cols[0] + 12, y + 31);
+    x.textAlign = 'right';
+    x.fillText((i.qty || '') + (i.unit ? ' ' + i.unit : ''), cols[2] - 12, y + 31);
+    x.fillText(i.price !== '' ? won(+i.price) : '', cols[3] - 12, y + 31);
+    x.fillText(i.amount ? won(i.amount) : '', cols[4] - 12, y + 31);
+    x.textAlign = 'left';
+    x.beginPath(); x.moveTo(P, y + 46); x.lineTo(W - P, y + 46); x.stroke();
+    y += 46;
+  });
+  const extra = [];
+  if (c.misc) extra.push(['공과잡비·관리비 (' + c.miscPct + '%)', won(c.misc)]);
+  if (c.disc) extra.push(['할인', '−' + won(c.disc)]);
+  if (c.cutAmt) extra.push(['끝자리 정리', '−' + won(c.cutAmt)]);
+  extra.push(['공급가액', won(c.supply)]);
+  if (c.vm !== 'none') extra.push(['부가세 (10%)', won(c.tax)]);
+  extra.push(['합계', won(c.total)]);
+  y += 10;
+  extra.forEach(([k, v]) => { const b = k === '합계'; x.font = F(b ? 700 : 400, b ? 27 : 24); x.textAlign = 'right'; x.fillText(k, cols[3] - 12, y + 30); x.fillText(v, cols[4] - 12, y + 30); x.textAlign = 'left'; y += 44; });
+  if (pay.length) {
+    y += 20; x.font = F(700, 24); x.fillText('대금 지급', P, y + 28); y += 46;
+    pay.forEach(r => { x.font = F(400, 23); x.fillText(fit(r.n + ' ' + r.pct + '%  ' + (r.c || ''), 640, 23), P + 12, y + 28); x.textAlign = 'right'; x.fillText(won(r.amt) + '원', W - P - 12, y + 28); x.textAlign = 'left'; y += 42; });
+  }
+  if (memoLines.length) {
+    y += 24; x.font = F(700, 24); x.fillText('특이사항', P, y + 26); y += 40;
+    x.font = F(400, 22); memoLines.forEach(l => { x.fillText(fit(l, W - P * 2 - 20, 22), P + 12, y + 26); y += 34; });
+  }
+  y += 50;
+  x.fillStyle = '#777'; x.font = F(400, 20); x.textAlign = 'right'; x.fillText('jibcalc.com 견적서 작성기', W - P, y);
+  // 남는 아래 여백 잘라 내기
+  const out = document.createElement('canvas'); out.width = W; out.height = Math.min(H, y + 40);
+  out.getContext('2d').drawImage(cv, 0, 0);
+  const blob = await new Promise(r => out.toBlob(r, 'image/png'));
+  const name = '견적서' + ($('site').value ? '_' + $('site').value.replace(/[\\\\/:*?"<>|\\s]+/g, '_').slice(0, 20) : '') + '.png';
+  const file = new File([blob], name, { type: 'image/png' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    try { await navigator.share({ files: [file], title: '견적서' }); return; } catch (e) { if (e && e.name === 'AbortError') return; }
+  }
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+  flash('견적서 이미지를 저장했어요');
+}
+['imgBtn', 'imgBtn2'].forEach(id => $(id).addEventListener('click', () => sheetImage().catch(() => flash('이미지를 만들지 못했어요. PDF 저장을 이용해 주세요'))));
+
 refreshSaved();
 importFromUrl();
+importInbox();
 calc();
 </script>
 <script src="/common.js"></script>

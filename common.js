@@ -119,6 +119,7 @@
     const bn = result.querySelector('.example-note');
     if (bn) bn.remove();
   };
+  if (result.dataset.plain) touched = true; // 직접 만든 결과판(자재 목록 등)은 예시 안내 없음
   if (!touched) {
     const bn = document.createElement('p');
     bn.className = 'example-note';
@@ -132,7 +133,7 @@
     if (!e.isTrusted) return;
     const el = e.target;
     if (t === 'click' && !(el.closest && el.closest('main, .wrap') && el.closest('button, .tabs, .presets, .seg, [data-mv]'))) return;
-    if (el.closest && el.closest('.result')) return; // 결과판 버튼은 '내 값'이 아님
+    if (el.closest && (el.closest('.result') || el.closest('.myhome'))) return; // 결과판 버튼·방 목록은 따로 처리
     markTouched();
   }, true));
 
@@ -218,6 +219,96 @@
   ['input', 'change'].forEach((ev) => document.addEventListener(ev, save));
   document.addEventListener('click', (e) => { if (e.target.closest('.add, .del, .tabs button')) save(); });
 
+  /* ---------- 2-1) 우리 집 방 목록 (계산기끼리 같이 씀) ---------- */
+  const HKEY = 'jibcalc-home-rooms';
+  const clean = (t) => String(t || '').replace(/[<>"'`$\\]/g, '').slice(0, 20);
+  const readRooms = () => { try { const a = JSON.parse(localStorage.getItem(HKEY)); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
+  const writeRooms = (a) => { try { localStorage.setItem(HKEY, JSON.stringify(a.slice(0, 30))); } catch (e) {} };
+  const $id = (id) => document.getElementById(id);
+  const isRoomPage = location.pathname === '/room/';
+  const rowBox = $id('areas') || $id('rooms');
+  const hasRW = $id('rw') && ($id('rl') || $id('rd'));
+  if (store && (rowBox || hasRW)) {
+    const firstCard = document.querySelector('.wrap > section.card');
+    const box = document.createElement('section');
+    box.className = 'card myhome';
+    firstCard.insertAdjacentElement('beforebegin', box);
+    const fire = (el) => el.dispatchEvent(new Event('input', { bubbles: true }));
+    function apply(r) {
+      if (isRoomPage) { $id('rw').value = Math.round(r.w * 100); $id('rd').value = Math.round(r.l * 100); fire($id('rw')); }
+      else if (hasRW) { $id('rw').value = r.w; $id('rl').value = r.l; if (r.h && $id('rh')) $id('rh').value = r.h; fire($id('rw')); }
+      else {
+        const rows = [...rowBox.querySelectorAll('.row')];
+        const first = rows[0];
+        const empty = (row) => [...row.querySelectorAll('input[type=number]')].every((i) => !i.value);
+        let row = rows.find(empty) || (rows.length === 1 && result.querySelector('.example-note') ? first : null);
+        if (!row && typeof window.addRow === 'function') { window.addRow(rowBox.id); row = [...rowBox.querySelectorAll('.row')].pop(); }
+        if (!row) return;
+        const t = row.querySelector('input[type=text]'), n = row.querySelectorAll('input[type=number]');
+        if (t) t.value = clean(r.name);
+        n[0].value = r.w; n[1].value = r.l;
+        fire(n[0]);
+      }
+      markTouched();
+      toast(`‘${clean(r.name)}’ ${r.w}m × ${r.l}m를 넣었어요`);
+    }
+    function current() {
+      if (isRoomPage) return [{ name: '', w: (parseFloat($id('rw').value) || 0) / 100, l: (parseFloat($id('rd').value) || 0) / 100 }];
+      if (hasRW) return [{ name: '', w: parseFloat($id('rw').value) || 0, l: parseFloat($id('rl').value) || 0, h: $id('rh') ? parseFloat($id('rh').value) || 0 : 0 }];
+      return [...rowBox.querySelectorAll('.row')].map((row) => {
+        const t = row.querySelector('input[type=text]'), n = row.querySelectorAll('input[type=number]');
+        return { name: t ? t.value.trim() : '', w: parseFloat(n[0].value) || 0, l: parseFloat(n[1].value) || 0 };
+      });
+    }
+    function render(open) {
+      const rooms = readRooms();
+      box.innerHTML =
+        '<details' + (open ? ' open' : '') + '><summary><b>우리 집 방</b> <span>' + (rooms.length ? rooms.length + '개 저장됨 · 눌러서 불러오기' : '한 번 저장하면 다른 계산기에서도 불러와요') + '</span></summary>' +
+        '<div class="chips">' + (rooms.length ? rooms.map((r, i) =>
+          '<span class="chip"><button type="button" data-load="' + i + '">' + clean(r.name) + ' <small>' + r.w + '×' + r.l + 'm</small></button><button type="button" class="x" data-del="' + i + '" aria-label="' + clean(r.name) + ' 지우기">×</button></span>').join('')
+          : '<p class="hint" style="margin:0">아직 저장한 방이 없어요.</p>') + '</div>' +
+        '<div class="save-row">' + (rowBox ? '' : '<input type="text" class="rname" placeholder="방 이름 (예: 안방)" aria-label="저장할 방 이름" maxlength="20">') +
+        '<button type="button" class="btn" data-save="1">' + (rowBox ? '지금 넣은 면들을 방으로 저장' : '지금 치수를 방으로 저장') + '</button></div></details>';
+    }
+    box.addEventListener('click', (e) => {
+      const b = e.target.closest('button'); if (!b) return;
+      const rooms = readRooms();
+      if (b.dataset.load != null) { const r = rooms[+b.dataset.load]; if (r) apply(r); }
+      else if (b.dataset.del != null) {
+        if (b.dataset.arm !== '1') { b.dataset.arm = '1'; b.textContent = '지우기'; b.classList.add('arm'); setTimeout(() => { if (b.isConnected) { b.dataset.arm = ''; b.textContent = '×'; b.classList.remove('arm'); } }, 3000); return; }
+        rooms.splice(+b.dataset.del, 1); writeRooms(rooms); render(true);
+      } else if (b.dataset.save) {
+        const nameInput = box.querySelector('.rname');
+        const add = current().filter((r) => r.w > 0 && r.l > 0).map((r, i) => ({ name: clean(r.name || (nameInput && nameInput.value.trim()) || ('방 ' + (rooms.length + i + 1))), w: Math.round(r.w * 100) / 100, l: Math.round(r.l * 100) / 100, h: r.h ? Math.round(r.h * 100) / 100 : undefined }));
+        if (!add.length) { toast('먼저 가로·세로를 넣어 주세요'); return; }
+        add.forEach((r) => { const k = rooms.findIndex((x) => x.name === r.name); if (k >= 0) rooms[k] = r; else rooms.push(r); });
+        writeRooms(rooms); render(true);
+        toast(add.length > 1 ? `방 ${add.length}개를 저장했어요` : `‘${add[0].name}’을(를) 저장했어요`);
+      }
+    });
+    render(false);
+  }
+
+  /* ---------- 2-2) 자재 목록에 담기 ---------- */
+  const CKEY = 'jibcalc-order';
+  const readCart = () => { try { const a = JSON.parse(localStorage.getItem(CKEY)); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
+  function cartItem() {
+    const stat = result.querySelectorAll('.stat')[parseInt(result.dataset.est, 10) || 0];
+    if (!stat) return null;
+    const v = stat.querySelector('.v');
+    const unitEl = v.querySelector('small');
+    const unit = unitEl ? unitEl.textContent.trim() : '';
+    const qty = parseFloat(v.textContent.replace(unit, '').replace(/,/g, ''));
+    if (!(qty > 0)) return null;
+    const name = result.dataset.estName || stat.querySelector('.k').textContent.replace(/^(필요한|구매할)\s*/, '').trim();
+    let room = '';
+    if (rowBox) room = [...rowBox.querySelectorAll('.row')].map((row) => (row.querySelector('input[type=text]') || {}).value).filter(Boolean).join(', ');
+    else if (hasRW) room = ($id('rw').value || '?') + '×' + ($id('rl') ? $id('rl').value : '?') + 'm';
+    const detail = result.querySelector('.detail');
+    const spec = detail ? detail.innerText.split('\n')[0].trim().slice(0, 80) : '';
+    return { id: 'o' + Date.now(), name: clean(name), qty, unit: clean(unit), cat: clean(result.dataset.estCat || ''), room: clean(room).slice(0, 40) || '', spec: spec.replace(/[<>]/g, ''), page: pageName, href: location.pathname, t: Date.now() };
+  }
+
   /* ---------- 3) 결과 복사 · 공유 ---------- */
   const pageName = document.title.split('–')[0].trim();
   function resultText() {
@@ -233,18 +324,20 @@
     return lines.join('\n');
   }
 
+  let actions = null;
+  if (!result.dataset.plain) {
   // 결과판 버튼: 주된 버튼 하나 + 더보기 (초기화는 입력 쪽으로 옮김)
   const hasEst = result.dataset.est != null;
-  const actions = document.createElement('div');
+  actions = document.createElement('div');
   actions.className = 'actions';
   actions.innerHTML =
-    (hasEst ? '<button type="button" class="btn primary" data-a="est">견적서에 담기</button>' +
+    (hasEst ? '<button type="button" class="btn primary" data-a="cart">자재 목록에 담기</button>' +
               '<button type="button" class="btn" data-a="share">공유하기</button>'
             : '<button type="button" class="btn primary" data-a="share">공유하기</button>' +
               '<button type="button" class="btn" data-a="copy">결과 복사</button>') +
     '<button type="button" class="btn ghost" data-a="more" aria-expanded="false" aria-controls="moreActs">더보기</button>' +
     '<div class="more-acts" id="moreActs" hidden>' +
-      (hasEst ? '<button type="button" class="btn" data-a="copy">결과 복사</button>' : '') +
+      (hasEst ? '<button type="button" class="btn" data-a="est">견적서에 바로 담기</button><button type="button" class="btn" data-a="copy">결과 복사</button>' : '') +
       '<button type="button" class="btn" data-a="image">이미지로 저장</button>' +
       '<button type="button" class="btn" data-a="report">계산이 이상해요</button>' +
     '</div>';
@@ -274,6 +367,7 @@
     if (store) { try { store.removeItem(KEY); store.removeItem(TKEY); } catch (err) {} }
     location.reload();
   });
+  }
   function sendToEstimate() {
     const stat = result.querySelectorAll('.stat')[parseInt(result.dataset.est, 10) || 0];
     if (!stat) return;
@@ -287,7 +381,7 @@
     location.href = '/estimate/?' + q.toString();
   }
 
-  actions.addEventListener('click', async (e) => {
+  if (actions) actions.addEventListener('click', async (e) => {
     const btn = e.target.closest('button');
     const a = btn && btn.dataset.a;
     if (a === 'more') {
@@ -298,6 +392,17 @@
       return;
     }
     if (a === 'est') { sendToEstimate(); return; }
+    if (a === 'cart') {
+      if (btn.dataset.done === '1') { location.href = '/order/'; return; }
+      const it = cartItem();
+      if (!it) { toast('먼저 계산 결과가 나오게 값을 넣어 주세요'); return; }
+      const cart = readCart(); cart.push(it);
+      try { localStorage.setItem(CKEY, JSON.stringify(cart.slice(-100))); } catch (err) {}
+      btn.dataset.done = '1'; btn.textContent = '담았어요 · 목록 보기 (' + cart.length + ')';
+      toast(`${it.name} ${it.qty}${it.unit}을(를) 자재 목록에 담았어요`);
+      setTimeout(() => { btn.dataset.done = ''; btn.textContent = '자재 목록에 담기'; }, 5000);
+      return;
+    }
     if (a === 'copy') {
       copyText(resultText()).then(() => toast('결과를 복사했어요. 카톡이나 메모에 붙여넣으세요'),
                                   () => toast('복사하지 못했어요. 화면을 길게 눌러 복사해 주세요'));
@@ -415,7 +520,7 @@
 })();
 
 /* ===== 전체 계산기 메뉴 · 검색 ===== */
-/* tools:json */ const NAV = {"groups":[{"key":"mat","name":"자재 수량"},{"key":"size","name":"평수 · 면적 · 치수"},{"key":"money","name":"견적 · 비용"},{"key":"prep","name":"일정 · 정리"}],"tools":[{"key":"tile","group":"mat","href":"/tile/","name":"타일 수량 계산기","sub":"필요한 타일 장수 · 박스 수 · 예상 비용","kw":"타일 줄눈 박스 욕실 주방 벽타일 바닥타일"},{"key":"wallpaper","group":"mat","href":"/wallpaper/","name":"도배지 계산기","sub":"필요한 벽지 롤 수 · 실크 / 합지","kw":"도배 벽지 실크 합지 포인트벽지 천장 롤"},{"key":"paint","group":"mat","href":"/paint/","name":"페인트 계산기","sub":"필요한 페인트 양 · 1L / 4L / 18L 통 조합","kw":"페인트 도장 칠 셀프페인팅 벽 통"},{"key":"floor","group":"mat","href":"/floor/","name":"장판 · 마루 계산기","sub":"필요한 장판 길이 · 마루 박스 수","kw":"장판 마루 바닥재 강마루 걸레받이"},{"key":"insulation","group":"mat","href":"/insulation/","name":"창문 단열 · 뽁뽁이 계산기","sub":"뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지","kw":"뽁뽁이 단열 창문 문풍지 결로 단열벽지 겨울 외풍"},{"key":"pyeong","group":"size","href":"/pyeong/","name":"평수 계산기","sub":"㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설","kw":"평수 평 제곱미터 아파트 전용면적"},{"key":"area","group":"size","href":"/area/","name":"면적 계산기","sub":"사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평","kw":"면적 넓이 ㄱ자 삼각형 원"},{"key":"moving","group":"prep","href":"/moving/","name":"이사 체크리스트","sub":"이사 날짜로 한 달 전부터 할 일 · 체크 저장","kw":"이사 체크리스트 전입신고 확정일자 이사준비"},{"key":"waste","group":"prep","href":"/waste/","name":"폐기물 정리 도우미","sub":"공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재","kw":"폐기물 대형폐기물 스티커 폐가전 버리기 무상수거"},{"key":"room","group":"size","href":"/room/","name":"가구 배치 도우미","sub":"침대·옷장 넣어 보기 · 문 걸림 · 통로 폭","kw":"가구 배치 침대 사이즈 퀸 슈퍼싱글 옷장 소파 평면도"},{"key":"measure","group":"size","href":"/measure/","name":"교체 전 치수 기록","sub":"방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리","kw":"치수 방문 변기 교체 실측"},{"key":"schedule","group":"prep","href":"/schedule/","name":"공사·이사 일정표","sub":"이사 날짜로 공사 순서와 할 일을 거꾸로 계산","kw":"공사 일정 순서 이사 날짜 캘린더"},{"key":"estimate","group":"money","href":"/estimate/","name":"견적서 작성기","sub":"공종별 항목 · 부가세 자동 계산 · PDF 저장","kw":"견적서 견적 양식 PDF 계약금 잔금"},{"key":"labor","group":"money","href":"/labor/","name":"인건비 · 3.3% 계산기","sub":"일당 × 일수 · 3.3% 실수령액 · 일용직 세금","kw":"인건비 일당 3.3 원천징수 일용직 기공 조공 실수령"},{"key":"vat","group":"money","href":"/vat/","name":"부가세 계산기","sub":"공급가액 ↔ 합계 · VAT 별도 / 포함","kw":"부가세 VAT 공급가액 10%"}]}; /* /tools:json */
+/* tools:json */ const NAV = {"groups":[{"key":"mat","name":"자재 수량"},{"key":"size","name":"평수 · 면적 · 치수"},{"key":"money","name":"견적 · 비용"},{"key":"prep","name":"일정 · 정리"}],"tools":[{"key":"tile","group":"mat","href":"/tile/","name":"타일 수량 계산기","sub":"필요한 타일 장수 · 박스 수 · 예상 비용","kw":"타일 줄눈 박스 욕실 주방 벽타일 바닥타일"},{"key":"wallpaper","group":"mat","href":"/wallpaper/","name":"도배지 계산기","sub":"필요한 벽지 롤 수 · 실크 / 합지","kw":"도배 벽지 실크 합지 포인트벽지 천장 롤"},{"key":"paint","group":"mat","href":"/paint/","name":"페인트 계산기","sub":"필요한 페인트 양 · 1L / 4L / 18L 통 조합","kw":"페인트 도장 칠 셀프페인팅 벽 통"},{"key":"floor","group":"mat","href":"/floor/","name":"장판 · 마루 계산기","sub":"필요한 장판 길이 · 마루 박스 수","kw":"장판 마루 바닥재 강마루 걸레받이"},{"key":"insulation","group":"mat","href":"/insulation/","name":"창문 단열 · 뽁뽁이 계산기","sub":"뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지","kw":"뽁뽁이 단열 창문 문풍지 결로 단열벽지 겨울 외풍"},{"key":"order","group":"mat","href":"/order/","name":"자재 목록","sub":"계산기에서 담은 자재 모아 보기 · 복사 · 견적서로","kw":"자재 목록 주문 장바구니 담기 합계"},{"key":"pyeong","group":"size","href":"/pyeong/","name":"평수 계산기","sub":"㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설","kw":"평수 평 제곱미터 아파트 전용면적"},{"key":"area","group":"size","href":"/area/","name":"면적 계산기","sub":"사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평","kw":"면적 넓이 ㄱ자 삼각형 원"},{"key":"moving","group":"prep","href":"/moving/","name":"이사 체크리스트","sub":"이사 날짜로 한 달 전부터 할 일 · 체크 저장","kw":"이사 체크리스트 전입신고 확정일자 이사준비"},{"key":"waste","group":"prep","href":"/waste/","name":"폐기물 정리 도우미","sub":"공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재","kw":"폐기물 대형폐기물 스티커 폐가전 버리기 무상수거"},{"key":"room","group":"size","href":"/room/","name":"가구 배치 도우미","sub":"침대·옷장 넣어 보기 · 문 걸림 · 통로 폭","kw":"가구 배치 침대 사이즈 퀸 슈퍼싱글 옷장 소파 평면도"},{"key":"measure","group":"size","href":"/measure/","name":"교체 전 치수 기록","sub":"방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리","kw":"치수 방문 변기 교체 실측"},{"key":"schedule","group":"prep","href":"/schedule/","name":"공사·이사 일정표","sub":"이사 날짜로 공사 순서와 할 일을 거꾸로 계산","kw":"공사 일정 순서 이사 날짜 캘린더"},{"key":"estimate","group":"money","href":"/estimate/","name":"견적서 작성기","sub":"공종별 항목 · 부가세 자동 계산 · PDF 저장","kw":"견적서 견적 양식 PDF 계약금 잔금"},{"key":"labor","group":"money","href":"/labor/","name":"인건비 · 3.3% 계산기","sub":"일당 × 일수 · 3.3% 실수령액 · 일용직 세금","kw":"인건비 일당 3.3 원천징수 일용직 기공 조공 실수령"},{"key":"vat","group":"money","href":"/vat/","name":"부가세 계산기","sub":"공급가액 ↔ 합계 · VAT 별도 / 포함","kw":"부가세 VAT 공급가액 10%"}]}; /* /tools:json */
 
 (function () {
   if (typeof NAV === 'undefined') return;

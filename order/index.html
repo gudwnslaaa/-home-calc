@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>자재 목록 – 계산기에서 담은 타일·도배지·페인트·장판 수량 한곳에 모아 보기</title>
+<meta name="description" content="방마다 계산한 자재 수량을 한곳에 모아 보고, 같은 자재는 합계로 정리합니다. 목록을 복사해 카톡으로 보내거나 인쇄하고, 견적서로 한 번에 보낼 수 있어요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="집 공사 계산기">
+<meta property="og:title" content="자재 목록 – 계산기에서 담은 타일·도배지·페인트·장판 수량 한곳에 모아 보기">
+<meta property="og:description" content="방마다 계산한 자재 수량을 한곳에 모아 보고, 같은 자재는 합계로 정리합니다. 목록을 복사해 카톡으로 보내거나 인쇄하고, 견적서로 한 번에 보낼 수 있어요.">
+<meta property="og:url" content="https://jibcalc.com/order/">
+<meta property="og:image" content="https://jibcalc.com/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://jibcalc.com/order/">
+<script type="application/ld+json" id="crumb">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"집 공사 계산기","item":"https://jibcalc.com/"},{"@type":"ListItem","position":2,"name":"자재 목록","item":"https://jibcalc.com/order/"}]}</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "자재 목록에는 어떻게 담나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "타일·도배지·페인트·장판·뽁뽁이 계산기에서 결과가 나오면 ‘자재 목록에 담기’를 누르세요. 방마다 계산해서 담으면 여기에 차곡차곡 모입니다."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "같은 자재는 합쳐서 보여 주나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "이름과 단위가 같은 자재는 ‘합계’에 모아서 보여 줍니다. 박스·롤·통처럼 낱개 단위는 방마다 따로 계산해 올림한 값의 합이라, 한꺼번에 계산하면 조금 줄어들 수 있어요."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "목록은 어디에 저장되나요?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "이 기기의 브라우저에만 저장됩니다. 가게에 보낼 때는 ‘목록 복사’로 카톡에 붙여 넣거나 인쇄하세요."
+      }
+    }
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* 집 공사 계산기 기본 스타일 — 현장 줄자 테마 (tools/apply-theme.js 가 모든 페이지에 넣음) */
+:root{
+  color-scheme:light;
+  --bg:#eef0ec; --card:#ffffff; --ink:#1c2024; --muted:#5b636b; --line:#d6dad3;
+  --field:#f7f8f5; --accent:#7a5a00; --accent-soft:#fff3c4; --soft:#f2f3ef;
+  --tape:#ffc400; --tape-deep:#e0ab00; --panel:#1c2024;
+  --shadow:0 1px 0 rgba(28,32,36,.04);
+  --radius:14px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"IBM Plex Sans KR","Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;font-variant-numeric:tabular-nums}
+/* 페이지 맨 위 줄자 띠 */
+body::before{content:"";display:block;height:14px;background-color:var(--tape);
+  background-image:
+    repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 50px),
+    repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 10px);
+  background-size:100% 9px,100% 4px;background-repeat:no-repeat;background-position:0 0,0 0;
+  border-bottom:1px solid var(--tape-deep)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 72px}
+a{color:var(--ink);text-decoration-color:var(--tape);text-decoration-thickness:3px;text-underline-offset:3px}
+a:hover{text-decoration-color:var(--ink)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:6px}
+header{text-align:left;margin-bottom:8px}
+header h1{font-size:1.85rem;font-weight:700;margin:4px 0 6px;letter-spacing:-0.02em;line-height:1.3}
+header p{margin:0;color:var(--muted);font-size:1rem;max-width:36em}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:24px;margin-top:18px;box-shadow:var(--shadow)}
+.card h2{font-size:1.02rem;font-weight:700;margin:0 0 14px;color:var(--ink);letter-spacing:-0.01em}
+.card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
+  border-radius:5px;background:var(--tape);color:var(--ink);font-size:.8rem;font-weight:700;margin-right:9px;vertical-align:1px}
+label{display:block;font-size:.86rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+input,select,textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
+  background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
+  transition:border-color .15s, box-shadow .15s, background .15s}
+input::placeholder,textarea::placeholder{color:#8f969c}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);background:var(--card);
+  box-shadow:0 0 0 3px var(--accent-soft)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:1fr 1fr}
+.g3{grid-template-columns:1fr 1fr 1fr}
+.row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
+.del{border:none;background:transparent;color:var(--muted);font-size:1.25rem;cursor:pointer;
+  min-width:44px;min-height:44px;padding:8px 10px;line-height:1;border-radius:8px}
+.del:hover{color:var(--ink);background:var(--soft)}
+.add{margin-top:6px;border:1px dashed #b9beb6;background:transparent;color:var(--ink);
+  border-radius:10px;padding:11px 12px;cursor:pointer;font-size:.92rem;width:100%;font-family:inherit;font-weight:500}
+.add:hover{border-color:var(--ink);background:var(--accent-soft)}
+.hint{font-size:.84rem;color:var(--muted);margin:10px 0 0}
+.divider{height:1px;background:var(--line);margin:22px 0}
+/* 결과판: 흑연색 바탕에 노란 숫자. 안쪽은 색 변수를 바꿔 어두운 판에 맞춤 */
+.result{--card:#1c2024;--ink:#f2f3ef;--muted:#aeb4b9;--line:#353b41;--field:#262b30;--soft:#262b30;--accent:#ffc400;--accent-soft:rgba(255,196,0,.16);
+  background:var(--panel);color:var(--ink);border-color:var(--panel);position:relative;overflow:hidden;padding-top:30px}
+.result::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background-color:var(--tape);
+  background-image:repeating-linear-gradient(90deg,#1c2024 0 1px,transparent 1px 10px);background-size:100% 4px;background-repeat:no-repeat}
+.result a{color:var(--ink)}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--soft);border-radius:10px;padding:16px 18px;border:1px solid var(--line)}
+.stat .k{font-size:.86rem;color:var(--muted)}
+.stat .v{font-size:2rem;font-weight:700;color:var(--accent);letter-spacing:-0.02em;line-height:1.25;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:500;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.92rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:600}
+.ad-slot{margin-top:20px;min-height:0}
+article{margin-top:48px;padding:0 2px;max-width:40em}
+article h2{font-size:1.2rem;font-weight:700;margin:40px 0 10px;letter-spacing:-0.01em}
+article h3{font-size:1rem;font-weight:700;margin:24px 0 4px}
+article p,article li{color:#30363c}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.92rem;margin:12px 0;
+  background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:10px 14px;text-align:left}
+article tr:last-child td{border-bottom:none}
+article th{color:var(--muted);font-weight:600;background:var(--soft)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);text-align:left}
+@media (max-width:560px){
+  .wrap{padding-top:20px}
+  header h1{font-size:1.6rem}
+  .card{padding:20px 16px}
+  .g2,.g3{grid-template-columns:1fr 1fr}
+  .row{grid-template-columns:1fr 1fr auto}
+  .row .name{grid-column:1 / -1}
+  .big{grid-template-columns:1fr 1fr}
+  .stat{padding:13px 14px}
+  .stat .v{font-size:1.6rem}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<style>
+.ol{display:grid;gap:10px}
+.oi{border:1px solid var(--line);border-radius:12px;background:var(--card);padding:12px 14px}
+.oi .top{display:flex;gap:10px;align-items:flex-start}
+.oi .top b{font-size:1.02rem}
+.oi .meta{color:var(--muted);font-size:.84rem;margin-top:2px;line-height:1.5}
+.oi .meta a{font-size:.84rem}
+.oi .q{display:flex;gap:8px;align-items:center;margin-top:10px}
+.oi .q input{width:110px}
+.oi .q span{color:var(--muted)}
+.oi .x{margin-left:auto;min-width:44px;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:1.1rem;cursor:pointer}
+.oi .x.arm{color:#b3261e;border-color:#b3261e;font-size:.85rem}
+.sum-list{margin:0;padding-left:18px}
+.sum-list li{margin:2px 0}
+.empty{padding:22px;border:1px dashed #b9beb6;border-radius:12px;text-align:center;color:var(--muted)}
+.empty a{display:inline-block;margin:6px 6px 0}
+@media print{
+  body::before,header .back,.nav-btn,.no-print,.related,article,footer,.ad-slot,.sticky-bar,.reset-row,.actions,.basis{display:none!important}
+  body{background:#fff} .card{border:0;box-shadow:none;padding:0}
+  .result{--card:#fff;--ink:#111;--muted:#555;--line:#ccc;--soft:#fff;--accent:#111;background:#fff;color:#111}
+  .result::before{display:none}
+  .oi{break-inside:avoid}
+}
+</style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="theme-color" content="#ffc400">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="stylesheet" href="/common.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p style="margin-bottom:10px"><a href="/" style="color:var(--muted);text-decoration:none;font-size:.88rem;display:inline-flex;align-items:center;gap:8px"><img src="/img/logo-mark.svg" alt="" width="22" height="22">집 공사 계산기 · 전체 보기</a></p>
+    <h1>자재 목록</h1>
+    <p>계산기에서 ‘자재 목록에 담기’를 누른 항목이 여기에 모여요. 가게에 보내거나 견적서로 옮기세요.</p>
+  </header>
+
+  <section class="card">
+    <h2><span class="num">1</span>담은 자재</h2>
+    <div class="ol" id="ol"></div>
+  </section>
+
+  <section class="card result" data-plain="1" aria-live="polite">
+    <h2>합계</h2>
+    <div class="big">
+      <div class="stat"><div class="k">담은 항목</div><div class="v" id="rN">0<small>개</small></div></div>
+      <div class="stat"><div class="k">자재 종류</div><div class="v" id="rK">0<small>가지</small></div></div>
+    </div>
+    <div class="detail"><ul class="sum-list" id="rSum"></ul></div>
+    <div class="actions no-print" style="margin-top:14px">
+      <button type="button" class="btn primary" id="copyBtn">목록 복사 (카톡에 붙여넣기)</button>
+      <button type="button" class="btn" id="estBtn">견적서로 모두 보내기</button>
+      <button type="button" class="btn" id="printBtn">인쇄</button>
+      <button type="button" class="btn ghost" id="clearBtn">목록 비우기</button>
+    </div>
+  </section>
+
+  <!-- 애드센스 승인 후 광고 코드를 여기에 넣으세요 -->
+  <div class="ad-slot"></div>
+
+  <article>
+    <h2>방마다 계산하고, 한 번에 주문하기</h2>
+    <p>집 전체를 고칠 때는 방마다 크기와 자재가 달라서 계산기를 여러 번 쓰게 됩니다. 계산할 때마다 ‘자재 목록에 담기’를 눌러 두면 여기서 한 장으로 볼 수 있어요. 같은 타일을 여러 방에 쓴다면 합계를 보고 한 번에 주문하세요. 같은 생산 묶음(로트)으로 받아야 색 차이가 없습니다.</p>
+    <p>시공하는 분이라면 ‘견적서로 모두 보내기’로 자재 항목을 견적서에 옮긴 뒤 단가만 채우면 됩니다.</p>
+    <h2>자주 묻는 질문</h2>
+    <h3>자재 목록에는 어떻게 담나요?</h3>
+    <p>타일·도배지·페인트·장판·뽁뽁이 계산기에서 결과가 나오면 ‘자재 목록에 담기’를 누르세요. 방마다 계산해서 담으면 여기에 차곡차곡 모입니다.</p>
+    <h3>같은 자재는 합쳐서 보여 주나요?</h3>
+    <p>이름과 단위가 같은 자재는 ‘합계’에 모아서 보여 줍니다. 박스·롤·통처럼 낱개 단위는 방마다 따로 계산해 올림한 값의 합이라, 한꺼번에 계산하면 조금 줄어들 수 있어요.</p>
+    <h3>목록은 어디에 저장되나요?</h3>
+    <p>이 기기의 브라우저에만 저장됩니다. 가게에 보낼 때는 ‘목록 복사’로 카톡에 붙여 넣거나 인쇄하세요.</p>
+  </article>
+
+  <section class="related">
+    <h2>다른 계산기도 필요하신가요?</h2>
+    <div class="list"><a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a><a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a><a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a><a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a><a class="item" href="/insulation/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h16"/><circle cx="8" cy="7.5" r="1"/><circle cx="16" cy="16.5" r="1"/><circle cx="16" cy="7.5" r="1"/><circle cx="8" cy="16.5" r="1"/></svg></div><div class="txt"><b>창문 단열 · 뽁뽁이 계산기</b><span class="sub">뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지</span></div><div class="go">→</div></a><a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a><a class="item" href="/area/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9h7V4h9v16z"/><path d="M4 20l7-7"/></svg></div><div class="txt"><b>면적 계산기</b><span class="sub">사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평</span></div><div class="go">→</div></a><a class="item" href="/moving/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/><path d="M7.5 9l9-4"/></svg></div><div class="txt"><b>이사 체크리스트</b><span class="sub">이사 날짜로 한 달 전부터 할 일 · 체크 저장</span></div><div class="go">→</div></a><a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a><a class="item" href="/room/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1.5"/><rect x="5.5" y="5.5" width="6" height="8" rx="1"/><path d="M14 21v-4.5a4.5 4.5 0 0 1 4.5-4.5H21"/></svg></div><div class="txt"><b>가구 배치 도우미</b><span class="sub">침대·옷장 넣어 보기 · 문 걸림 · 통로 폭</span></div><div class="go">→</div></a><a class="item" href="/measure/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg></div><div class="txt"><b>교체 전 치수 기록</b><span class="sub">방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리</span></div><div class="go">→</div></a><a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a><a class="item" href="/estimate/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg></div><div class="txt"><b>견적서 작성기</b><span class="sub">공종별 항목 · 부가세 자동 계산 · PDF 저장</span></div><div class="go">→</div></a><a class="item" href="/labor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg></div><div class="txt"><b>인건비 · 3.3% 계산기</b><span class="sub">일당 × 일수 · 3.3% 실수령액 · 일용직 세금</span></div><div class="go">→</div></a><a class="item" href="/vat/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg></div><div class="txt"><b>부가세 계산기</b><span class="sub">공급가액 ↔ 합계 · VAT 별도 / 포함</span></div><div class="go">→</div></a></div>
+  </section>
+  <footer>
+    <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
+    수량은 각 계산기의 참고용 추정치입니다. 주문 전에 제품 규격과 현장 실측을 다시 확인하세요.
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const CKEY = 'jibcalc-order';
+let store = null; try { store = window.localStorage; } catch (e) {}
+const read = () => { try { const a = JSON.parse(store.getItem(CKEY)); return Array.isArray(a) ? a.filter(x => x && x.name) : []; } catch (e) { return []; } };
+const write = a => { try { store.setItem(CKEY, JSON.stringify(a)); } catch (e) {} };
+const fmt = n => (Math.round(n * 100) / 100).toLocaleString('ko-KR');
+function sums(list){
+  const m = new Map();
+  list.forEach(x => { const k = x.name + '|' + x.unit; m.set(k, { name: x.name, unit: x.unit, qty: (m.get(k) ? m.get(k).qty : 0) + (+x.qty || 0), n: (m.get(k) ? m.get(k).n : 0) + 1 }); });
+  return [...m.values()];
+}
+function render(){
+  const list = read();
+  $('ol').innerHTML = list.length ? list.map((x, i) =>
+    '<div class="oi"><div class="top"><div><b>' + esc(x.name) + '</b>' +
+      '<div class="meta">' + (x.room ? esc(x.room) + ' · ' : '') + '<a href="' + esc(x.href) + '">' + esc(x.page) + '</a>' + (x.spec ? '<br>' + esc(x.spec) : '') + '</div></div>' +
+      '<button type="button" class="x" data-del="' + i + '" aria-label="' + esc(x.name) + ' 빼기">×</button></div>' +
+    '<div class="q"><input type="number" inputmode="decimal" min="0" step="any" value="' + esc(x.qty) + '" data-qty="' + i + '" aria-label="' + esc(x.name) + ' 수량"><span>' + esc(x.unit) + '</span></div></div>').join('')
+    : '<div class="empty">아직 담은 자재가 없어요.<br><a href="/tile/">타일</a><a href="/wallpaper/">도배지</a><a href="/paint/">페인트</a><a href="/floor/">장판·마루</a><a href="/insulation/">뽁뽁이</a> 계산기에서 담아 보세요.</div>';
+  renderSums(list);
+}
+function renderSums(list){
+  const s = sums(list);
+  $('rN').innerHTML = list.length + '<small>개</small>';
+  $('rK').innerHTML = s.length + '<small>가지</small>';
+  $('rSum').innerHTML = s.map(x => '<li><b>' + esc(x.name) + '</b> ' + fmt(x.qty) + esc(x.unit) + (x.n > 1 ? ' (' + x.n + '곳 합계)' : '') + '</li>').join('') || '<li>담은 자재가 없어요</li>';
+}
+function text(){
+  const list = read();
+  const lines = ['[자재 목록] jibcalc.com', ''];
+  sums(list).forEach(x => lines.push('· ' + x.name + ' ' + fmt(x.qty) + x.unit + (x.n > 1 ? ' (' + x.n + '곳 합계)' : '')));
+  lines.push('', '— 방별 —');
+  list.forEach(x => lines.push('· ' + (x.room ? x.room + ' : ' : '') + x.name + ' ' + fmt(x.qty) + x.unit + (x.spec ? ' (' + x.spec + ')' : '')));
+  return lines.join('\n');
+}
+function toast2(msg){ let t = document.querySelector('.toast'); if (!t) { t = document.createElement('div'); t.className = 'toast'; document.body.appendChild(t); } t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2200); }
+// 수량을 고치면 목록은 그대로 두고 합계만 다시 계산 (입력 중 커서 유지)
+$('ol').addEventListener('input', e => { const i = e.target.dataset.qty; if (i == null) return; const a = read(); if (a[i]) { a[i].qty = parseFloat(e.target.value) || 0; write(a); renderSums(a); } });
+$('ol').addEventListener('click', e => {
+  const b = e.target.closest('[data-del]'); if (!b) return;
+  if (b.dataset.arm !== '1') { b.dataset.arm = '1'; b.textContent = '빼기'; b.classList.add('arm'); setTimeout(() => { if (b.isConnected) { b.dataset.arm = ''; b.textContent = '×'; b.classList.remove('arm'); } }, 3000); return; }
+  const a = read(); a.splice(+b.dataset.del, 1); write(a); render();
+});
+$('copyBtn').addEventListener('click', () => {
+  if (!read().length) return toast2('담은 자재가 없어요');
+  (navigator.clipboard ? navigator.clipboard.writeText(text()) : Promise.reject()).then(() => toast2('목록을 복사했어요. 카톡에 붙여 넣으세요'), () => toast2('복사하지 못했어요. 인쇄를 이용해 주세요'));
+});
+$('estBtn').addEventListener('click', () => {
+  const list = read(); if (!list.length) return toast2('담은 자재가 없어요');
+  try { store.setItem('jibcalc-estimate-inbox', JSON.stringify(list.map(x => ({ cat: x.cat, name: x.name + (x.room ? ' (' + x.room + ')' : ''), qty: x.qty, unit: x.unit, kind: '자재비' })))); } catch (e) {}
+  location.href = '/estimate/';
+});
+$('printBtn').addEventListener('click', () => window.print());
+$('clearBtn').addEventListener('click', () => {
+  const b = $('clearBtn');
+  if (b.dataset.arm !== '1') { b.dataset.arm = '1'; b.textContent = '한 번 더 누르면 비워요'; setTimeout(() => { b.dataset.arm = ''; b.textContent = '목록 비우기'; }, 3000); return; }
+  write([]); b.dataset.arm = ''; b.textContent = '목록 비우기'; render();
+});
+window.addEventListener('storage', e => { if (e.key === CKEY) render(); });
+render();
+</script>
+<script src="/common.js"></script>
+</body>
+</html>

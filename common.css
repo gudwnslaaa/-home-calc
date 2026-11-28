@@ -148,3 +148,20 @@ body.nav-open{overflow:hidden}
 .home-search input{font-size:1.05rem;padding:13px 14px;background:var(--card)}
 .groups section[hidden],.groups a.item[hidden]{display:none}
 @media (max-width:560px){ .nav-btn{top:-4px} }
+
+/* 우리 집 방 목록 */
+.myhome{padding:14px 18px}
+.myhome summary{cursor:pointer;list-style:none;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;min-height:32px}
+.myhome summary::-webkit-details-marker{display:none}
+.myhome summary::before{content:"";width:10px;height:10px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);transform:rotate(-45deg);margin-right:4px;transition:transform .15s}
+.myhome details[open] summary::before{transform:rotate(45deg)}
+.myhome summary span{color:var(--muted);font-size:.86rem}
+.myhome .chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.myhome .chip{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--card)}
+.myhome .chip button{border:0;background:transparent;font:inherit;color:var(--ink);cursor:pointer;min-height:44px;padding:0 12px}
+.myhome .chip button:first-child:hover{background:var(--accent-soft)}
+.myhome .chip small{color:var(--muted)}
+.myhome .chip .x{border-left:1px solid var(--line);color:var(--muted);padding:0 12px;min-width:44px}
+.myhome .chip .x.arm{color:#b3261e;font-weight:600}
+.myhome .save-row{display:flex;gap:8px;flex-wrap:wrap}
+.myhome .save-row input{flex:1;min-width:140px}
