@@ -64,6 +64,7 @@ const EXTRA_STYLE = `<style>
 </style>`;
 
 function head({ title, desc, url, jsonld = '' }) {
+  jsonld = require('./site-kit').crumbJsonLd(title.split(' – ')[0], url) + jsonld;
   return `<!doctype html>
 <html lang="ko">
 <head>

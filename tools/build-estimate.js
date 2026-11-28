@@ -37,6 +37,13 @@ const EXTRA_STYLE = `<style>
 .g2x{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media (max-width:560px){ .g2x{grid-template-columns:1fr} }
 textarea{width:100%;min-height:84px;border-radius:12px;border:1px solid var(--line);background:var(--field);color:var(--ink);padding:10px 12px;font:inherit;font-size:.92rem;resize:vertical;box-sizing:border-box}
+.pay{display:grid;grid-template-columns:1fr 80px 1.6fr 36px;gap:8px;align-items:end;margin-top:8px}
+.pay .x{height:44px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--muted);font-size:1.1rem;cursor:pointer}
+@media (max-width:560px){ .pay{grid-template-columns:1fr 70px 36px} .pay .cond{grid-column:1 / -1;order:4} }
+.check{display:flex;align-items:center;gap:10px;font-size:.95rem;color:var(--ink);cursor:pointer;font-weight:500}
+.check input{width:20px;height:20px;accent-color:#1c2024;margin:0}
+.it{background:var(--soft)}
+.it input,.it select{background:var(--card)}
 .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .kor{font-size:.85rem;color:var(--muted);margin-top:6px}
 .imported{border-color:var(--accent)}
@@ -73,6 +80,7 @@ const faq = [
   ['견적서를 PDF로 저장하려면?', '‘견적서 보기’를 누른 뒤 ‘인쇄 · PDF 저장’을 누르고, 인쇄 창에서 대상(프린터)을 ‘PDF로 저장’으로 고르면 됩니다. 휴대폰은 인쇄 화면에서 공유 버튼으로 PDF를 보낼 수 있어요.'],
   ['넣은 내용은 어디에 저장되나요?', '지금 쓰는 기기의 브라우저 안에만 저장되고 서버로 보내지 않습니다. 다른 기기에서는 보이지 않으니, 완성한 견적서는 PDF로 저장해 두세요. ‘입력 초기화’를 누르면 지워집니다.'],
   ['견적서를 여러 개 만들어 둘 수 있나요?', '‘견적서 관리’에서 이름을 붙여 저장하면 30개까지 이 기기에 보관하고 다시 불러올 수 있습니다. 욕실·도배·주방처럼 자주 하는 공사는 ‘공사별 항목 틀’로 항목을 한 번에 넣고 수량과 단가만 채우면 됩니다.'],
+  ['계약금·중도금·잔금도 적을 수 있나요?', '‘대금 지급 일정’을 켜면 단계마다 비율과 지급 시기를 적을 수 있고, 합계 금액에 맞춰 단계별 금액이 계산되어 견적서 아래에 표로 들어갑니다. 비율은 정해진 기준이 없으니 서로 합의한 대로 넣으세요.'],
   ['공과잡비는 몇 %로 잡나요?', '정해진 비율은 없고 업체와 공사 규모에 따라 다릅니다. 이 계산기는 직접 넣은 비율만 적용하고, 0%로 두면 넣지 않습니다.'],
 ];
 
@@ -142,6 +150,16 @@ const html = kit.head({
     <textarea id="memo" placeholder="예) 계약금·중도금·잔금 비율, 견적에 포함되지 않은 공사, 자재 변경 시 금액 조정 등"></textarea>
   </section>
 
+  <section class="card">
+    <h2><span class="num">4</span>대금 지급 일정 <small style="color:var(--muted);font-weight:400">(선택)</small></h2>
+    <label class="check"><input id="usePay" type="checkbox"> 계약금·중도금·잔금을 견적서에 함께 적기</label>
+    <div id="payBox" hidden>
+      <div id="pays"></div>
+      <button class="add" type="button" id="addPay">+ 지급 단계 추가</button>
+      <p class="hint">처음 넣어 둔 비율은 예시예요. 정해진 비율은 없으니 업체와 고객이 합의한 대로 고치세요. 마지막 단계에서 원 단위 끝수를 맞춥니다. 계약서는 공정거래위원회의 <a href="https://www.ftc.go.kr" target="_blank" rel="noopener">실내건축·창호공사 표준계약서</a>를 함께 쓰면 좋아요.</p>
+    </div>
+  </section>
+
   <section class="card result" aria-live="polite">
     <h2>견적 합계</h2>
     <div class="big grid g3">
@@ -173,6 +191,7 @@ const html = kit.head({
       <li>공종·품명·수량·단위·단가를 넣으면 항목별 금액과 공종별 소계를 자동 계산</li>
       <li>부가세 별도·포함·없음 선택, 공과잡비(%)·할인·끝자리 정리</li>
       <li>합계를 ‘일금 ○○원정’ 한글 표기로 함께 표시</li>
+      <li>계약금·중도금·잔금 비율과 지급 시기를 적으면 단계별 금액 자동 계산</li>
       <li>욕실·도배 장판·주방·도장·현장 경비 항목 틀, 견적서 여러 개 저장·불러오기</li>
       <li>흰 종이 양식으로 보기 → 인쇄 또는 PDF 저장, 엑셀에 붙여 넣을 표 복사</li>
     </ul>
@@ -227,6 +246,37 @@ function addItem(v = {}, mark){
   return el;
 }
 
+function addPay(v = {}){
+  const el = document.createElement('div');
+  el.className = 'pay';
+  el.innerHTML =
+    '<div><label>단계</label><input class="pn" type="text" aria-label="단계" placeholder="예: 계약금"></div>' +
+    '<div><label>비율 (%)</label><input class="pp" type="number" inputmode="decimal" min="0" max="100" step="1" aria-label="비율 (%)"></div>' +
+    '<div class="cond"><label>지급 시기 · 조건</label><input class="pc" type="text" aria-label="지급 시기 · 조건" placeholder="예: 계약할 때"></div>' +
+    '<button type="button" class="x" aria-label="단계 삭제">×</button>';
+  el.querySelector('.pn').value = v.n || '';
+  el.querySelector('.pp').value = v.p ?? '';
+  el.querySelector('.pc').value = v.c || '';
+  el.querySelector('.x').addEventListener('click', () => { el.remove(); calc(); });
+  $('pays').appendChild(el);
+}
+function readPays(){
+  return [...document.querySelectorAll('.pay')].map(el => ({ n: el.querySelector('.pn').value.trim(), p: el.querySelector('.pp').value, c: el.querySelector('.pc').value.trim() }));
+}
+function payPlan(total){
+  const rows = readPays().filter(r => r.n || parseFloat(r.p) > 0);
+  const sum = rows.reduce((s, r) => s + (parseFloat(r.p) || 0), 0);
+  let used = 0;
+  const out = rows.map((r, i) => {
+    const pct = parseFloat(r.p) || 0;
+    let amt = Math.floor(total * pct / 100);
+    if (i === rows.length - 1 && Math.abs(sum - 100) < 1e-9) amt = total - used;
+    used += amt;
+    return { ...r, pct, amt };
+  });
+  return { rows: out, sum };
+}
+
 function readItems(){
   return [...document.querySelectorAll('.it')].map(el => {
     const g = c => el.querySelector(c).value;
@@ -278,15 +328,20 @@ function calc(){
     if (c.vm === 'incl') parts.push('단가에 부가세 포함으로 계산');
     if (c.vm === 'none') parts.push('부가세 없음');
     parts.push('합계 한글 표기: <b>일금 ' + hangul(c.total) + '원정</b>');
+    if ($('usePay').checked) {
+      const pp = payPlan(c.total);
+      if (pp.rows.length) parts.push('대금: ' + pp.rows.map(r => esc(r.n || '단계') + ' ' + r.pct + '% ' + won(r.amt) + '원').join(' · ') +
+        (Math.abs(pp.sum - 100) > 1e-9 ? ' <span style="color:#ffb3a0">(비율 합계가 ' + pp.sum + '%예요. 100%로 맞춰 주세요)</span>' : ''));
+    }
   }
+  $('payBox').hidden = !$('usePay').checked;
   $('rDetail').innerHTML = parts.length ? parts.join('<br>') : '항목의 수량과 단가를 넣어 주세요.';
   save();
 }
 
 function save(){
   if (!store) return;
-  const d = { f: {}, items: readItems().map(({ el, amount, ...rest }) => rest) };
-  FIELDS.forEach(id => d.f[id] = $(id).value);
+  const d = current();
   try { store.setItem(KEY, JSON.stringify(d)); } catch (e) {}
 }
 function load(){
@@ -295,6 +350,7 @@ function load(){
   if (!d) return false;
   FIELDS.forEach(id => { if (d.f && d.f[id] != null) $(id).value = d.f[id]; });
   (d.items || []).forEach(v => addItem(v));
+  setPays(d.pay);
   return true;
 }
 
@@ -345,8 +401,17 @@ function sheetHtml(){
     '<table><thead><tr><th style="width:34px">No</th><th>품명 · 규격</th><th style="width:56px">수량</th><th style="width:44px">단위</th><th style="width:90px">단가</th><th style="width:100px">금액</th></tr></thead><tbody>' + (body || '<tr><td colspan="6" style="text-align:center;color:#888">항목이 없습니다</td></tr>') +
       extra.map(([k, v]) => '<tr><td colspan="5" class="num"' + (k === '합계' ? ' style="font-weight:700"' : '') + '>' + k + '</td><td class="num"' + (k === '합계' ? ' style="font-weight:700"' : '') + '>' + v + '</td></tr>').join('') +
     '</tbody></table>' +
+    payHtml(c.total) +
     (memo ? '<div class="memo"><b>특이사항</b>\\n' + esc(memo) + '</div>' : '') +
     '<div class="foot">jibcalc.com 견적서 작성기로 만들었습니다</div>';
+}
+
+function payHtml(total){
+  if (!$('usePay').checked) return '';
+  const pp = payPlan(total);
+  if (!pp.rows.length) return '';
+  return '<table style="margin-top:14px"><thead><tr><th>대금 지급</th><th style="width:60px">비율</th><th style="width:110px">금액</th><th>지급 시기 · 조건</th></tr></thead><tbody>' +
+    pp.rows.map(r => '<tr><td>' + esc(r.n) + '</td><td class="num">' + r.pct + '%</td><td class="num">' + won(r.amt) + '</td><td>' + esc(r.c) + '</td></tr>').join('') + '</tbody></table>';
 }
 
 function tsv(){
@@ -359,6 +424,7 @@ function tsv(){
   lines.push(['', '공급가액', '', '', '', c.supply, ''].join('\\t'));
   lines.push(['', '부가세', '', '', '', c.tax, ''].join('\\t'));
   lines.push(['', '합계', '', '', '', c.total, ''].join('\\t'));
+  if ($('usePay').checked) payPlan(c.total).rows.forEach(r => lines.push(['대금', r.n, r.pct + '%', '', '', r.amt, r.c].map(x => String(x).replace(/[\\t\\n]/g, ' ')).join('\\t')));
   return lines.join('\\n');
 }
 function flash(msg){
@@ -391,14 +457,21 @@ function refreshSaved(sel){
   if (sel && all[sel]) $('savedList').value = sel;
 }
 function current(){
-  const d = { f: {}, items: readItems().map(({ el, amount, ...rest }) => rest) };
+  const d = { f: {}, items: readItems().map(({ el, amount, ...rest }) => rest), pay: { on: $('usePay').checked, rows: readPays() } };
   FIELDS.forEach(id => d.f[id] = $(id).value);
   return d;
+}
+const PAY_DEFAULT = [{ n: '계약금', p: 10, c: '계약할 때' }, { n: '중도금', p: 50, c: '철거·자재 입고 후' }, { n: '잔금', p: 40, c: '공사 완료·검수 후' }];
+function setPays(pay){
+  $('pays').innerHTML = '';
+  $('usePay').checked = !!(pay && pay.on);
+  ((pay && pay.rows && pay.rows.length) ? pay.rows : PAY_DEFAULT).forEach(addPay);
 }
 function apply(d){
   $('items').innerHTML = '';
   FIELDS.forEach(id => { if (d.f && d.f[id] != null) $(id).value = d.f[id]; });
   (d.items || []).forEach(v => addItem(v));
+  setPays(d.pay);
   calc();
 }
 $('saveBtn').addEventListener('click', () => {
@@ -430,11 +503,12 @@ $('newBtn').addEventListener('click', () => {
   $('items').innerHTML = '';
   ['cuName', 'site', 'memo', 'saveName'].forEach(id => $(id).value = '');
   ['misc', 'disc'].forEach(id => $(id).value = '0'); $('cut').value = '0';
-  addItem(); calc();
+  setPays({ on: $('usePay').checked }); addItem(); calc();
   flash('새 견적서를 시작해요. 업체 정보는 그대로 두었어요');
 });
 
 $('addItem').addEventListener('click', () => { addItem(); calc(); });
+$('addPay').addEventListener('click', () => { addPay(); calc(); });
 $('viewBtn').addEventListener('click', () => { $('sheet').innerHTML = sheetHtml(); $('sheetWrap').hidden = false; document.body.style.overflow = 'hidden'; });
 $('closeBtn').addEventListener('click', () => { $('sheetWrap').hidden = true; document.body.style.overflow = ''; });
 $('printBtn').addEventListener('click', () => window.print());
@@ -450,6 +524,7 @@ document.addEventListener('input', calc);
 document.addEventListener('change', calc);
 
 if (!load()) {
+  setPays(null);
   addItem({ cat: '철거', name: '욕실 벽·바닥 타일 철거', qty: 1, unit: '식', price: 500000, kind: '인건비' });
   addItem({ cat: '타일', name: '벽 타일 300×600', qty: 12, unit: '박스', price: 28000, kind: '자재비' });
   addItem({ cat: '타일', name: '타일 시공', qty: 2, unit: '품', price: 300000, kind: '인건비' });

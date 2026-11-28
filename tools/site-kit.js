@@ -17,6 +17,7 @@ const ICONS = {
   waste: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg>',
   measure: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg>',
   schedule: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg>',
+  insulation: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="1.5"/><path d="M12 3v18M4 12h16"/><circle cx="8" cy="7.5" r="1"/><circle cx="16" cy="16.5" r="1"/><circle cx="16" cy="7.5" r="1"/><circle cx="8" cy="16.5" r="1"/></svg>',
   estimate: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg>',
   labor: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg>',
   vat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg>',
@@ -28,6 +29,7 @@ const TOOLS = [
   { key: 'wallpaper', group: 'mat', href: '/wallpaper/', name: '도배지 계산기', sub: '필요한 벽지 롤 수 · 실크 / 합지' },
   { key: 'paint', group: 'mat', href: '/paint/', name: '페인트 계산기', sub: '필요한 페인트 양 · 1L / 4L / 18L 통 조합' },
   { key: 'floor', group: 'mat', href: '/floor/', name: '장판 · 마루 계산기', sub: '필요한 장판 길이 · 마루 박스 수' },
+  { key: 'insulation', group: 'mat', href: '/insulation/', name: '창문 단열 · 뽁뽁이 계산기', sub: '뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지' },
   { key: 'pyeong', group: 'size', href: '/pyeong/', name: '평수 계산기', sub: '㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설' },
   { key: 'area', group: 'size', href: '/area/', name: '면적 계산기', sub: '사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평' },
   { key: 'waste', group: 'prep', href: '/waste/', name: '폐기물 정리 도우미', sub: '공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재' },
@@ -49,7 +51,17 @@ const GROUPS = [
 const itemHtml = (t) => `<a class="item" href="${t.href}"><div class="ico">${ICONS[t.key]}</div><div class="txt"><b>${t.name}</b><span class="sub">${t.sub}</span></div><div class="go">→</div></a>`;
 const related = (exclude) => `<div class="list">${TOOLS.filter((t) => t.key !== exclude).map(itemHtml).join('')}</div>`;
 
+// 검색 결과에 '집 공사 계산기 › 페이지' 경로로 보이게 하는 표시
+function crumbJsonLd(name, url) {
+  if (!url || url === 'https://jibcalc.com/') return '';
+  name = name.split(' | ')[0].trim();
+  return `<script type="application/ld+json" id="crumb">${JSON.stringify({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [
+    { '@type': 'ListItem', position: 1, name: '집 공사 계산기', item: 'https://jibcalc.com/' },
+    { '@type': 'ListItem', position: 2, name, item: url }] })}</script>\n`;
+}
+
 function head({ title, desc, url, jsonld = '', extraStyle = '' }) {
+  jsonld = crumbJsonLd(title.split(' – ')[0], url) + jsonld;
   return `<!doctype html>
 <html lang="ko">
 <head>
@@ -104,4 +116,4 @@ const write = (rel, html) => {
   fs.writeFileSync(file, html);
 };
 
-module.exports = { ROOT, BASE_STYLE, ICONS, TOOLS, GROUPS, itemHtml, related, head, back, foot, faqJsonLd, write };
+module.exports = { crumbJsonLd, ROOT, BASE_STYLE, ICONS, TOOLS, GROUPS, itemHtml, related, head, back, foot, faqJsonLd, write };

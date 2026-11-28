@@ -39,6 +39,7 @@
   /* ---------- 1) cm → m 자동 변환 ---------- */
   function isMeterInput(el) {
     if (!el || el.type !== 'number') return false;
+    if (el.dataset.unit === 'none') return false; // 긴 길이(롤 길이 등)는 변환하지 않음
     if (el.dataset.unit === 'm') return true;
     const box = el.closest('div');
     const label = box && box.querySelector('label');

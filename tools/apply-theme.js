@@ -12,6 +12,13 @@ for (const rel of ['index.html', 'tile/index.html', 'wallpaper/index.html', 'pai
   s = s.replace(/<style>[\s\S]*?<\/style>/, () => '<style>' + css + '</style>');
   s = s.replace(FONT_OLD, FONT_NEW);
   s = s.replace(/<meta name="theme-color" content="[^"]*">/, '<meta name="theme-color" content="#ffc400">');
+  // 경로 표시(BreadcrumbList) — 메인 제외
+  if (rel !== 'index.html' && !s.includes('id="crumb"')) {
+    const kit = require('./site-kit');
+    const title = s.match(/<title>([^<]+)<\/title>/)[1];
+    const url = s.match(/<link rel="canonical" href="([^"]+)">/)[1];
+    s = s.replace('</head>', kit.crumbJsonLd(title.split(' – ')[0], url) + '</head>');
+  }
   fs.writeFileSync(file, s);
   console.log('테마 적용:', rel);
 }
