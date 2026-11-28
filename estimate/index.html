@@ -189,6 +189,17 @@ textarea{width:100%;min-height:84px;border-radius:12px;border:1px solid var(--li
 .steps a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);text-decoration:none;font-size:.9rem;font-weight:600}
 .steps a.go{background:var(--tape);border-color:var(--tape);color:#1c2024}
 section[id^="s"]{scroll-margin-top:64px}
+.brand-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.blabel{display:block;font-size:.86rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+.bslot{height:84px;border:1px dashed #b9beb6;border-radius:10px;display:flex;align-items:center;justify-content:center;background:var(--field);overflow:hidden}
+.bslot img{max-height:72px;max-width:90%;object-fit:contain}
+.bslot span{color:var(--muted);font-size:.85rem}
+.bbtns{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+.bbtns .btn{font-size:.85rem;padding:8px 12px;min-height:40px;display:inline-flex;align-items:center;cursor:pointer}
+#sheet .logo{max-height:56px;max-width:180px;display:block;margin-bottom:6px}
+#sheet .co{position:relative;display:inline-block;padding-right:6px}
+#sheet .seal{position:absolute;right:-30px;top:-14px;width:64px;height:64px;object-fit:contain;opacity:.92}
+@media (max-width:560px){ .brand-row{grid-template-columns:1fr 1fr} }
 .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
 .kor{font-size:.85rem;color:var(--muted);margin-top:6px}
 .imported{border-color:var(--accent)}
@@ -224,7 +235,7 @@ section[id^="s"]{scroll-margin-top:64px}
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta name="theme-color" content="#ffc400">
 <link rel="manifest" href="/site.webmanifest">
-<link rel="stylesheet" href="/common.css?v=de26d355">
+<link rel="stylesheet" href="/common.css?v=2dc084ca">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -251,6 +262,7 @@ section[id^="s"]{scroll-margin-top:64px}
       <button type="button" class="btn ghost" id="delBtn">삭제</button>
       <button type="button" class="btn ghost" id="newBtn">새 견적서</button>
     </div>
+    <div class="tools" style="margin-top:8px"><button type="button" class="btn ghost" data-backup="export">모든 견적서 파일로 내보내기</button><button type="button" class="btn ghost" data-backup="import">백업 가져오기</button></div>
     <p class="hint">견적서는 이 기기 브라우저에만 저장돼요. 새 견적서를 누르면 업체 정보는 그대로 두고 항목·고객 정보만 비워요.</p>
   </section>
 
@@ -289,6 +301,13 @@ section[id^="s"]{scroll-margin-top:64px}
       <div><label for="edate">견적일</label><input id="edate" type="date"></div>
       <div><label for="valid">유효기간 (일)</label><input id="valid" type="number" inputmode="numeric" min="0" step="1" value="30"></div>
     </div>
+    <div class="brand-row">
+      <div><span class="blabel">업체 로고</span><div class="bslot" id="logoSlot"><span>없음</span></div>
+        <div class="bbtns"><label class="btn" for="logoFile">로고 올리기</label><input id="logoFile" type="file" accept="image/*" hidden><button type="button" class="btn ghost" data-brand-del="logo">빼기</button></div></div>
+      <div><span class="blabel">직인 · 도장</span><div class="bslot" id="sealSlot"><span>없음</span></div>
+        <div class="bbtns"><label class="btn" for="sealFile">직인 올리기</label><input id="sealFile" type="file" accept="image/*" hidden><button type="button" class="btn ghost" data-brand-del="seal">빼기</button></div></div>
+    </div>
+    <p class="hint">한 번 올리면 이 기기에 저장되어 모든 견적서(PDF·이미지)에 찍혀요. 배경이 투명한 PNG가 가장 깔끔해요.</p>
     <label for="memo" style="margin-top:10px">특이사항 · 결제 조건</label>
     <textarea id="memo" placeholder="예) 계약금·중도금·잔금 비율, 견적에 포함되지 않은 공사, 자재 변경 시 금액 조정 등"></textarea>
   </section>
@@ -575,6 +594,38 @@ function importFromUrl(){
   setTimeout(() => { el.scrollIntoView({ block: 'center' }); el.querySelector('.price').focus({ preventScroll: true }); }, 200);
 }
 
+// 로고·직인: 올린 그림을 최대 480px PNG로 줄여 이 기기에 저장
+const BKEY = 'jibcalc-estimate-brand';
+function brand(){ try { const b = JSON.parse(store.getItem(BKEY)) || {}; const ok = v => typeof v === 'string' && v.startsWith('data:image/png;base64,') ? v : ''; return { logo: ok(b.logo), seal: ok(b.seal) }; } catch (e) { return { logo: '', seal: '' }; } }
+function showBrand(){
+  const b = brand();
+  [['logo', 'logoSlot'], ['seal', 'sealSlot']].forEach(([k, id]) => { $(id).innerHTML = b[k] ? '<img src="' + b[k] + '" alt="">' : '<span>없음</span>'; });
+}
+function shrink(file){
+  return new Promise((res, rej) => {
+    if (!file || !String(file.type).startsWith('image/')) return rej();
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, 480 / Math.max(img.width, img.height));
+      const c = document.createElement('canvas'); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); res(c.toDataURL('image/png'));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); rej(); };
+    img.src = url;
+  });
+}
+[['logoFile', 'logo'], ['sealFile', 'seal']].forEach(([id, k]) => $(id).addEventListener('change', async () => {
+  try {
+    const d = await shrink($(id).files[0]);
+    const b = brand(); b[k] = d;
+    store.setItem(BKEY, JSON.stringify(b)); showBrand(); flash(k === 'logo' ? '로고를 넣었어요' : '직인을 넣었어요');
+  } catch (e) { flash('그림을 넣지 못했어요. JPG나 PNG 파일인지 확인해 주세요'); }
+  $(id).value = '';
+}));
+document.querySelectorAll('[data-brand-del]').forEach(btn => btn.addEventListener('click', () => {
+  const b = brand(); b[btn.dataset.brandDel] = ''; try { store.setItem(BKEY, JSON.stringify(b)); } catch (e) {} showBrand();
+}));
+
 function sheetHtml(){
   const c = compute();
   const rows = c.items.filter(i => i.name || i.amount);
@@ -598,13 +649,14 @@ function sheetHtml(){
   if (c.vm !== 'none') extra.push(['부가세 (10%)', won(c.tax)]);
   extra.push(['합계', won(c.total)]);
   const memo = $('memo').value.trim();
-  return '<h1>견 적 서</h1>' +
+  const br = brand();
+  return (br.logo ? '<img class="logo" src="' + br.logo + '" alt="">' : '') + '<h1>견 적 서</h1>' +
     '<table class="info"><tr><td style="width:55%">' +
       ($('cuName').value ? '<b>' + esc($('cuName').value) + '</b> 귀하<br>' : '') +
       ($('site').value ? '현장: ' + esc($('site').value) + '<br>' : '') +
       '견적일: ' + fmtD(d) + (until ? '<br>유효기간: ' + fmtD(until) + '까지' : '') +
     '</td><td style="text-align:right">' +
-      ($('coName').value ? '<b>' + esc($('coName').value) + '</b><br>' : '') +
+      ($('coName').value ? '<span class="co"><b>' + esc($('coName').value) + '</b>' + (br.seal ? '<img class="seal" src="' + br.seal + '" alt="직인">' : '') + '</span><br>' : (br.seal ? '<img class="seal" style="position:static" src="' + br.seal + '" alt="직인"><br>' : '')) +
       ($('coTel').value ? esc($('coTel').value) : '') +
     '</td></tr></table>' +
     '<div class="sum">합계 금액: <b>일금 ' + hangul(c.total) + '원정</b> (₩' + won(c.total) + ')' + (c.vm === 'add' || c.vm === 'incl' ? ' · 부가세 포함' : '') + '</div>' +
@@ -772,6 +824,10 @@ async function sheetImage(){
   cv.width = W; cv.height = H;
   x.fillStyle = '#ffffff'; x.fillRect(0, 0, W, H);
   x.fillStyle = '#ffc400'; x.fillRect(0, 0, W, 14);
+  const br = brand();
+  const loadImg = src => new Promise(r => { if (!src) return r(null); const im = new Image(); im.onload = () => r(im); im.onerror = () => r(null); im.src = src; });
+  const [logoImg, sealImg] = await Promise.all([loadImg(br.logo), loadImg(br.seal)]);
+  if (logoImg) { const h = 64, w = Math.min(220, logoImg.width * h / logoImg.height); x.drawImage(logoImg, P, 34, w, w * logoImg.height / logoImg.width); }
   x.fillStyle = '#111'; x.textAlign = 'center'; x.font = F(700, 46); x.fillText('견 적 서', W / 2, 96);
   x.textAlign = 'left'; x.font = F(400, 26);
   let y = 150;
@@ -781,7 +837,8 @@ async function sheetImage(){
   const left = [($('cuName').value ? $('cuName').value + ' 귀하' : ''), ($('site').value ? '현장: ' + $('site').value : ''), '견적일: ' + fd(d) + (vd > 0 ? ' (유효 ' + vd + '일)' : '')].filter(Boolean);
   const right = [$('coName').value, $('coTel').value].filter(Boolean);
   left.forEach((t, i) => { const w = i === 0 && $('cuName').value ? 700 : 400; x.fillText(fit(t, 560, 26, w), P, y + i * 36); });
-  x.textAlign = 'right'; right.forEach((t, i) => { x.font = F(i === 0 ? 700 : 400, 26); x.fillText(fit(t, 380, 26, i === 0 ? 700 : 400), W - P, y + i * 36); }); x.textAlign = 'left';
+  x.textAlign = 'right'; right.forEach((t, i) => { x.font = F(i === 0 ? 700 : 400, 26); x.fillText(fit(t, 380, 26, i === 0 ? 700 : 400), W - P - (sealImg ? 92 : 0), y + i * 36); }); x.textAlign = 'left';
+  if (sealImg) { x.globalAlpha = 0.92; x.drawImage(sealImg, W - P - 80, y - 54, 80, 80); x.globalAlpha = 1; }
   y += Math.max(left.length, right.length) * 36 + 20;
   x.strokeStyle = '#111'; x.lineWidth = 3; x.strokeRect(P, y, W - P * 2, 70);
   x.font = F(700, 28); x.fillText(fit('합계  일금 ' + hangul(c.total) + '원정  (₩' + won(c.total) + ')', W - P * 2 - 40, 28, 700), P + 20, y + 46);
@@ -838,11 +895,12 @@ async function sheetImage(){
 }
 ['imgBtn', 'imgBtn2'].forEach(id => $(id).addEventListener('click', () => sheetImage().catch(() => flash('이미지를 만들지 못했어요. PDF 저장을 이용해 주세요'))));
 
+showBrand();
 refreshSaved();
 importFromUrl();
 importInbox();
 calc();
 </script>
-<script src="/common.js?v=d02811b2"></script>
+<script src="/common.js?v=99a4957d"></script>
 </body>
 </html>

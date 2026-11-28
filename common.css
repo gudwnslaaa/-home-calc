@@ -165,3 +165,8 @@ body.nav-open{overflow:hidden}
 .myhome .chip .x.arm{color:#b3261e;font-weight:600}
 .myhome .save-row{display:flex;gap:8px;flex-wrap:wrap}
 .myhome .save-row input{flex:1;min-width:140px}
+
+/* 본문 바로가기 (키보드로 처음 Tab을 누르면 나타남) */
+.skip{position:absolute;left:12px;top:-60px;z-index:300;background:#1c2024;color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none;font-weight:700}
+.skip:focus{top:20px}
+[tabindex="-1"]:focus{outline:none}

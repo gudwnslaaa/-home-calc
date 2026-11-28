@@ -228,7 +228,8 @@
   const isRoomPage = location.pathname === '/room/';
   const rowBox = $id('areas') || $id('rooms');
   const hasRW = $id('rw') && ($id('rl') || $id('rd'));
-  if (store && (rowBox || hasRW)) {
+  const shapeBox = $id('shapes') && typeof window.addShape === 'function' ? $id('shapes') : null; // 면적 계산기
+  if (store && (rowBox || hasRW || shapeBox)) {
     const firstCard = document.querySelector('.wrap > section.card');
     const box = document.createElement('section');
     box.className = 'card myhome';
@@ -236,6 +237,11 @@
     const fire = (el) => el.dispatchEvent(new Event('input', { bubbles: true }));
     function apply(r) {
       if (isRoomPage) { $id('rw').value = Math.round(r.w * 100); $id('rd').value = Math.round(r.l * 100); fire($id('rw')); }
+      else if (shapeBox) {
+        const f = { m: 1, cm: 100, mm: 1000 }[($id('unit') || {}).value] || 1;
+        if (result.querySelector('.example-note')) shapeBox.innerHTML = ''; // 예시 도형은 지우고
+        window.addShape('rect', [Math.round(r.w * f * 100) / 100, Math.round(r.l * f * 100) / 100]);
+      }
       else if (hasRW) { $id('rw').value = r.w; $id('rl').value = r.l; if (r.h && $id('rh')) $id('rh').value = r.h; fire($id('rw')); }
       else {
         const rows = [...rowBox.querySelectorAll('.row')];
@@ -254,6 +260,11 @@
     }
     function current() {
       if (isRoomPage) return [{ name: '', w: (parseFloat($id('rw').value) || 0) / 100, l: (parseFloat($id('rd').value) || 0) / 100 }];
+      if (shapeBox) { // 네모 도형만 방으로 저장
+        const k = { m: 1, cm: 0.01, mm: 0.001 }[($id('unit') || {}).value] || 1;
+        return [...shapeBox.querySelectorAll('.shp')].filter((el) => el.querySelector('.type').value === 'rect' && +el.querySelector('.sign').value > 0)
+          .map((el) => { const v = el.querySelectorAll('.dims input'); return { name: '', w: (parseFloat(v[0].value) || 0) * k, l: (parseFloat(v[1].value) || 0) * k }; });
+      }
       if (hasRW) return [{ name: '', w: parseFloat($id('rw').value) || 0, l: parseFloat($id('rl').value) || 0, h: $id('rh') ? parseFloat($id('rh').value) || 0 : 0 }];
       return [...rowBox.querySelectorAll('.row')].map((row) => {
         const t = row.querySelector('input[type=text]'), n = row.querySelectorAll('input[type=number]');
@@ -537,6 +548,16 @@
     }).join('') || '<p class="nav-empty">찾는 계산기가 없어요. 다른 말로 찾아보세요.</p>';
   }
 
+  // 0) 키보드 사용자를 위한 '본문 바로가기'
+  const target = document.querySelector('.wrap > section.card:not(.myhome)') || document.querySelector('.home-search') || document.querySelector('.groups');
+  if (target) {
+    if (!target.id) target.id = 'main-start';
+    target.setAttribute('tabindex', '-1');
+    const sk = document.createElement('a');
+    sk.className = 'skip'; sk.href = '#' + target.id; sk.textContent = '본문 바로가기';
+    document.body.prepend(sk);
+  }
+
   // 1) 모든 페이지 위쪽: '전체 계산기' 버튼 + 펼침 목록
   const header = document.querySelector('header');
   if (header && location.pathname !== '/') {
@@ -560,7 +581,16 @@
     btn.addEventListener('click', open);
     panel.querySelector('.nav-close').addEventListener('click', close);
     panel.addEventListener('click', (e) => { if (e.target === panel) close(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) close(); });
+    document.addEventListener('keydown', (e) => {
+      if (panel.hidden) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key === 'Tab') { // 메뉴가 열려 있는 동안 초점이 밖으로 나가지 않게
+        const f = [...panel.querySelectorAll('input, button, a[href]')].filter((el) => el.offsetParent);
+        if (!f.length) return;
+        if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+        else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+      }
+    });
     input.addEventListener('input', () => { list.innerHTML = listHtml(input.value); });
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const a = list.querySelector('a'); if (a) location.href = a.href; } });
   }
@@ -596,6 +626,66 @@
     });
     input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const a = groups.querySelector('a.item:not([hidden])'); if (a) location.href = a.href; } });
   }
+})();
+
+/* ===== 내 데이터 내보내기 · 가져오기 (기기를 바꿀 때) ===== */
+(function () {
+  let store = null;
+  try { store = window.localStorage; } catch (e) { return; }
+  const mine = (k) => k.startsWith('jibcalc') || k.startsWith('hc:');
+  function say(msg) {
+    let t = document.querySelector('.toast');
+    if (!t) { t = document.createElement('div'); t.className = 'toast'; t.setAttribute('role', 'status'); document.body.appendChild(t); }
+    t.textContent = msg; t.classList.add('show'); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove('show'), 2600);
+  }
+  function exportData() {
+    const data = {};
+    Object.keys(store).filter(mine).forEach((k) => { data[k] = store.getItem(k); });
+    if (!Object.keys(data).length) { say('아직 저장된 내용이 없어요'); return; }
+    const d = new Date();
+    const name = '집공사계산기_백업_' + d.getFullYear() + String(d.getMonth() + 1).padStart(2, '0') + String(d.getDate()).padStart(2, '0') + '.json';
+    const blob = new Blob([JSON.stringify({ app: 'jibcalc', v: 1, at: d.toISOString(), data }, null, 1)], { type: 'application/json' });
+    const file = new File([blob], name, { type: 'application/json' });
+    if (navigator.canShare && navigator.canShare({ files: [file] }) && /Mobi|Android/i.test(navigator.userAgent)) {
+      navigator.share({ files: [file], title: '집 공사 계산기 백업' }).catch(() => {});
+      return;
+    }
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+    say('백업 파일을 저장했어요. 새 기기에서 ‘가져오기’로 불러오세요');
+  }
+  function importData(file) {
+    if (!file) return;
+    if (file.size > 5 * 1024 * 1024) { say('파일이 너무 커요. 집 공사 계산기 백업 파일인지 확인해 주세요'); return; }
+    const r = new FileReader();
+    r.onload = () => {
+      let obj = null;
+      try { obj = JSON.parse(r.result); } catch (e) {}
+      if (!obj || obj.app !== 'jibcalc' || typeof obj.data !== 'object') { say('집 공사 계산기 백업 파일이 아니에요'); return; }
+      let n = 0;
+      Object.entries(obj.data).forEach(([k, v]) => { if (mine(k) && typeof v === 'string' && v.length < 2000000) { try { store.setItem(k, v); n++; } catch (e) {} } });
+      say(n ? '백업을 불러왔어요 (' + n + '개). 화면을 새로 고칠게요' : '불러올 내용이 없었어요');
+      if (n) setTimeout(() => location.reload(), 1200);
+    };
+    r.readAsText(file);
+  }
+  window.jibcalcBackup = { exportData, importData };
+  // [data-backup="export"] / [data-backup="import"] 버튼을 어디에 두든 동작
+  const picker = document.createElement('input');
+  picker.type = 'file'; picker.accept = '.json,application/json'; picker.hidden = true;
+  picker.addEventListener('change', () => { importData(picker.files[0]); picker.value = ''; });
+  document.addEventListener('click', (e) => {
+    const b = e.target.closest && e.target.closest('[data-backup]');
+    if (!b) return;
+    if (b.dataset.backup === 'export') exportData();
+    else {
+      // 가져오면 지금 기기의 같은 항목을 덮어씀 → 한 번 더 확인
+      if (b.dataset.arm !== '1') { b.dataset.arm = '1'; const t = b.textContent; b.textContent = '덮어써요. 한 번 더 누르면 파일 고르기'; setTimeout(() => { b.dataset.arm = ''; b.textContent = t; }, 4000); return; }
+      b.dataset.arm = '';
+      if (!picker.isConnected) document.body.appendChild(picker);
+      picker.click();
+    }
+  });
 })();
 
 /* ===== 앱처럼 쓰기(오프라인) · 최근 쓴 계산기 ===== */
