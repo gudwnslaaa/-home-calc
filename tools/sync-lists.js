@@ -42,3 +42,17 @@ for (const [rel, key] of Object.entries(pages)) {
   fs.writeFileSync(file, replaceList(html, kit.related(key)));
   console.log('목록 갱신:', rel);
 }
+
+// common.js 안의 메뉴·검색용 계산기 목록 갱신
+{
+  const file = path.join(kit.ROOT, 'common.js');
+  let js = fs.readFileSync(file, 'utf8');
+  const A = '/* tools:json */', B = '/* /tools:json */';
+  const data = JSON.stringify({ groups: kit.GROUPS, tools: kit.TOOLS.map(({ key, group, href, name, sub, kw }) => ({ key, group, href, name, sub, kw: kw || '' })) });
+  const line = `${A} const NAV = ${data}; ${B}`;
+  const MARK = '/* ===== 앱처럼 쓰기(오프라인) · 최근 쓴 계산기 ===== */';
+  if (js.includes(A)) js = js.slice(0, js.indexOf(A)) + line + js.slice(js.indexOf(B) + B.length);
+  else js = js.replace(MARK, '/* ===== 전체 계산기 메뉴 · 검색 ===== */\n' + line + '\n\n' + MARK);
+  fs.writeFileSync(file, js);
+  console.log('메뉴 목록 갱신: common.js');
+}

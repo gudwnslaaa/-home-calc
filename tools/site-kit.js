@@ -27,21 +27,21 @@ const ICONS = {
 
 // 사이트 전체 도구 목록 — 순서가 곧 메인·관련 목록 순서
 const TOOLS = [
-  { key: 'tile', group: 'mat', href: '/tile/', name: '타일 수량 계산기', sub: '필요한 타일 장수 · 박스 수 · 예상 비용' },
-  { key: 'wallpaper', group: 'mat', href: '/wallpaper/', name: '도배지 계산기', sub: '필요한 벽지 롤 수 · 실크 / 합지' },
-  { key: 'paint', group: 'mat', href: '/paint/', name: '페인트 계산기', sub: '필요한 페인트 양 · 1L / 4L / 18L 통 조합' },
-  { key: 'floor', group: 'mat', href: '/floor/', name: '장판 · 마루 계산기', sub: '필요한 장판 길이 · 마루 박스 수' },
-  { key: 'insulation', group: 'mat', href: '/insulation/', name: '창문 단열 · 뽁뽁이 계산기', sub: '뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지' },
-  { key: 'pyeong', group: 'size', href: '/pyeong/', name: '평수 계산기', sub: '㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설' },
-  { key: 'area', group: 'size', href: '/area/', name: '면적 계산기', sub: '사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평' },
-  { key: 'moving', group: 'prep', href: '/moving/', name: '이사 체크리스트', sub: '이사 날짜로 한 달 전부터 할 일 · 체크 저장' },
-  { key: 'waste', group: 'prep', href: '/waste/', name: '폐기물 정리 도우미', sub: '공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재' },
-  { key: 'room', group: 'size', href: '/room/', name: '가구 배치 도우미', sub: '침대·옷장 넣어 보기 · 문 걸림 · 통로 폭' },
-  { key: 'measure', group: 'size', href: '/measure/', name: '교체 전 치수 기록', sub: '방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리' },
-  { key: 'schedule', group: 'prep', href: '/schedule/', name: '공사·이사 일정표', sub: '이사 날짜로 공사 순서와 할 일을 거꾸로 계산' },
-  { key: 'estimate', group: 'money', href: '/estimate/', name: '견적서 작성기', sub: '공종별 항목 · 부가세 자동 계산 · PDF 저장' },
-  { key: 'labor', group: 'money', href: '/labor/', name: '인건비 · 3.3% 계산기', sub: '일당 × 일수 · 3.3% 실수령액 · 일용직 세금' },
-  { key: 'vat', group: 'money', href: '/vat/', name: '부가세 계산기', sub: '공급가액 ↔ 합계 · VAT 별도 / 포함' },
+  { key: 'tile', kw: '타일 줄눈 박스 욕실 주방 벽타일 바닥타일', group: 'mat', href: '/tile/', name: '타일 수량 계산기', sub: '필요한 타일 장수 · 박스 수 · 예상 비용' },
+  { key: 'wallpaper', kw: '도배 벽지 실크 합지 포인트벽지 천장 롤', group: 'mat', href: '/wallpaper/', name: '도배지 계산기', sub: '필요한 벽지 롤 수 · 실크 / 합지' },
+  { key: 'paint', kw: '페인트 도장 칠 셀프페인팅 벽 통', group: 'mat', href: '/paint/', name: '페인트 계산기', sub: '필요한 페인트 양 · 1L / 4L / 18L 통 조합' },
+  { key: 'floor', kw: '장판 마루 바닥재 강마루 걸레받이', group: 'mat', href: '/floor/', name: '장판 · 마루 계산기', sub: '필요한 장판 길이 · 마루 박스 수' },
+  { key: 'insulation', kw: '뽁뽁이 단열 창문 문풍지 결로 단열벽지 겨울 외풍', group: 'mat', href: '/insulation/', name: '창문 단열 · 뽁뽁이 계산기', sub: '뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지' },
+  { key: 'pyeong', kw: '평수 평 제곱미터 아파트 전용면적', group: 'size', href: '/pyeong/', name: '평수 계산기', sub: '㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설' },
+  { key: 'area', kw: '면적 넓이 ㄱ자 삼각형 원', group: 'size', href: '/area/', name: '면적 계산기', sub: '사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평' },
+  { key: 'moving', kw: '이사 체크리스트 전입신고 확정일자 이사준비', group: 'prep', href: '/moving/', name: '이사 체크리스트', sub: '이사 날짜로 한 달 전부터 할 일 · 체크 저장' },
+  { key: 'waste', kw: '폐기물 대형폐기물 스티커 폐가전 버리기 무상수거', group: 'prep', href: '/waste/', name: '폐기물 정리 도우미', sub: '공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재' },
+  { key: 'room', kw: '가구 배치 침대 사이즈 퀸 슈퍼싱글 옷장 소파 평면도', group: 'size', href: '/room/', name: '가구 배치 도우미', sub: '침대·옷장 넣어 보기 · 문 걸림 · 통로 폭' },
+  { key: 'measure', kw: '치수 방문 변기 교체 실측', group: 'size', href: '/measure/', name: '교체 전 치수 기록', sub: '방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리' },
+  { key: 'schedule', kw: '공사 일정 순서 이사 날짜 캘린더', group: 'prep', href: '/schedule/', name: '공사·이사 일정표', sub: '이사 날짜로 공사 순서와 할 일을 거꾸로 계산' },
+  { key: 'estimate', kw: '견적서 견적 양식 PDF 계약금 잔금', group: 'money', href: '/estimate/', name: '견적서 작성기', sub: '공종별 항목 · 부가세 자동 계산 · PDF 저장' },
+  { key: 'labor', kw: '인건비 일당 3.3 원천징수 일용직 기공 조공 실수령', group: 'money', href: '/labor/', name: '인건비 · 3.3% 계산기', sub: '일당 × 일수 · 3.3% 실수령액 · 일용직 세금' },
+  { key: 'vat', kw: '부가세 VAT 공급가액 10%', group: 'money', href: '/vat/', name: '부가세 계산기', sub: '공급가액 ↔ 합계 · VAT 별도 / 포함' },
 ];
 
 // 메인 화면 묶음 (순서대로 보여 줌)

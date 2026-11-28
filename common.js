@@ -233,18 +233,47 @@
     return lines.join('\n');
   }
 
+  // 결과판 버튼: 주된 버튼 하나 + 더보기 (초기화는 입력 쪽으로 옮김)
+  const hasEst = result.dataset.est != null;
   const actions = document.createElement('div');
   actions.className = 'actions';
   actions.innerHTML =
-    '<button type="button" class="btn primary" data-a="copy">결과 복사</button>' +
-    '<button type="button" class="btn" data-a="share">공유하기</button>' +
-    '<button type="button" class="btn" data-a="image">이미지로 저장</button>' +
-    '<button type="button" class="btn ghost" data-a="reset">입력 초기화</button>';
-  // 결과 수량을 견적서 작성기로 보냄: <section class="result" data-est="통계 순서" data-est-name="품명" data-est-cat="공종">
-  if (result.dataset.est != null) {
-    actions.insertAdjacentHTML('afterbegin', '<button type="button" class="btn" data-a="est">견적서에 담기</button>');
-  }
+    (hasEst ? '<button type="button" class="btn primary" data-a="est">견적서에 담기</button>' +
+              '<button type="button" class="btn" data-a="share">공유하기</button>'
+            : '<button type="button" class="btn primary" data-a="share">공유하기</button>' +
+              '<button type="button" class="btn" data-a="copy">결과 복사</button>') +
+    '<button type="button" class="btn ghost" data-a="more" aria-expanded="false" aria-controls="moreActs">더보기</button>' +
+    '<div class="more-acts" id="moreActs" hidden>' +
+      (hasEst ? '<button type="button" class="btn" data-a="copy">결과 복사</button>' : '') +
+      '<button type="button" class="btn" data-a="image">이미지로 저장</button>' +
+      '<button type="button" class="btn" data-a="report">계산이 이상해요</button>' +
+    '</div>';
   result.appendChild(actions);
+  // 계산 근거 한 줄
+  const basis = document.createElement('p');
+  basis.className = 'basis';
+  basis.innerHTML = '참고용 추정치예요. 계산 방법은 아래 설명에 있어요 · 2026년 11월 점검';
+  result.appendChild(basis);
+  // 입력 초기화: 결과판 바로 위, 두 번 눌러야 지워짐
+  const resetRow = document.createElement('div');
+  resetRow.className = 'reset-row';
+  resetRow.innerHTML = '<button type="button" class="btn ghost" data-a="reset-arm">입력 초기화</button>';
+  result.insertAdjacentElement('beforebegin', resetRow);
+  const resetBtn = resetRow.querySelector('button');
+  let resetTimer = null;
+  resetBtn.addEventListener('click', () => {
+    if (resetBtn.dataset.a === 'reset-arm') {
+      // 첫 번째: 확인 상태로만 바꿈. 각 페이지의 저장분 지우기는 data-a="reset"일 때만 반응함
+      resetBtn.dataset.a = 'reset';
+      resetBtn.textContent = '한 번 더 누르면 모두 지워져요';
+      resetBtn.classList.add('arm');
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => { resetBtn.dataset.a = 'reset-arm'; resetBtn.textContent = '입력 초기화'; resetBtn.classList.remove('arm'); }, 4000);
+      return;
+    }
+    if (store) { try { store.removeItem(KEY); store.removeItem(TKEY); } catch (err) {} }
+    location.reload();
+  });
   function sendToEstimate() {
     const stat = result.querySelectorAll('.stat')[parseInt(result.dataset.est, 10) || 0];
     if (!stat) return;
@@ -259,7 +288,15 @@
   }
 
   actions.addEventListener('click', async (e) => {
-    const a = e.target.closest('button') && e.target.closest('button').dataset.a;
+    const btn = e.target.closest('button');
+    const a = btn && btn.dataset.a;
+    if (a === 'more') {
+      const box = actions.querySelector('.more-acts');
+      box.hidden = !box.hidden;
+      btn.setAttribute('aria-expanded', String(!box.hidden));
+      btn.textContent = box.hidden ? '더보기' : '접기';
+      return;
+    }
     if (a === 'est') { sendToEstimate(); return; }
     if (a === 'copy') {
       copyText(resultText()).then(() => toast('결과를 복사했어요. 카톡이나 메모에 붙여넣으세요'),
@@ -267,12 +304,23 @@
     } else if (a === 'share') {
       const data = { title: pageName, text: resultText(), url: location.origin + location.pathname };
       if (navigator.share) { try { await navigator.share(data); } catch (err) { /* 사용자가 취소 */ } }
-      else copyText(data.url).then(() => toast('계산기 주소를 복사했어요'));
+      else copyText(resultText()).then(() => toast('결과와 주소를 복사했어요. 카톡에 붙여넣으세요'));
     } else if (a === 'image') {
       try { await saveImage(); } catch (err) { toast('이미지를 만들지 못했어요. 결과 복사를 이용해 주세요'); }
-    } else if (a === 'reset') {
-      if (store) { try { store.removeItem(KEY); store.removeItem(TKEY); } catch (err) {} }
-      location.reload();
+    } else if (a === 'report') {
+      // 넣은 값과 결과를 복사해 두고 문의 페이지로 이동 (주소는 문의 페이지에만 둠)
+      const vals = [...document.querySelectorAll('.wrap input, .wrap select')]
+        .filter((el) => el.offsetParent && !el.closest('.result') && el.type !== 'hidden' && el.type !== 'text' && el.type !== 'date')
+        .map((el) => {
+          const lb = (el.id && document.querySelector('label[for="' + el.id + '"]')) || (el.closest('div') && el.closest('div').querySelector('label'));
+          const name = (lb ? lb.textContent : el.getAttribute('aria-label') || '').trim();
+          const val = el.type === 'checkbox' ? (el.checked ? '예' : '아니오') : (el.tagName === 'SELECT' ? el.options[el.selectedIndex].text : el.value);
+          return name ? name + ': ' + val : '';
+        }).filter(Boolean).slice(0, 40);
+      const body = '어떤 점이 이상한지 적어 주세요:\n\n\n--- 넣은 값 ---\n' + vals.join('\n') + '\n\n--- 계산 결과 ---\n' + resultText();
+      const text = '[집 공사 계산기] 계산 확인 요청 - ' + pageName + '\n' + location.origin + location.pathname + '\n\n' + body;
+      const go = () => { try { sessionStorage.setItem('jibcalc-report', '1'); } catch (err) {} location.href = '/contact/'; };
+      copyText(text).then(() => { toast('넣은 값과 결과를 복사했어요. 문의 메일에 붙여넣어 주세요'); setTimeout(go, 1200); }, go);
     }
   });
 
@@ -363,6 +411,85 @@
       // 결과가 화면 아래쪽에 숨어 있을 때만 보여줌
       bar.classList.toggle('show', !entry.isIntersecting && entry.boundingClientRect.top > 0);
     }, { threshold: 0.15 }).observe(result);
+  }
+})();
+
+/* ===== 전체 계산기 메뉴 · 검색 ===== */
+/* tools:json */ const NAV = {"groups":[{"key":"mat","name":"자재 수량"},{"key":"size","name":"평수 · 면적 · 치수"},{"key":"money","name":"견적 · 비용"},{"key":"prep","name":"일정 · 정리"}],"tools":[{"key":"tile","group":"mat","href":"/tile/","name":"타일 수량 계산기","sub":"필요한 타일 장수 · 박스 수 · 예상 비용","kw":"타일 줄눈 박스 욕실 주방 벽타일 바닥타일"},{"key":"wallpaper","group":"mat","href":"/wallpaper/","name":"도배지 계산기","sub":"필요한 벽지 롤 수 · 실크 / 합지","kw":"도배 벽지 실크 합지 포인트벽지 천장 롤"},{"key":"paint","group":"mat","href":"/paint/","name":"페인트 계산기","sub":"필요한 페인트 양 · 1L / 4L / 18L 통 조합","kw":"페인트 도장 칠 셀프페인팅 벽 통"},{"key":"floor","group":"mat","href":"/floor/","name":"장판 · 마루 계산기","sub":"필요한 장판 길이 · 마루 박스 수","kw":"장판 마루 바닥재 강마루 걸레받이"},{"key":"insulation","group":"mat","href":"/insulation/","name":"창문 단열 · 뽁뽁이 계산기","sub":"뽁뽁이 롤 수 · 재단표 · 문풍지 · 단열벽지","kw":"뽁뽁이 단열 창문 문풍지 결로 단열벽지 겨울 외풍"},{"key":"pyeong","group":"size","href":"/pyeong/","name":"평수 계산기","sub":"㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설","kw":"평수 평 제곱미터 아파트 전용면적"},{"key":"area","group":"size","href":"/area/","name":"면적 계산기","sub":"사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평","kw":"면적 넓이 ㄱ자 삼각형 원"},{"key":"moving","group":"prep","href":"/moving/","name":"이사 체크리스트","sub":"이사 날짜로 한 달 전부터 할 일 · 체크 저장","kw":"이사 체크리스트 전입신고 확정일자 이사준비"},{"key":"waste","group":"prep","href":"/waste/","name":"폐기물 정리 도우미","sub":"공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재","kw":"폐기물 대형폐기물 스티커 폐가전 버리기 무상수거"},{"key":"room","group":"size","href":"/room/","name":"가구 배치 도우미","sub":"침대·옷장 넣어 보기 · 문 걸림 · 통로 폭","kw":"가구 배치 침대 사이즈 퀸 슈퍼싱글 옷장 소파 평면도"},{"key":"measure","group":"size","href":"/measure/","name":"교체 전 치수 기록","sub":"방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리","kw":"치수 방문 변기 교체 실측"},{"key":"schedule","group":"prep","href":"/schedule/","name":"공사·이사 일정표","sub":"이사 날짜로 공사 순서와 할 일을 거꾸로 계산","kw":"공사 일정 순서 이사 날짜 캘린더"},{"key":"estimate","group":"money","href":"/estimate/","name":"견적서 작성기","sub":"공종별 항목 · 부가세 자동 계산 · PDF 저장","kw":"견적서 견적 양식 PDF 계약금 잔금"},{"key":"labor","group":"money","href":"/labor/","name":"인건비 · 3.3% 계산기","sub":"일당 × 일수 · 3.3% 실수령액 · 일용직 세금","kw":"인건비 일당 3.3 원천징수 일용직 기공 조공 실수령"},{"key":"vat","group":"money","href":"/vat/","name":"부가세 계산기","sub":"공급가액 ↔ 합계 · VAT 별도 / 포함","kw":"부가세 VAT 공급가액 10%"}]}; /* /tools:json */
+
+(function () {
+  if (typeof NAV === 'undefined') return;
+  const esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  const norm = (t) => String(t).toLowerCase().replace(/[\s·.,%/()-]/g, '');
+  const match = (t, q) => !q || norm(t.name + ' ' + t.sub + ' ' + t.kw).includes(norm(q));
+  const here = location.pathname.replace(/^(\/[a-z0-9-]+\/).*/, '$1');
+  function listHtml(q) {
+    return NAV.groups.map((g) => {
+      const items = NAV.tools.filter((t) => t.group === g.key && match(t, q));
+      if (!items.length) return '';
+      return '<div class="nav-grp"><h3>' + esc(g.name) + '</h3>' + items.map((t) =>
+        '<a href="' + t.href + '"' + (t.href === here ? ' aria-current="page"' : '') + '><b>' + esc(t.name) + '</b><span>' + esc(t.sub) + '</span></a>').join('') + '</div>';
+    }).join('') || '<p class="nav-empty">찾는 계산기가 없어요. 다른 말로 찾아보세요.</p>';
+  }
+
+  // 1) 모든 페이지 위쪽: '전체 계산기' 버튼 + 펼침 목록
+  const header = document.querySelector('header');
+  if (header && location.pathname !== '/') {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'nav-btn';
+    btn.setAttribute('aria-haspopup', 'dialog');
+    btn.innerHTML = '<span aria-hidden="true">☰</span> 전체 계산기';
+    header.prepend(btn);
+    const panel = document.createElement('div');
+    panel.className = 'nav-panel';
+    panel.hidden = true;
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', '전체 계산기');
+    panel.innerHTML = '<div class="nav-box"><div class="nav-top"><input type="search" placeholder="계산기 찾기 (예: 뽁뽁이, 부가세)" aria-label="계산기 찾기"><button type="button" class="nav-close" aria-label="닫기">×</button></div><div class="nav-list"></div><a class="nav-home" href="/">처음 화면으로</a></div>';
+    document.body.appendChild(panel);
+    const input = panel.querySelector('input');
+    const list = panel.querySelector('.nav-list');
+    const open = () => { list.innerHTML = listHtml(''); input.value = ''; panel.hidden = false; document.body.classList.add('nav-open'); setTimeout(() => input.focus(), 30); };
+    const close = () => { panel.hidden = true; document.body.classList.remove('nav-open'); btn.focus(); };
+    btn.addEventListener('click', open);
+    panel.querySelector('.nav-close').addEventListener('click', close);
+    panel.addEventListener('click', (e) => { if (e.target === panel) close(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !panel.hidden) close(); });
+    input.addEventListener('input', () => { list.innerHTML = listHtml(input.value); });
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const a = list.querySelector('a'); if (a) location.href = a.href; } });
+  }
+
+  // 2) 메인 화면: 계산기 찾기 칸 (묶음 목록을 걸러 보여 줌)
+  const groups = document.querySelector('.groups');
+  if (groups && location.pathname === '/') {
+    const wrap = document.createElement('div');
+    wrap.className = 'home-search';
+    wrap.innerHTML = '<label for="toolSearch">어떤 계산기가 필요하세요?</label><input id="toolSearch" type="search" placeholder="예: 뽁뽁이, 침대 사이즈, 부가세, 전입신고">';
+    groups.insertAdjacentElement('beforebegin', wrap);
+    const input = wrap.querySelector('input');
+    const empty = document.createElement('p');
+    empty.className = 'nav-empty';
+    empty.hidden = true;
+    empty.textContent = '찾는 계산기가 없어요. 다른 말로 찾아보세요.';
+    groups.insertAdjacentElement('afterend', empty);
+    input.addEventListener('input', () => {
+      const q = input.value;
+      let shown = 0;
+      groups.querySelectorAll('section').forEach((sec) => {
+        let n = 0;
+        sec.querySelectorAll('a.item').forEach((a) => {
+          const t = NAV.tools.find((x) => x.href === a.getAttribute('href'));
+          const ok = !t || match(t, q);
+          a.hidden = !ok;
+          if (ok) n++;
+        });
+        sec.hidden = n === 0;
+        shown += n;
+      });
+      empty.hidden = shown > 0;
+    });
+    input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { const a = groups.querySelector('a.item:not([hidden])'); if (a) location.href = a.href; } });
   }
 })();
 
