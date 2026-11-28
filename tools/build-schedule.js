@@ -33,7 +33,7 @@ const EXTRA_STYLE = `<style>
 .tl li{position:relative;padding:0 0 14px 16px}
 .tl li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--card);border:2px solid var(--muted)}
 .tl li.w::before{border-color:var(--accent);background:var(--accent)}
-.tl li.m::before{border-color:#e9d9a8;background:#e9d9a8}
+.tl li.m::before{border-color:#1f6fb2;background:#1f6fb2}
 .tl .d{font-size:.8rem;color:var(--muted)}
 .tl .t{font-size:.95rem;color:var(--ink);font-weight:500}
 .tl .s{font-size:.84rem;color:var(--muted);margin-top:2px}

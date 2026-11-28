@@ -11,36 +11,36 @@ const EXTRA_STYLE = `<style>
 .g3m{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
 .sub-h{font-size:.88rem;color:var(--ink);font-weight:500;margin:16px 0 8px}
 .rec{margin-top:14px;padding:14px;border:1px dashed var(--line);border-radius:12px;font-size:.9rem;line-height:1.8;color:var(--ink);white-space:pre-line}
-.warn2{margin-top:10px;font-size:.86rem;color:#e9b36a}
+.warn2{margin-top:10px;font-size:.86rem;color:#9a4a00}
 @media (max-width:560px){ .g3m{grid-template-columns:1fr 1fr 1fr;gap:6px} .g3m input{padding:10px 6px} }
 </style>`;
 
 const DOOR_SVG = `<svg class="fig" viewBox="0 0 360 230" role="img" aria-label="문틀 안쪽의 폭을 위·가운데·아래, 높이를 왼쪽·가운데·오른쪽에서 재는 위치">
-  <rect x="110" y="20" width="140" height="190" rx="3" fill="none" stroke="currentColor" stroke-width="10" style="color:#3a3d41"/>
-  <rect x="115" y="25" width="130" height="185" fill="rgba(255,255,255,.02)"/>
-  <g stroke="#5fd3b0" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)">
+  <rect x="110" y="20" width="140" height="190" rx="3" fill="none" stroke="currentColor" stroke-width="10" style="color:#8f969c"/>
+  <rect x="115" y="25" width="130" height="185" fill="#f7f8f5"/>
+  <g stroke="#c28e00" stroke-width="1.6" marker-start="url(#ah)" marker-end="url(#ah)">
     <line x1="118" y1="45" x2="242" y2="45"/><line x1="118" y1="115" x2="242" y2="115"/><line x1="118" y1="190" x2="242" y2="190"/>
   </g>
-  <g stroke="#e9d9a8" stroke-width="1.6" marker-start="url(#ah2)" marker-end="url(#ah2)">
+  <g stroke="#1f6fb2" stroke-width="1.6" marker-start="url(#ah2)" marker-end="url(#ah2)">
     <line x1="132" y1="28" x2="132" y2="207"/><line x1="180" y1="28" x2="180" y2="207"/><line x1="228" y1="28" x2="228" y2="207"/>
   </g>
   <defs>
-    <marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5fd3b0"/></marker>
-    <marker id="ah2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#e9d9a8"/></marker>
+    <marker id="ah" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c28e00"/></marker>
+    <marker id="ah2" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#1f6fb2"/></marker>
   </defs>
   <text x="258" y="49">폭 ① 위</text><text x="258" y="119">폭 ② 가운데</text><text x="258" y="194">폭 ③ 아래</text>
   <text x="12" y="119">높이 ④⑤⑥</text><text x="12" y="134">왼쪽·가운데·오른쪽</text>
 </svg>`;
 
 const TOILET_SVG = `<svg class="fig" viewBox="0 0 360 200" role="img" aria-label="뒤쪽 벽 마감면에서 바닥 배수구 중심까지 거리를 재는 위치">
-  <rect x="40" y="20" width="12" height="160" fill="#3a3d41"/>
-  <line x1="40" y1="180" x2="330" y2="180" stroke="#3a3d41" stroke-width="6"/>
-  <rect x="60" y="40" width="70" height="70" rx="8" fill="none" stroke="currentColor" stroke-width="2" style="color:#6b6f76"/>
-  <path d="M70 110 h150 q20 0 20 20 q0 30 -40 40 h-110 z" fill="none" stroke="currentColor" stroke-width="2" style="color:#6b6f76"/>
-  <line x1="150" y1="176" x2="150" y2="188" stroke="#5fd3b0" stroke-width="2"/>
-  <circle cx="150" cy="182" r="4" fill="#5fd3b0"/>
-  <g stroke="#5fd3b0" stroke-width="1.6" marker-start="url(#bh)" marker-end="url(#bh)"><line x1="54" y1="194" x2="148" y2="194"/></g>
-  <defs><marker id="bh" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#5fd3b0"/></marker></defs>
+  <rect x="40" y="20" width="12" height="160" fill="#8f969c"/>
+  <line x1="40" y1="180" x2="330" y2="180" stroke="#8f969c" stroke-width="6"/>
+  <rect x="60" y="40" width="70" height="70" rx="8" fill="none" stroke="currentColor" stroke-width="2" style="color:#5b636b"/>
+  <path d="M70 110 h150 q20 0 20 20 q0 30 -40 40 h-110 z" fill="none" stroke="currentColor" stroke-width="2" style="color:#5b636b"/>
+  <line x1="150" y1="176" x2="150" y2="188" stroke="#c28e00" stroke-width="2"/>
+  <circle cx="150" cy="182" r="4" fill="#c28e00"/>
+  <g stroke="#c28e00" stroke-width="1.6" marker-start="url(#bh)" marker-end="url(#bh)"><line x1="54" y1="194" x2="148" y2="194"/></g>
+  <defs><marker id="bh" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#c28e00"/></marker></defs>
   <text x="62" y="16">뒤쪽 벽 (타일 마감면)</text>
   <text x="244" y="176">● 배수구 중심</text>
   <text x="200" y="198">← 이 거리를 기록</text>

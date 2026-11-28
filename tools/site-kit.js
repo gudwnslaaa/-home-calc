@@ -69,13 +69,13 @@ function head({ title, desc, url, jsonld = '', extraStyle = '' }) {
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="${url}">
 ${jsonld}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 ${BASE_STYLE}
 ${extraStyle}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#0F1011">
+<meta name="theme-color" content="#ffc400">
 <link rel="stylesheet" href="/common.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
 </head>

@@ -20,116 +20,151 @@
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* 집 공사 계산기 기본 스타일 — 현장 줄자 테마 (tools/apply-theme.js 가 모든 페이지에 넣음) */
 :root{
-  color-scheme:dark;
-  --bg:#0f1011; --card:#18191b; --ink:#f3f3f1; --muted:#a9adb0; --line:#2c2e31;
-  --field:#111214; --accent:#7fd8bd; --accent-soft:rgba(127,216,189,.14); --soft:#1c1f20;
-  --shadow:none;
-  --radius:20px;
+  color-scheme:light;
+  --bg:#eef0ec; --card:#ffffff; --ink:#1c2024; --muted:#5b636b; --line:#d6dad3;
+  --field:#f7f8f5; --accent:#7a5a00; --accent-soft:#fff3c4; --soft:#f2f3ef;
+  --tape:#ffc400; --tape-deep:#e0ab00; --panel:#1c2024;
+  --shadow:0 1px 0 rgba(28,32,36,.04);
+  --radius:14px;
 }
 *{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:"Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  font-size:16px;line-height:1.75;-webkit-font-smoothing:antialiased;word-break:keep-all}
-.wrap{max-width:720px;margin:0 auto;padding:40px 16px 72px}
-header{text-align:center;margin-bottom:8px}
-header h1{font-size:1.6rem;font-weight:600;margin:0 0 6px;letter-spacing:-0.01em}
-header p{margin:0;color:var(--muted);font-size:.95rem}
+  font-family:"IBM Plex Sans KR","Pretendard",-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-size:16px;line-height:1.7;-webkit-font-smoothing:antialiased;word-break:keep-all;font-variant-numeric:tabular-nums}
+/* 페이지 맨 위 줄자 띠 */
+body::before{content:"";display:block;height:14px;background-color:var(--tape);
+  background-image:
+    repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 50px),
+    repeating-linear-gradient(90deg,var(--ink) 0 1px,transparent 1px 10px);
+  background-size:100% 9px,100% 4px;background-repeat:no-repeat;background-position:0 0,0 0;
+  border-bottom:1px solid var(--tape-deep)}
+.wrap{max-width:760px;margin:0 auto;padding:28px 18px 72px}
+a{color:var(--ink);text-decoration-color:var(--tape);text-decoration-thickness:3px;text-underline-offset:3px}
+a:hover{text-decoration-color:var(--ink)}
+:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:6px}
+header{text-align:left;margin-bottom:8px}
+header h1{font-size:1.85rem;font-weight:700;margin:4px 0 6px;letter-spacing:-0.02em;line-height:1.3}
+header p{margin:0;color:var(--muted);font-size:1rem;max-width:36em}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:24px;margin-top:20px;box-shadow:var(--shadow)}
-.card h2{font-size:1rem;font-weight:600;margin:0 0 14px;color:var(--ink)}
+  padding:24px;margin-top:18px;box-shadow:var(--shadow)}
+.card h2{font-size:1.02rem;font-weight:700;margin:0 0 14px;color:var(--ink);letter-spacing:-0.01em}
 .card h2 .num{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;
-  border-radius:50%;background:var(--accent-soft);color:var(--accent);font-size:.8rem;margin-right:8px;vertical-align:1px}
-label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:6px}
-input,select{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:12px;
+  border-radius:5px;background:var(--tape);color:var(--ink);font-size:.8rem;font-weight:700;margin-right:9px;vertical-align:1px}
+label{display:block;font-size:.86rem;color:var(--muted);margin-bottom:6px;font-weight:500}
+input,select,textarea{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:10px;
   background:var(--field);color:var(--ink);font-size:1rem;font-family:inherit;
-  transition:border-color .2s, background .2s}
-input::placeholder{color:#6b7074}
-input:focus,select:focus{outline:none;border-color:var(--accent);background:var(--card);
+  transition:border-color .15s, box-shadow .15s, background .15s}
+input::placeholder,textarea::placeholder{color:#8f969c}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);background:var(--card);
   box-shadow:0 0 0 3px var(--accent-soft)}
 .grid{display:grid;gap:14px}
 .g2{grid-template-columns:1fr 1fr}
 .g3{grid-template-columns:1fr 1fr 1fr}
 .row{display:grid;grid-template-columns:1.4fr 1fr 1fr auto;gap:10px;align-items:end;margin-bottom:10px}
-.del{border:none;background:transparent;color:#6b7074;font-size:1.25rem;cursor:pointer;
-  padding:8px 10px;line-height:1;border-radius:10px;transition:color .2s, background .2s}
-.del:hover{color:var(--muted);background:var(--field)}
-.add{margin-top:6px;border:1px dashed var(--line);background:transparent;color:var(--muted);
-  border-radius:12px;padding:11px 12px;cursor:pointer;font-size:.9rem;width:100%;font-family:inherit;
-  transition:all .2s}
-.add:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
-.hint{font-size:.82rem;color:var(--muted);margin:10px 0 0}
+.del{border:none;background:transparent;color:var(--muted);font-size:1.25rem;cursor:pointer;
+  padding:8px 10px;line-height:1;border-radius:8px}
+.del:hover{color:var(--ink);background:var(--soft)}
+.add{margin-top:6px;border:1px dashed #b9beb6;background:transparent;color:var(--ink);
+  border-radius:10px;padding:11px 12px;cursor:pointer;font-size:.92rem;width:100%;font-family:inherit;font-weight:500}
+.add:hover{border-color:var(--ink);background:var(--accent-soft)}
+.hint{font-size:.84rem;color:var(--muted);margin:10px 0 0}
 .divider{height:1px;background:var(--line);margin:22px 0}
-.result{background:var(--soft);border-color:var(--line);box-shadow:none}
-.big{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.stat{background:#232528;border-radius:16px;padding:18px 20px}
-.stat .k{font-size:.85rem;color:var(--muted)}
-.stat .v{font-size:1.9rem;font-weight:600;color:var(--accent);letter-spacing:-0.01em;line-height:1.3;margin-top:2px}
-.stat .v small{font-size:.95rem;font-weight:400;color:var(--muted);margin-left:3px}
-.detail{margin-top:14px;font-size:.9rem;color:var(--muted);line-height:1.9}
-.detail b{color:var(--ink);font-weight:500}
+/* 결과판: 흑연색 바탕에 노란 숫자. 안쪽은 색 변수를 바꿔 어두운 판에 맞춤 */
+.result{--card:#1c2024;--ink:#f2f3ef;--muted:#aeb4b9;--line:#353b41;--field:#262b30;--soft:#262b30;--accent:#ffc400;--accent-soft:rgba(255,196,0,.16);
+  background:var(--panel);color:var(--ink);border-color:var(--panel);position:relative;overflow:hidden;padding-top:30px}
+.result::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background-color:var(--tape);
+  background-image:repeating-linear-gradient(90deg,#1c2024 0 1px,transparent 1px 10px);background-size:100% 4px;background-repeat:no-repeat}
+.result a{color:var(--ink)}
+.big{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{background:var(--soft);border-radius:10px;padding:16px 18px;border:1px solid var(--line)}
+.stat .k{font-size:.86rem;color:var(--muted)}
+.stat .v{font-size:2rem;font-weight:700;color:var(--accent);letter-spacing:-0.02em;line-height:1.25;margin-top:2px}
+.stat .v small{font-size:.95rem;font-weight:500;color:var(--muted);margin-left:3px}
+.detail{margin-top:14px;font-size:.92rem;color:var(--muted);line-height:1.9}
+.detail b{color:var(--ink);font-weight:600}
 .ad-slot{margin-top:20px;min-height:0}
-article{margin-top:44px;padding:0 4px}
-article h2{font-size:1.1rem;font-weight:600;margin:36px 0 10px}
-article h3{font-size:.98rem;font-weight:600;margin:22px 0 4px}
-article p,article li{color:#d8d9d7}
-article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.9rem;margin:10px 0;
-  background:var(--card);border-radius:14px;overflow:hidden;border:1px solid var(--line)}
-article th,article td{border-bottom:1px solid var(--line);padding:11px 14px;text-align:left}
+article{margin-top:48px;padding:0 2px;max-width:40em}
+article h2{font-size:1.2rem;font-weight:700;margin:40px 0 10px;letter-spacing:-0.01em}
+article h3{font-size:1rem;font-weight:700;margin:24px 0 4px}
+article p,article li{color:#30363c}
+article table{width:100%;border-collapse:separate;border-spacing:0;font-size:.92rem;margin:12px 0;
+  background:var(--card);border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+article th,article td{border-bottom:1px solid var(--line);padding:10px 14px;text-align:left}
 article tr:last-child td{border-bottom:none}
-article th{color:var(--muted);font-weight:500;background:var(--field)}
-footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
+article th{color:var(--muted);font-weight:600;background:var(--soft)}
+footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted);text-align:left}
 @media (max-width:560px){
-  .wrap{padding-top:28px}
-  .card{padding:20px 18px}
+  .wrap{padding-top:20px}
+  header h1{font-size:1.6rem}
+  .card{padding:20px 16px}
   .g2,.g3{grid-template-columns:1fr 1fr}
   .row{grid-template-columns:1fr 1fr auto}
   .row .name{grid-column:1 / -1}
   .big{grid-template-columns:1fr 1fr}
-  .stat{padding:14px 16px}
+  .stat{padding:13px 14px}
   .stat .v{font-size:1.6rem}
 }
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#0F1011">
+<meta name="theme-color" content="#ffc400">
 <link rel="stylesheet" href="/common.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <img src="/img/logo-mark.svg" alt="" width="56" height="56" style="display:block;margin:0 auto 12px">
-    <h1>집 공사 계산기</h1>
-    <p>자재 수량부터 견적서·일정까지, 어림짐작하지 말고 바로 계산하세요.</p>
+  <header class="home-hero">
+    <p style="display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:600;margin:0"><img src="/img/logo-mark.svg" alt="" width="26" height="26">집 공사 계산기</p>
+    <h1>치수만 재 오면, 집 공사 계산은 여기서 끝나요</h1>
+    <p>자재 수량, 평수, 견적서, 공사 일정까지 무료로 계산하세요. 입력한 값은 이 기기 밖으로 나가지 않아요.</p>
+    <div class="quick" aria-labelledby="qTitle">
+      <h2 id="qTitle" style="font-size:1rem;font-weight:700;margin:0 0 4px">방 크기부터 넣어 보세요</h2>
+      <div class="qrow">
+        <div><label for="qw">가로 (m)</label><input id="qw" type="number" inputmode="decimal" step="0.01" min="0" value="3.6"></div>
+        <div><label for="ql">세로 (m)</label><input id="ql" type="number" inputmode="decimal" step="0.01" min="0" value="3.0"></div>
+        <div class="qout" aria-live="polite"><b id="qPy">3.27평</b><span id="qM2">바닥 10.80㎡</span></div>
+      </div>
+      <div class="qgo">
+        <a class="main" id="qTile" href="/tile/">이 크기로 타일 계산</a>
+        <a id="qWall" href="/wallpaper/">도배지</a>
+        <a id="qFloor" href="/floor/">장판·마루</a>
+        <a id="qPaint" href="/paint/">페인트</a>
+      </div>
+    </div>
   </header>
   <!-- tools:start -->
-  <h2 class="grp-title">자재 수량</h2>
-  <div class="list">
-    <a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a>
-    <a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a>
-    <a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a>
-    <a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a>
-  </div>
-  <h2 class="grp-title">평수 · 면적 · 치수</h2>
-  <div class="list">
-    <a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a>
-    <a class="item" href="/area/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9h7V4h9v16z"/><path d="M4 20l7-7"/></svg></div><div class="txt"><b>면적 계산기</b><span class="sub">사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평</span></div><div class="go">→</div></a>
-    <a class="item" href="/measure/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg></div><div class="txt"><b>교체 전 치수 기록</b><span class="sub">방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리</span></div><div class="go">→</div></a>
-  </div>
-  <h2 class="grp-title">견적 · 비용</h2>
-  <div class="list">
-    <a class="item" href="/estimate/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg></div><div class="txt"><b>견적서 작성기</b><span class="sub">공종별 항목 · 부가세 자동 계산 · PDF 저장</span></div><div class="go">→</div></a>
-    <a class="item" href="/labor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg></div><div class="txt"><b>인건비 · 3.3% 계산기</b><span class="sub">일당 × 일수 · 3.3% 실수령액 · 일용직 세금</span></div><div class="go">→</div></a>
-    <a class="item" href="/vat/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg></div><div class="txt"><b>부가세 계산기</b><span class="sub">공급가액 ↔ 합계 · VAT 별도 / 포함</span></div><div class="go">→</div></a>
-  </div>
-  <h2 class="grp-title">일정 · 정리</h2>
-  <div class="list">
-    <a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a>
-    <a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a>
+  <div class="groups">
+    <section><h2 class="grp-title">자재 수량</h2>
+    <div class="list">
+      <a class="item" href="/tile/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7.5" height="7.5" rx="1.6" fill="currentColor"/><rect x="13" y="3.5" width="7.5" height="7.5" rx="1.6"/><rect x="3.5" y="13" width="7.5" height="7.5" rx="1.6"/><rect x="13" y="13" width="7.5" height="7.5" rx="1.6" fill="currentColor"/></svg></div><div class="txt"><b>타일 수량 계산기</b><span class="sub">필요한 타일 장수 · 박스 수 · 예상 비용</span></div><div class="go">→</div></a>
+      <a class="item" href="/wallpaper/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="5.5" rx="2.75"/><path d="M6 8.5V20h8l3-3V8.5"/><path d="M14 20v-3h3"/><path d="M9.5 12v4.5"/></svg></div><div class="txt"><b>도배지 계산기</b><span class="sub">필요한 벽지 롤 수 · 실크 / 합지</span></div><div class="go">→</div></a>
+      <a class="item" href="/paint/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="15" height="6" rx="2"/><path d="M18 6h2a1 1 0 0 1 1 1v3.8a1 1 0 0 1-1 1h-8v2.7"/><rect x="10" y="14.5" width="4" height="6.5" rx="1.5" fill="currentColor"/></svg></div><div class="txt"><b>페인트 계산기</b><span class="sub">필요한 페인트 양 · 1L / 4L / 18L 통 조합</span></div><div class="go">→</div></a>
+      <a class="item" href="/floor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.33h18M3 14.67h18M10.5 4v5.33M15.5 9.33v5.33M7.5 9.33v5.33M12.5 14.67V20"/></svg></div><div class="txt"><b>장판 · 마루 계산기</b><span class="sub">필요한 장판 길이 · 마루 박스 수</span></div><div class="go">→</div></a>
+    </div></section>
+    <section><h2 class="grp-title">평수 · 면적 · 치수</h2>
+    <div class="list">
+      <a class="item" href="/pyeong/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="13" height="13" rx="2"/><path d="M4 3.5h13M4 2v3M17 2v3M20.5 7v13M19 7h3M19 20h3"/></svg></div><div class="txt"><b>평수 계산기</b><span class="sub">㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설</span></div><div class="go">→</div></a>
+      <a class="item" href="/area/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20V9h7V4h9v16z"/><path d="M4 20l7-7"/></svg></div><div class="txt"><b>면적 계산기</b><span class="sub">사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평</span></div><div class="go">→</div></a>
+      <a class="item" href="/measure/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2.5" y="8" width="19" height="8" rx="1.5"/><path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/></svg></div><div class="txt"><b>교체 전 치수 기록</b><span class="sub">방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리</span></div><div class="go">→</div></a>
+    </div></section>
+    <section><h2 class="grp-title">견적 · 비용</h2>
+    <div class="list">
+      <a class="item" href="/estimate/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2.5h9l4 4V21.5H6z"/><path d="M15 2.5v4h4"/><path d="M9 11h7M9 14.5h7M9 18h4"/></svg></div><div class="txt"><b>견적서 작성기</b><span class="sub">공종별 항목 · 부가세 자동 계산 · PDF 저장</span></div><div class="go">→</div></a>
+      <a class="item" href="/labor/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13a8 8 0 0 1 16 0"/><path d="M3 13h18v2.5H3z"/><path d="M12 5v4"/><path d="M8 19h8"/></svg></div><div class="txt"><b>인건비 · 3.3% 계산기</b><span class="sub">일당 × 일수 · 3.3% 실수령액 · 일용직 세금</span></div><div class="go">→</div></a>
+      <a class="item" href="/vat/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2.5" width="16" height="19" rx="2.5"/><path d="M8 7h8"/><path d="M9 16.5l6-6"/><circle cx="9.5" cy="11" r="1"/><circle cx="14.5" cy="16" r="1"/></svg></div><div class="txt"><b>부가세 계산기</b><span class="sub">공급가액 ↔ 합계 · VAT 별도 / 포함</span></div><div class="go">→</div></a>
+    </div></section>
+    <section><h2 class="grp-title">일정 · 정리</h2>
+    <div class="list">
+      <a class="item" href="/waste/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4.5h6V7"/><path d="M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></svg></div><div class="txt"><b>폐기물 정리 도우미</b><span class="sub">공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재</span></div><div class="go">→</div></a>
+      <a class="item" href="/schedule/"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M7.5 14h3M7.5 17h6"/></svg></div><div class="txt"><b>공사·이사 일정표</b><span class="sub">이사 날짜로 공사 순서와 할 일을 거꾸로 계산</span></div><div class="go">→</div></a>
+    </div></section>
   </div>
   <!-- tools:end -->
 
@@ -143,5 +178,21 @@ footer{margin-top:48px;font-size:.8rem;color:var(--muted);text-align:center}
     <div class="foot-links"><a href="/about/">소개</a><a href="/privacy/">개인정보처리방침</a><a href="/contact/">문의</a></div>
     모든 계산 결과는 참고용 추정치입니다.</footer>
 </div>
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString('ko-KR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  function m(el){ let v = parseFloat(el.value) || 0; return v >= 30 ? v / 100 : v; } // 30 이상은 cm로 봄
+  function upd(){
+    const w = m($('qw')), l = m($('ql')), a = w * l;
+    $('qPy').textContent = fmt(a * 121 / 400) + '평';
+    $('qM2').textContent = '바닥 ' + fmt(a) + '㎡' + (w && l ? ' · ' + w + 'm × ' + l + 'm' : '');
+    const q = w > 0 && l > 0 ? '?w=' + w + '&l=' + l : '';
+    [['qTile', '/tile/'], ['qWall', '/wallpaper/'], ['qFloor', '/floor/'], ['qPaint', '/paint/']].forEach(([id, h]) => $(id).href = h + q);
+  }
+  ['qw', 'ql'].forEach(id => $(id).addEventListener('input', upd));
+  upd();
+})();
+</script>
 </body>
 </html>

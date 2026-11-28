@@ -22,9 +22,9 @@ const S = '<!-- tools:start -->', E = '<!-- tools:end -->';
 function homeBlock() {
   const parts = kit.GROUPS.map((g) => {
     const items = kit.TOOLS.filter((t) => t.group === g.key);
-    return `  <h2 class="grp-title">${g.name}</h2>\n  <div class="list">\n${items.map((t) => '    ' + kit.itemHtml(t)).join('\n')}\n  </div>`;
+    return `    <section><h2 class="grp-title">${g.name}</h2>\n    <div class="list">\n${items.map((t) => '      ' + kit.itemHtml(t)).join('\n')}\n    </div></section>`;
   });
-  return `${S}\n${parts.join('\n')}\n  ${E}`;
+  return `${S}\n  <div class="groups">\n${parts.join('\n')}\n  </div>\n  ${E}`;
 }
 {
   const file = path.join(kit.ROOT, 'index.html');

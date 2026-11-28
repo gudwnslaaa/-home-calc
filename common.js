@@ -214,7 +214,7 @@
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     const css = getComputedStyle(document.documentElement);
     const v = (n, d) => (css.getPropertyValue(n).trim() || d);
-    const C = { bg: v('--bg', '#0f1011'), card: v('--card', '#1a1c1e'), ink: v('--ink', '#e8eaed'), muted: v('--muted', '#9aa0a6'), accent: v('--accent', '#5fd3b0') };
+    const C = { bg: '#1c2024', card: '#262b30', ink: '#f2f3ef', muted: '#aeb4b9', accent: v('--tape', '#ffc400') }; // 결과판과 같은 흑연색·노란색
     const font = getComputedStyle(document.body).fontFamily || 'sans-serif';
     const W = 1080, P = 72;
     const cv = document.createElement('canvas');

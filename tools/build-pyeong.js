@@ -45,17 +45,17 @@ const EXTRA_STYLE = `<style>
 .area-map{margin:16px 0 8px;font-size:.9rem}
 .lay{border-radius:14px;padding:12px 14px}
 .lay .tag{display:block;font-size:.8rem;color:var(--muted);margin-bottom:8px}
-.lay.contract{border:1px dashed #4a4e52;background:#141516}
-.lay.supply{border:1px solid #3a3d41;background:#1b1d1f}
+.lay.contract{border:1px dashed #9aa198;background:#f7f8f5}
+.lay.supply{border:1px solid #c3c8c0;background:#ffffff}
 .lay.excl{border:1px solid var(--accent);background:var(--accent-soft);color:var(--ink)}
 .lay.excl b{display:block;color:var(--accent);font-weight:600}
 .lay.excl small,.side small,.lay.service small{display:block;color:var(--muted);font-size:.8rem;margin-top:2px}
-.side{margin-top:8px;padding:8px 12px;border-radius:10px;background:#232528;color:var(--ink)}
-.lay.service{margin-top:10px;border:1px dashed #6b5f3a;color:#e9d9a8;background:rgba(233,217,168,.06)}
+.side{margin-top:8px;padding:8px 12px;border-radius:8px;background:var(--soft);color:var(--ink)}
+.lay.service{margin-top:10px;border:1px dashed #c9a63a;color:#6b5200;background:#fff8dc}
 .bar{display:flex;border-radius:12px;overflow:hidden;margin:12px 0 4px;font-size:.85rem;min-height:46px}
 .bar span{display:flex;align-items:center;justify-content:center;text-align:center;padding:6px 8px;line-height:1.35}
-.bar .b1{background:var(--accent);color:#0f1011;font-weight:600}
-.bar .b2{background:#3a3d41;color:var(--ink)}
+.bar .b1{background:var(--tape);color:#1c2024;font-weight:700}
+.bar .b2{background:#d6dad3;color:var(--ink)}
 .bar-cap{display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted)}
 .tagline{display:inline-block;font-size:.75rem;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:1px 8px;margin-left:6px;vertical-align:2px}
 .notebox{margin-top:14px;font-size:.85rem;color:var(--muted);background:var(--field);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
@@ -83,13 +83,13 @@ function head({ title, desc, url, jsonld = '' }) {
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="${url}">
 ${jsonld}<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
 ${BASE_STYLE}
 ${EXTRA_STYLE}
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta name="theme-color" content="#0F1011">
+<meta name="theme-color" content="#ffc400">
 <link rel="stylesheet" href="/common.css">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2109467057955554" crossorigin="anonymous"></script>
 </head>
