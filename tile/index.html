@@ -271,9 +271,9 @@ function addRow(target, name = '', w = '', h = ''){
   row.className = 'row';
   const ph = target === 'areas' ? '예) 욕실 바닥' : '예) 문';
   row.innerHTML = `
-    <div class="name"><label>이름</label><input type="text" placeholder="${ph}" value="${name}"></div>
-    <div><label>가로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${w}"></div>
-    <div><label>세로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${h}"></div>
+    <div class="name"><label>이름</label><input type="text" aria-label="이름" placeholder="${ph}" value="${name}"></div>
+    <div><label>가로 (m)</label><input type="number" aria-label="가로 (m)" inputmode="decimal" step="0.01" min="0" value="${w}"></div>
+    <div><label>세로 (m)</label><input type="number" aria-label="세로 (m)" inputmode="decimal" step="0.01" min="0" value="${h}"></div>
     <button class="del" type="button" aria-label="삭제">×</button>`;
   row.querySelector('.del').onclick = () => { row.remove(); calc(); };
   row.querySelectorAll('input').forEach(i => i.addEventListener('input', calc));

@@ -165,15 +165,15 @@ function addItem(v = {}, mark){
   el.className = 'it' + (mark ? ' imported' : '');
   el.innerHTML =
     '<div class="r1">' +
-      '<div><label>공종</label><input class="cat" list="catList" type="text" placeholder="예: 타일"></div>' +
-      '<div><label>품명 · 규격</label><input class="name" type="text" placeholder="예: 욕실 벽 300×600 포세린"></div>' +
+      '<div><label>공종</label><input class="cat" aria-label="공종" list="catList" type="text" placeholder="예: 타일"></div>' +
+      '<div><label>품명 · 규격</label><input class="name" aria-label="품명 · 규격" type="text" placeholder="예: 욕실 벽 300×600 포세린"></div>' +
       '<button type="button" class="x" aria-label="항목 삭제">×</button>' +
     '</div>' +
     '<div class="r2">' +
-      '<div><label>수량</label><input class="qty" type="number" inputmode="decimal" min="0" step="any"></div>' +
-      '<div><label>단위</label><input class="unit" list="unitList" type="text" placeholder="식"></div>' +
-      '<div><label>단가 (원)</label><input class="price" type="number" inputmode="numeric" min="0" step="any"></div>' +
-      '<div><label>구분</label><select class="kind"><option>자재비</option><option>인건비</option><option>경비</option></select></div>' +
+      '<div><label>수량</label><input class="qty" aria-label="수량" type="number" inputmode="decimal" min="0" step="any"></div>' +
+      '<div><label>단위</label><input class="unit" aria-label="단위" list="unitList" type="text" placeholder="식"></div>' +
+      '<div><label>단가 (원)</label><input class="price" aria-label="단가 (원)" type="number" inputmode="numeric" min="0" step="any"></div>' +
+      '<div><label>구분</label><select class="kind" aria-label="구분"><option>자재비</option><option>인건비</option><option>경비</option></select></div>' +
     '</div>' +
     '<div class="amt"></div>';
   el.querySelector('.cat').value = v.cat || '';

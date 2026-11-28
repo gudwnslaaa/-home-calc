@@ -24,18 +24,26 @@ const ICONS = {
 
 // 사이트 전체 도구 목록 — 순서가 곧 메인·관련 목록 순서
 const TOOLS = [
-  { key: 'tile', href: '/tile/', name: '타일 수량 계산기', sub: '필요한 타일 장수 · 박스 수 · 예상 비용' },
-  { key: 'wallpaper', href: '/wallpaper/', name: '도배지 계산기', sub: '필요한 벽지 롤 수 · 실크 / 합지' },
-  { key: 'paint', href: '/paint/', name: '페인트 계산기', sub: '필요한 페인트 양 · 1L / 4L / 18L 통 조합' },
-  { key: 'floor', href: '/floor/', name: '장판 · 마루 계산기', sub: '필요한 장판 길이 · 마루 박스 수' },
-  { key: 'pyeong', href: '/pyeong/', name: '평수 계산기', sub: '㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설' },
-  { key: 'area', href: '/area/', name: '면적 계산기', sub: '사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평' },
-  { key: 'waste', href: '/waste/', name: '폐기물 정리 도우미', sub: '공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재' },
-  { key: 'measure', href: '/measure/', name: '교체 전 치수 기록', sub: '방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리' },
-  { key: 'schedule', href: '/schedule/', name: '공사·이사 일정표', sub: '이사 날짜로 공사 순서와 할 일을 거꾸로 계산' },
-  { key: 'estimate', href: '/estimate/', name: '견적서 작성기', sub: '공종별 항목 · 부가세 자동 계산 · PDF 저장' },
-  { key: 'labor', href: '/labor/', name: '인건비 · 3.3% 계산기', sub: '일당 × 일수 · 3.3% 실수령액 · 일용직 세금' },
-  { key: 'vat', href: '/vat/', name: '부가세 계산기', sub: '공급가액 ↔ 합계 · VAT 별도 / 포함' },
+  { key: 'tile', group: 'mat', href: '/tile/', name: '타일 수량 계산기', sub: '필요한 타일 장수 · 박스 수 · 예상 비용' },
+  { key: 'wallpaper', group: 'mat', href: '/wallpaper/', name: '도배지 계산기', sub: '필요한 벽지 롤 수 · 실크 / 합지' },
+  { key: 'paint', group: 'mat', href: '/paint/', name: '페인트 계산기', sub: '필요한 페인트 양 · 1L / 4L / 18L 통 조합' },
+  { key: 'floor', group: 'mat', href: '/floor/', name: '장판 · 마루 계산기', sub: '필요한 장판 길이 · 마루 박스 수' },
+  { key: 'pyeong', group: 'size', href: '/pyeong/', name: '평수 계산기', sub: '㎡ ↔ 평 변환 · 방 크기로 평수 · 아파트 면적 해설' },
+  { key: 'area', group: 'size', href: '/area/', name: '면적 계산기', sub: '사각형·삼각형·원·ㄱ자 면적 · ㎡ / 평' },
+  { key: 'waste', group: 'prep', href: '/waste/', name: '폐기물 정리 도우미', sub: '공사·이사 전 버릴 것 · 무상수거 / 대형폐기물 / 공사 잔재' },
+  { key: 'measure', group: 'size', href: '/measure/', name: '교체 전 치수 기록', sub: '방문·변기 바꾸기 전 재야 할 곳 · 기준 치수 정리' },
+  { key: 'schedule', group: 'prep', href: '/schedule/', name: '공사·이사 일정표', sub: '이사 날짜로 공사 순서와 할 일을 거꾸로 계산' },
+  { key: 'estimate', group: 'money', href: '/estimate/', name: '견적서 작성기', sub: '공종별 항목 · 부가세 자동 계산 · PDF 저장' },
+  { key: 'labor', group: 'money', href: '/labor/', name: '인건비 · 3.3% 계산기', sub: '일당 × 일수 · 3.3% 실수령액 · 일용직 세금' },
+  { key: 'vat', group: 'money', href: '/vat/', name: '부가세 계산기', sub: '공급가액 ↔ 합계 · VAT 별도 / 포함' },
+];
+
+// 메인 화면 묶음 (순서대로 보여 줌)
+const GROUPS = [
+  { key: 'mat', name: '자재 수량' },
+  { key: 'size', name: '평수 · 면적 · 치수' },
+  { key: 'money', name: '견적 · 비용' },
+  { key: 'prep', name: '일정 · 정리' },
 ];
 
 const itemHtml = (t) => `<a class="item" href="${t.href}"><div class="ico">${ICONS[t.key]}</div><div class="txt"><b>${t.name}</b><span class="sub">${t.sub}</span></div><div class="go">→</div></a>`;
@@ -96,4 +104,4 @@ const write = (rel, html) => {
   fs.writeFileSync(file, html);
 };
 
-module.exports = { ROOT, BASE_STYLE, ICONS, TOOLS, itemHtml, related, head, back, foot, faqJsonLd, write };
+module.exports = { ROOT, BASE_STYLE, ICONS, TOOLS, GROUPS, itemHtml, related, head, back, foot, faqJsonLd, write };

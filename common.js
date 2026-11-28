@@ -174,7 +174,7 @@
     const unit = unitEl ? unitEl.textContent.trim() : '';
     const qty = parseFloat(v.textContent.replace(unit, '').replace(/,/g, ''));
     if (!(qty > 0)) { toast('먼저 계산 결과가 나오게 값을 넣어 주세요'); return; }
-    const name = result.dataset.estName || stat.querySelector('.k').textContent.replace(/^필요한\s*/, '').trim();
+    const name = result.dataset.estName || stat.querySelector('.k').textContent.replace(/^(필요한|구매할)\s*/, '').trim();
     const q = new URLSearchParams({ add: name, qty: String(qty), unit, cat: result.dataset.estCat || '' });
     location.href = '/estimate/?' + q.toString();
   }

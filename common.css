@@ -112,3 +112,7 @@ header + .list{margin-top:24px}
   margin-top: 24px;
 }
 
+
+/* 메인 화면 묶음 제목 */
+.grp-title{font-size:.86rem;font-weight:600;color:var(--muted);margin:26px 2px 10px;letter-spacing:.02em}
+.grp-title:first-of-type{margin-top:6px}

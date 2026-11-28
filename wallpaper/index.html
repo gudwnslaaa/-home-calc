@@ -283,9 +283,9 @@ function addRow(target, name = '', w = '', h = ''){
   const row = document.createElement('div');
   row.className = 'row';
   row.innerHTML = `
-    <div class="name"><label>이름</label><input type="text" placeholder="예) 방문" value="${name}"></div>
-    <div><label>가로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${w}"></div>
-    <div><label>세로 (m)</label><input type="number" inputmode="decimal" step="0.01" min="0" value="${h}"></div>
+    <div class="name"><label>이름</label><input type="text" aria-label="이름" placeholder="예) 방문" value="${name}"></div>
+    <div><label>가로 (m)</label><input type="number" aria-label="가로 (m)" inputmode="decimal" step="0.01" min="0" value="${w}"></div>
+    <div><label>세로 (m)</label><input type="number" aria-label="세로 (m)" inputmode="decimal" step="0.01" min="0" value="${h}"></div>
     <button class="del" type="button" aria-label="삭제">×</button>`;
   row.querySelector('.del').onclick = () => { row.remove(); calc(); };
   row.querySelectorAll('input').forEach(i => i.addEventListener('input', calc));
@@ -342,12 +342,12 @@ function calc(){
     }
     // 천장
     if (withCeil && !warn){
-      const longSide = Math.max(a, b), shortSide = Math.min(a, b);
-      const cLen = longSide + extra;
-      const cPerRoll = Math.floor(rollL / cLen);
-      const cStrips = Math.ceil(shortSide / rollW);
-      if (cPerRoll < 1) warn = '천장의 긴 변이 롤 길이보다 깁니다. 이음 시공이 필요하니 시공자와 상의하세요.';
-      else { rolls += Math.ceil(cStrips / cPerRoll); strips += cStrips; }
+      // 긴 변을 따라 바르는 경우와 짧은 변을 따라 바르는 경우 중 롤이 덜 드는 쪽
+      const opt = (len, across) => { const per = Math.floor(rollL / (len + extra)); const st = Math.ceil(across / rollW - 1e-9); return per >= 1 ? { st, r: Math.ceil(st / per) } : null; };
+      const o1 = opt(Math.max(a, b), Math.min(a, b)), o2 = opt(Math.min(a, b), Math.max(a, b));
+      const o = o1 && o2 ? (o2.r < o1.r ? o2 : o1) : (o1 || o2);
+      if (!o) warn = '천장이 롤 길이보다 깁니다. 이음 시공이 필요하니 시공자와 상의하세요.';
+      else { rolls += o.r; strips += o.st; }
     }
   }
 
